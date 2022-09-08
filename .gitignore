@@ -6,9 +6,16 @@
 # User-specific files
 *.rsuser
 *.suo
+*.sln
 *.user
+*.vcxproj
+*.filters
 *.userosscache
 *.sln.docstates
+
+# User-specific directories
+bin/
+int/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
