@@ -14,8 +14,6 @@
 *.sln.docstates
 
 # User-specific directories
-bin/
-int/
 
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
@@ -28,12 +26,14 @@ mono_crash.*
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
+[Bb]uild/
 x64/
 x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
 [Bb]in/
+[Ii]nt/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
