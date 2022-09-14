@@ -18,3 +18,4 @@ RemaEngine::Engine* RemaEngine::CreateApplication()
 {
     return new Game();
 }
+

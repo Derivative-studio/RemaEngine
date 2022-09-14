@@ -20,7 +20,7 @@
 #endif // REMA_ENABLE_ASSERT
 
 #define BIT(x) (1 << x)
-#define UINT unsigned int
+#define RUINT unsigned int
 
 #endif // !REMA_ENGINE_PLATFORM_SETUP_H
 

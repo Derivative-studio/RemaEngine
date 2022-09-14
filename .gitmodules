@@ -1,0 +1,3 @@
+[submodule "RemaEngine/thirdparty/spdlog"]
+	path = RemaEngine/thirdparty/spdlog
+	url = https://github.com/gabime/spdlog.git
