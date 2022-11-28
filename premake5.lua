@@ -1,5 +1,6 @@
 workspace "RemaEngine"
     architecture "x64"
+    startproject "SampleNovel"
 
     configurations
     {
