@@ -8,8 +8,8 @@ extern RemaEngine::Engine* RemaEngine::CreateApplication();
 int main(int argc, char** argv)
 {
     RemaEngine::Logger::Init();
-    REMA_CORE_INFO("Init Engine");
-    REMA_TRACE("Init Client");
+    REMA_LOG_CORE_INFO("Init Engine");
+    REMA_LOG_APP_TRACE("Init Client");
 
     auto app = RemaEngine::CreateApplication();
     app->Run();

@@ -1,20 +1,20 @@
-#include "Logger.h"
+#include "System/Logger.h"
 
 #include "spdlog/sinks/stdout_color_sinks.h"
 
 namespace RemaEngine
 {
-    std::shared_ptr<spdlog::logger> Logger::s_CoreLogger;
-    std::shared_ptr<spdlog::logger> Logger::s_ClientLogger;
+    std::shared_ptr<spdlog::logger> Logger::m_pCoreLogger;
+    std::shared_ptr<spdlog::logger> Logger::m_pClientLogger;
 
     void Logger::Init()
     {
-        spdlog::set_pattern("%^[%T] %n: [%l] %v%$");
+        spdlog::set_pattern("%^[%T] [%n %l]: %v%$");
 
-        s_CoreLogger = spdlog::stdout_color_mt("ENGINE");
-        s_CoreLogger->set_level(spdlog::level::trace);
+        m_pCoreLogger = spdlog::stdout_color_mt("ENGINE");
+        m_pCoreLogger->set_level(spdlog::level::trace);
 
-        s_ClientLogger = spdlog::stdout_color_mt("GAME");
-        s_ClientLogger->set_level(spdlog::level::trace);
+        m_pClientLogger = spdlog::stdout_color_mt("APP");
+        m_pClientLogger->set_level(spdlog::level::trace);
     }
 }
