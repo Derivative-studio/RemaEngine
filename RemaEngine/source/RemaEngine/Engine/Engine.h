@@ -1,8 +1,8 @@
 #ifndef REMA_ENGINE_H
 #define REMA_ENGINE_H
 
-#include <Engine/EnginePlatformSetup.h>
-#include <Event/Event.h>
+#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/Event/Event.h>
 
 namespace RemaEngine
 {
