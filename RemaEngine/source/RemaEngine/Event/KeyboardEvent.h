@@ -2,7 +2,6 @@
 #define REMA_KEYBOARD_EVENT
 
 #include <RemaEngine/Event/Event.h>
-#include <sstream>
 
 namespace RemaEngine
 {

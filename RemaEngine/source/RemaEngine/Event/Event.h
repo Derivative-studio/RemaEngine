@@ -2,8 +2,6 @@
 #define REMA_EVENT_H
 
 #include <RemaEngine/Engine/EnginePlatformSetup.h>
-#include <string>
-#include <functional>
 
 namespace RemaEngine
 {

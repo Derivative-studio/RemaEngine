@@ -1,9 +1,9 @@
 #ifndef REMA_LOGGER_H
 #define REMA_LOGGER_H
 
-#include "RemaEngine/Engine/EnginePlatformSetup.h"
-#include "spdlog/spdlog.h"
-#include "spdlog/fmt/ostr.h"
+#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <spdlog/spdlog.h>
+#include <spdlog/fmt/ostr.h>
 
 namespace RemaEngine
 {

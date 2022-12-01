@@ -2,7 +2,6 @@
 #define REMA_APPLICATIONEVENT_H
 
 #include <RemaEngine/Event/Event.h>
-#include <sstream>
 
 namespace RemaEngine
 {

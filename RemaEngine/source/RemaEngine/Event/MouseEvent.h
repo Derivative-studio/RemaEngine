@@ -2,7 +2,6 @@
 #define REMA_MOUSEEVENT_H
 
 #include <RemaEngine/Event/Event.h>
-#include <sstream>
 
 namespace RemaEngine
 {

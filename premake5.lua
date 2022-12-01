@@ -19,6 +19,9 @@ project "RemaEngine"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("int/" .. outputdir .. "/%{prj.name}")
+    
+    pchheader "remapch.h"
+    pchsource "%{prj.name}/source/remapch.cpp"
 
     files
     {
