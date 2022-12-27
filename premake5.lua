@@ -11,6 +11,12 @@ workspace "RemaEngine"
 
 outputdir = "%{cfg.buildcfg}.%{cfg.system}.%{cfg.architecture}"
 
+-- Include directories
+IncludeThirdpartyDirs = {}
+IncludeThirdpartyDirs["GLFW"] = "RemaEngine/thirdparty/GLFW/include"
+
+include "RemaEngine/thirdparty/GLFW"
+
 project "RemaEngine"
     location "RemaEngine"
     kind "SharedLib"
@@ -32,7 +38,14 @@ project "RemaEngine"
     includedirs
     {
         "%{prj.name}/source",
-        "%{prj.name}/thirdparty/spdlog/include"
+        "%{prj.name}/thirdparty/spdlog/include",
+        "%{IncludeThirdpartyDirs.GLFW}"
+    }
+
+    links
+    {
+        "GLFW",
+        "opengl32.lib"
     }
 
     filter "system:windows"

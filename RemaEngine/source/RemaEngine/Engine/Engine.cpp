@@ -3,11 +3,13 @@
 #include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/System/Logger.h>
 
+#include <GLFW/glfw3.h>
+
 namespace RemaEngine
 {
     Engine::Engine()
     {
-
+        m_stWindow = std::unique_ptr<Window>(Window::Create());
     }
 
     Engine::~Engine()
@@ -17,15 +19,11 @@ namespace RemaEngine
 
     void Engine::Run()
     {
-        WindowResizedEvent e(1280, 720);
-        if (e.IsInCategory(ApplicationEventCategory))
+        while (m_bRunning)
         {
-            REMA_LOG_CORE_TRACE(e);
+            glClearColor(1, 0, 1, 1);
+            glClear(GL_COLOR_BUFFER_BIT);
+            m_stWindow->OnUpdate();
         }
-        if (e.IsInCategory(InputEventCategory))
-        {
-            REMA_LOG_CORE_TRACE(e);
-        }
-        while (true);
     }
 }

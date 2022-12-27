@@ -2,6 +2,7 @@
 #define REMA_ENGINE_H
 
 #include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/Gui/Window.h>
 #include <RemaEngine/Event/Event.h>
 
 namespace RemaEngine
@@ -9,6 +10,8 @@ namespace RemaEngine
     class REMA_API Engine
     {
     private:
+        std::unique_ptr<Window> m_stWindow;
+        bool m_bRunning = true;
 
     public:
         Engine();

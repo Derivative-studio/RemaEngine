@@ -13,6 +13,9 @@
 #include <unordered_map>
 #include <unordered_set>
 
+#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/System/Logger.h>
+
 #ifdef REMA_WIN
     #include <Windows.h>
 #endif // REMA_PLATFORM_WINDOWS 
