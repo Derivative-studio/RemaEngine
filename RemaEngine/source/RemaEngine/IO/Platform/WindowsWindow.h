@@ -1,7 +1,7 @@
 #ifndef REMA_WINDOWSWINDOW_H
 #define REMA_WINDOWSWINDOW_H
 
-#include <RemaEngine/Gui/Window.h>
+#include <RemaEngine/IO/Window.h>
 #include <GLFW/glfw3.h>
 
 namespace RemaEngine

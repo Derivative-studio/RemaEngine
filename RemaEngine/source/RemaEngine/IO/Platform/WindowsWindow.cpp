@@ -2,7 +2,7 @@
 #include <RemaEngine/Event/MouseEvent.h>
 #include <RemaEngine/Event/KeyboardEvent.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
-#include <RemaEngine/Gui/Platform/WindowsWindow.h>
+#include <RemaEngine/IO/Platform/WindowsWindow.h>
 
 namespace RemaEngine
 {

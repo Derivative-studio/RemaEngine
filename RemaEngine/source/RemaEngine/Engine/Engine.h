@@ -1,7 +1,7 @@
 #ifndef REMA_ENGINE_H
 #define REMA_ENGINE_H
 
-#include <RemaEngine/Gui/Window.h>
+#include <RemaEngine/IO/Window.h>
 #include <RemaEngine/Event/Event.h>
 #include <RemaEngine/Engine/LayerStack.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
