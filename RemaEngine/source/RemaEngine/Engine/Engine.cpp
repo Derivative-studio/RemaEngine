@@ -21,11 +21,28 @@ namespace RemaEngine
 
     }
 
+    void Engine::PushLayer(Layer* a_stLayer)
+    {
+        m_stLayerStack.PushLayer(a_stLayer);
+    }
+
+    void Engine::PushOverlay(Layer* a_stOverlay)
+    {
+        m_stLayerStack.PushOverlay(a_stOverlay);
+    }
+
     void Engine::OnEvent(Event& a_stEvent)
     {
         EventDispatcher dispatcher(a_stEvent);
         dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Engine::CloseWindow));
         REMA_LOG_CORE_INFO("{0}", a_stEvent);
+
+        for (auto it = m_stLayerStack.end(); it != m_stLayerStack.begin();){
+            (*--it)->OnEvent(a_stEvent);
+            if (a_stEvent.m_bHandled) {
+                break;
+            }
+        }
     }
 
     void Engine::Run()
@@ -34,6 +51,11 @@ namespace RemaEngine
         {
             glClearColor(1, 0, 1, 1);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            for (Layer* layer : m_stLayerStack) {
+                layer->OnUpdate();
+            }
+
             m_stWindow->OnUpdate();
         }
     }

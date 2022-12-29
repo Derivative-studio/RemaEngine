@@ -14,6 +14,7 @@ namespace RemaEngine
     private:
         std::unique_ptr<Window> m_stWindow;
         bool m_bRunning = true;
+        LayerStack m_stLayerStack;
 
         bool CloseWindow(WindowClosedEvent& a_stEvent);
 
@@ -24,6 +25,9 @@ namespace RemaEngine
         void Run();
 
         void OnEvent(Event& a_stEvent);
+
+        void PushLayer(Layer* a_stLayer);
+        void PushOverlay(Layer* a_stOverlay);
     };
 
     // Need to be defined on client side

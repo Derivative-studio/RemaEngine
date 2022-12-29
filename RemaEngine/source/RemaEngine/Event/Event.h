@@ -34,9 +34,10 @@ namespace RemaEngine
         friend class EventDispatcher;
 
     protected:
-        bool m_bHandled = false;
 
     public:
+        bool m_bHandled = false;
+
         virtual EventType GetEventType() const = 0;
         virtual const char* GetEventName() const = 0;
         virtual int GetCategoryFlags() const = 0;
