@@ -1,8 +1,13 @@
 #include <remapch.h>
+
 #include <RemaEngine/Event/MouseEvent.h>
 #include <RemaEngine/Event/KeyboardEvent.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/IO/Platform/WindowsWindow.h>
+
+#include <glad/glad.h>
+
+//#include <glad/glad.h>
 
 namespace RemaEngine
 {
@@ -53,6 +58,10 @@ namespace RemaEngine
         );
 
         glfwMakeContextCurrent(m_stGLFWWindow);
+
+        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
+        REMA_CORE_ASSERT(status, "Failed to initialize GLAD");
+
         glfwSetWindowUserPointer(m_stGLFWWindow, &m_stWndwData);
         SetVSync(true);
 

@@ -14,8 +14,10 @@ outputdir = "%{cfg.buildcfg}.%{cfg.system}.%{cfg.architecture}"
 -- Include directories
 IncludeThirdpartyDirs = {}
 IncludeThirdpartyDirs["GLFW"] = "RemaEngine/thirdparty/GLFW/include"
+IncludeThirdpartyDirs["GLAD"] = "RemaEngine/thirdparty/GLAD/include"
 
 include "RemaEngine/thirdparty/GLFW"
+include "RemaEngine/thirdparty/GLAD"
 
 project "RemaEngine"
     location "RemaEngine"
@@ -39,12 +41,14 @@ project "RemaEngine"
     {
         "%{prj.name}/source",
         "%{prj.name}/thirdparty/spdlog/include",
-        "%{IncludeThirdpartyDirs.GLFW}"
+        "%{IncludeThirdpartyDirs.GLFW}",
+        "%{IncludeThirdpartyDirs.GLAD}"
     }
 
     links
     {
         "GLFW",
+        "GLAD",
         "opengl32.lib"
     }
 
@@ -56,7 +60,8 @@ project "RemaEngine"
         defines
         {
             "REMA_WIN",
-            "REMA_BUILD_DLL"
+            "REMA_BUILD_DLL",
+            "GLFW_INCLUDE_NONE"
         }
 
         postbuildcommands
