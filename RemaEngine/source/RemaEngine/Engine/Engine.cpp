@@ -10,8 +10,13 @@ namespace RemaEngine
 
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
+    Engine* Engine::s_Instance = nullptr;
+
     Engine::Engine()
     {
+        REMA_CORE_ASSERT(s_Instance, "Engine instance already exists");
+        s_Instance = this;
+
         m_stWindow = std::unique_ptr<Window>(Window::Create());
         m_stWindow->SetEventCallback(BIND_EVENT_FN(Engine::OnEvent));
     }
@@ -24,11 +29,13 @@ namespace RemaEngine
     void Engine::PushLayer(Layer* a_stLayer)
     {
         m_stLayerStack.PushLayer(a_stLayer);
+        a_stLayer->OnAttach();
     }
 
     void Engine::PushOverlay(Layer* a_stOverlay)
     {
         m_stLayerStack.PushOverlay(a_stOverlay);
+        a_stOverlay->OnAttach();
     }
 
     void Engine::OnEvent(Event& a_stEvent)

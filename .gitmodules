@@ -4,3 +4,6 @@
 [submodule "RemaEngine/thirdparty/GLFW"]
 	path = RemaEngine/thirdparty/GLFW
 	url = https://github.com/glfw/glfw.git
+[submodule "RemaEngine/thirdparty/imgui"]
+	path = RemaEngine/thirdparty/imgui
+	url = https://github.com/ocornut/imgui.git

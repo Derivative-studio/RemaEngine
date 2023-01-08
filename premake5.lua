@@ -15,9 +15,11 @@ outputdir = "%{cfg.buildcfg}.%{cfg.system}.%{cfg.architecture}"
 IncludeThirdpartyDirs = {}
 IncludeThirdpartyDirs["GLFW"] = "RemaEngine/thirdparty/GLFW/include"
 IncludeThirdpartyDirs["GLAD"] = "RemaEngine/thirdparty/GLAD/include"
+IncludeThirdpartyDirs["ImGui"] = "RemaEngine/thirdparty/imgui"
 
 include "RemaEngine/thirdparty/GLFW"
 include "RemaEngine/thirdparty/GLAD"
+include "RemaEngine/thirdparty/imgui"
 
 project "RemaEngine"
     location "RemaEngine"
@@ -42,13 +44,15 @@ project "RemaEngine"
         "%{prj.name}/source",
         "%{prj.name}/thirdparty/spdlog/include",
         "%{IncludeThirdpartyDirs.GLFW}",
-        "%{IncludeThirdpartyDirs.GLAD}"
+        "%{IncludeThirdpartyDirs.GLAD}",
+        "%{IncludeThirdpartyDirs.ImGui}"
     }
 
     links
     {
         "GLFW",
         "GLAD",
+        "ImGui",
         "opengl32.lib"
     }
 
