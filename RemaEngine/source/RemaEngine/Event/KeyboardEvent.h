@@ -63,6 +63,25 @@ namespace RemaEngine
 
         EVENT_CLASS_TYPE(KeyReleased)
     };
+
+    class REMA_API KeyTypedEvent : public KeyEvent
+    {
+    public:
+        KeyTypedEvent(int a_nKeyCode)
+            : KeyEvent(a_nKeyCode)
+        {
+        }
+
+        std::string ToString() const override
+        {
+            std::stringstream ss;
+            ss << "KeyTypedEvent: " << m_nKeyCode;
+            return ss.str();
+        }
+
+        EVENT_CLASS_TYPE(KeyTyped)
+    };
+
 }
 
 #endif // !REMA_KEYBOARD_EVENT

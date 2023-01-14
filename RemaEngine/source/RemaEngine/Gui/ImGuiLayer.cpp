@@ -1,10 +1,14 @@
 #include <remapch.h>
 #include <RemaEngine/Gui/ImGuiLayer.h>
 #include <RemaEngine/Engine/Engine.h>
+#include <RemaEngine/Engine/EngineDefinitions.h>
 #include <RemaEngine/Platform/OpenGL/imgui_impl_opengl3.h>
 
 #include <imgui.h>
+
+// Temp
 #include <GLFW/glfw3.h>
+#include <glad/glad.h>
 
 namespace RemaEngine
 {
@@ -80,6 +84,92 @@ namespace RemaEngine
 
     void ImGuiLayer::OnEvent(Event& a_stEvent)
     {
+        EventDispatcher dispatcher(a_stEvent);
+
+        dispatcher.Dispatch<MouseButtonPressedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonPressedEvent));
+        dispatcher.Dispatch<MouseButtonReleasedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnMouseButtonReleasedEvent));
+        dispatcher.Dispatch<MouseMovedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnMouseMovedEvent));
+        dispatcher.Dispatch<MouseScrolledEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnMouseScrolledEvent));
+        dispatcher.Dispatch<KeyPressedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnKeyPressedEvent));
+        dispatcher.Dispatch<KeyReleasedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnKeyReleasedEvent));
+        dispatcher.Dispatch<KeyTypedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnKeyTypedEvent));
+        dispatcher.Dispatch<WindowResizedEvent>(REMA_BIND_EVENT_FN(ImGuiLayer::OnWindowResizedEvent));
+    }
+
+    bool ImGuiLayer::OnMouseButtonPressedEvent(MouseButtonPressedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[a_stEvent.GetMouseKeyCode()] = true;
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseDown[a_stEvent.GetMouseKeyCode()] = false;
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseMovedEvent(MouseMovedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MousePos = ImVec2(a_stEvent.GetX(), a_stEvent.GetY());
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnMouseScrolledEvent(MouseScrolledEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.MouseWheelH += a_stEvent.GetXOffset();
+        io.MouseWheel += a_stEvent.GetYOffset();
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnWindowResizedEvent(WindowResizedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.DisplaySize = ImVec2(a_stEvent.GetWidth(), a_stEvent.GetHeight());
+        io.DisplayFramebufferScale = ImVec2(1.0f, 1.0f);
+        glViewport(0, 0, a_stEvent.GetWidth(), a_stEvent.GetHeight());
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyPressedEvent(KeyPressedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.KeysDown[a_stEvent.GetKeyCode()] = true;
+
+        io.KeyCtrl = io.KeysDown[GLFW_KEY_LEFT_CONTROL || GLFW_KEY_RIGHT_CONTROL];
+        io.KeyShift = io.KeysDown[GLFW_KEY_LEFT_SHIFT || GLFW_KEY_RIGHT_SHIFT];
+        io.KeyAlt = io.KeysDown[GLFW_KEY_LEFT_ALT || GLFW_KEY_RIGHT_ALT];
+        io.KeySuper = io.KeysDown[GLFW_KEY_LEFT_SUPER || GLFW_KEY_RIGHT_SUPER];
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyReleasedEvent(KeyReleasedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+        io.KeysDown[a_stEvent.GetKeyCode()] = false;
+
+        return false;
+    }
+
+    bool ImGuiLayer::OnKeyTypedEvent(KeyTypedEvent& a_stEvent)
+    {
+        ImGuiIO& io = ImGui::GetIO();
+
+        int keycode = a_stEvent.GetKeyCode();
+        if (keycode > 0 && keycode < 0x10000) {
+            io.AddInputCharacter((unsigned short)keycode);
+        }
+
+        return false;
     }
 
 }

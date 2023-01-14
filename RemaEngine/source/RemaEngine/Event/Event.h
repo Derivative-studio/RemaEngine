@@ -10,7 +10,7 @@ namespace RemaEngine
         None = 0,
         WindowClosed, WindowResized, WindowFocused, WindowLostFocus, WindowMoved,
         AppTick, AppUpdate, AppRender,
-        KeyPressed, KeyReleased,
+        KeyPressed, KeyReleased, KeyTyped,
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 
