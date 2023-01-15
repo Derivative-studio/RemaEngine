@@ -16,6 +16,7 @@ IncludeThirdpartyDirs = {}
 IncludeThirdpartyDirs["GLFW"] = "RemaEngine/thirdparty/GLFW/include"
 IncludeThirdpartyDirs["GLAD"] = "RemaEngine/thirdparty/GLAD/include"
 IncludeThirdpartyDirs["ImGui"] = "RemaEngine/thirdparty/imgui"
+IncludeThirdpartyDirs["glm"] = "RemaEngine/thirdparty/glm"
 
 group "Dependencies"
     include "RemaEngine/thirdparty/GLFW"
@@ -47,7 +48,8 @@ project "RemaEngine"
         "%{prj.name}/thirdparty/spdlog/include",
         "%{IncludeThirdpartyDirs.GLFW}",
         "%{IncludeThirdpartyDirs.GLAD}",
-        "%{IncludeThirdpartyDirs.ImGui}"
+        "%{IncludeThirdpartyDirs.ImGui}",
+        "%{IncludeThirdpartyDirs.glm}"
     }
 
     links
@@ -103,13 +105,16 @@ project "SampleNovel"
     files
     {
         "%{prj.name}/source/**.h",
-        "%{prj.name}/source/**.cpp"
+        "%{prj.name}/source/**.cpp",
+        "%{prj.name}/thirdparty/glm/glm/**.hpp",
+        "%{prj.name}/thirdparty/glm/glm/**.inl"
     }
 
     includedirs
     {
         "RemaEngine/thirdparty/spdlog/include",
-        "RemaEngine/source"
+        "RemaEngine/source",
+        "%{IncludeThirdpartyDirs.glm}"
     }
 
     links

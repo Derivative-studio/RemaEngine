@@ -7,3 +7,6 @@
 [submodule "RemaEngine/thirdparty/imgui"]
 	path = RemaEngine/thirdparty/imgui
 	url = https://github.com/ocornut/imgui.git
+[submodule "RemaEngine/thirdparty/glm"]
+	path = RemaEngine/thirdparty/glm
+	url = https://github.com/g-truc/glm.git

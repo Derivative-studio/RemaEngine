@@ -6,6 +6,7 @@
 #include <RemaEngine/Event/ApplicationEvent.h>
 
 #include <glad/glad.h>
+#include <glm/glm.hpp>
 
 namespace RemaEngine
 {
