@@ -11,12 +11,16 @@ public:
 
     void OnUpdate() override
     {
-        REMA_LOG_APP_INFO("ExampleLayer::Update");
+      
     }
 
     void OnEvent(RemaEngine::Event& a_stEvent) override
     {
-        REMA_LOG_APP_TRACE("{0}", a_stEvent);
+        //REMA_LOG_APP_TRACE("{0}", a_stEvent);
+        if (a_stEvent.GetEventType() == RemaEngine::EventType::KeyPressed) {
+            RemaEngine::KeyPressedEvent& e = (RemaEngine::KeyPressedEvent&)a_stEvent;
+            REMA_LOG_APP_TRACE("{0}", (char)e.GetKeyCode());
+        }
     }
 };
 

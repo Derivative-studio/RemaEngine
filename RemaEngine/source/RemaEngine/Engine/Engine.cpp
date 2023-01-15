@@ -1,7 +1,9 @@
 #include <remapch.h>
+
+#include <RemaEngine/IO/Input.h>
 #include <RemaEngine/Engine/Engine.h>
-#include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/System/Logger.h>
+#include <RemaEngine/Event/ApplicationEvent.h>
 
 #include <glad/glad.h>
 
@@ -42,7 +44,6 @@ namespace RemaEngine
     {
         EventDispatcher dispatcher(a_stEvent);
         dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Engine::CloseWindow));
-        REMA_LOG_CORE_INFO("{0}", a_stEvent);
 
         for (auto it = m_stLayerStack.end(); it != m_stLayerStack.begin();){
             (*--it)->OnEvent(a_stEvent);

@@ -35,6 +35,8 @@ namespace RemaEngine
         virtual void SetVSync(bool a_bEnabled) = 0;
         virtual bool IsVSync() const = 0;
 
+        virtual void* GetNativeWindow() const = 0;
+
         virtual uint32_t GetWidth() const = 0;
         virtual uint32_t GetHeight() const = 0;
 

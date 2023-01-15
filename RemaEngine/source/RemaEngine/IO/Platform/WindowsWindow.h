@@ -35,6 +35,8 @@ namespace RemaEngine
         void SetVSync(bool a_bEnabled) override;
         bool IsVSync() const override;
 
+        inline virtual void* GetNativeWindow() const { return m_stGLFWWindow; }
+
         uint32_t GetWidth() const override { return m_stWndwData.m_u32Width; }
         uint32_t GetHeight() const override { return m_stWndwData.m_u32Height; }
 
