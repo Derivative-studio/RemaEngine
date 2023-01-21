@@ -13,23 +13,16 @@ namespace RemaEngine
     private:
         float m_fTime = 0.0f;
 
-        bool OnMouseButtonPressedEvent(MouseButtonPressedEvent& a_stEvent);
-        bool OnMouseButtonReleasedEvent(MouseButtonReleasedEvent& a_stEvent);
-        bool OnMouseMovedEvent(MouseMovedEvent& a_stEvent);
-        bool OnMouseScrolledEvent(MouseScrolledEvent& a_stEvent);
-        bool OnWindowResizedEvent(WindowResizedEvent& a_stEvent);
-        bool OnKeyPressedEvent(KeyPressedEvent& a_stEvent);
-        bool OnKeyReleasedEvent(KeyReleasedEvent& a_stEvent);
-        bool OnKeyTypedEvent(KeyTypedEvent& a_stEvent);
-
     public:
         ImGuiLayer();
         ~ImGuiLayer();
 
-        void OnAttach();
-        void OnDetach();
-        void OnUpdate();
-        void OnEvent(Event& a_stEvent);
+        virtual void OnAttach() override;
+        virtual void OnDetach() override;
+        virtual void OnImGuiRender() override;
+
+        void Begin();
+        void End();
 
     };
 }

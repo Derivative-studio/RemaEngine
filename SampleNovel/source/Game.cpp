@@ -30,7 +30,6 @@ public:
     Game()
     {
         PushLayer(new ExampleLayer());
-        PushOverlay(new RemaEngine::ImGuiLayer());
     }
 
     ~Game()

@@ -6,7 +6,6 @@
 #include <RemaEngine/Event/ApplicationEvent.h>
 
 #include <glad/glad.h>
-#include <glm/glm.hpp>
 
 namespace RemaEngine
 {
@@ -22,6 +21,9 @@ namespace RemaEngine
 
         m_stWindow = std::unique_ptr<Window>(Window::Create());
         m_stWindow->SetEventCallback(BIND_EVENT_FN(Engine::OnEvent));
+
+        m_stpImGuiLayer = new ImGuiLayer();
+        PushOverlay(m_stpImGuiLayer);
     }
 
     Engine::~Engine()
@@ -64,6 +66,14 @@ namespace RemaEngine
             for (Layer* layer : m_stLayerStack) {
                 layer->OnUpdate();
             }
+
+            m_stpImGuiLayer->Begin();
+
+            for (Layer* layer : m_stLayerStack) {
+                layer->OnImGuiRender();
+            }
+
+            m_stpImGuiLayer->End();
 
             m_stWindow->OnUpdate();
         }

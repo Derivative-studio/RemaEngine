@@ -17,6 +17,7 @@ namespace RemaEngine
         virtual void OnAttach() {}
         virtual void OnDetach() {}
         virtual void OnUpdate() {}
+        virtual void OnImGuiRender() {}
         virtual void OnEvent(Event& a_stEvent) {}
 
         const std::string& GetName() const { return m_sLayerName; }

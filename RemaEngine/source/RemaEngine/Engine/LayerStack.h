@@ -9,7 +9,7 @@ namespace RemaEngine
     {
     private:
         std::vector<Layer*> m_stLayers;
-        std::vector<Layer*>::iterator m_stLayerInsert;
+        unsigned int m_stLayerInsertIndex = 0;
 
     public:
         LayerStack();

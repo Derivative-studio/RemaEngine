@@ -5,7 +5,6 @@ namespace RemaEngine
 {
     LayerStack::LayerStack()
     {
-        m_stLayerInsert = m_stLayers.begin();
     }
 
     LayerStack::~LayerStack()
@@ -17,7 +16,8 @@ namespace RemaEngine
 
     void LayerStack::PushLayer(Layer* a_pLayer)
     {
-        m_stLayerInsert = m_stLayers.emplace(m_stLayerInsert, a_pLayer);
+        m_stLayers.emplace(m_stLayers.begin() + m_stLayerInsertIndex, a_pLayer);
+        m_stLayerInsertIndex++;
     }
 
     void LayerStack::PushOverlay(Layer* a_pOverlay)
@@ -30,7 +30,7 @@ namespace RemaEngine
         auto it = std::find(m_stLayers.begin(), m_stLayers.end(), a_pLayer);
         if (it != m_stLayers.end()) {
             m_stLayers.erase(it);
-            m_stLayerInsert--;
+            m_stLayerInsertIndex--;
         }
     }
 

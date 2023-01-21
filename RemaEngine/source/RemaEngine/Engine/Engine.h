@@ -3,6 +3,7 @@
 
 #include <RemaEngine/IO/Window.h>
 #include <RemaEngine/Event/Event.h>
+#include <RemaEngine/Gui/ImGuiLayer.h>
 #include <RemaEngine/Engine/LayerStack.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/Engine/EnginePlatformSetup.h>
@@ -13,6 +14,7 @@ namespace RemaEngine
     {
     private:
         std::unique_ptr<Window> m_stWindow;
+        ImGuiLayer* m_stpImGuiLayer;
         bool m_bRunning = true;
         LayerStack m_stLayerStack;
         static Engine* s_Instance;
