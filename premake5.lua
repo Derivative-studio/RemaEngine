@@ -19,9 +19,9 @@ IncludeThirdpartyDirs["ImGui"] = "RemaEngine/thirdparty/imgui"
 IncludeThirdpartyDirs["glm"] = "RemaEngine/thirdparty/glm"
 
 group "Dependencies"
-    include "RemaEngine/thirdparty/GLFW"
-    include "RemaEngine/thirdparty/GLAD"
-    include "RemaEngine/thirdparty/imgui"
+    include "RemaEngine/thirdparty/GLFW_Premake"
+    include "RemaEngine/thirdparty/GLAD_Premake"
+    include "RemaEngine/thirdparty/ImGui_Premake"
 group ""
 
 project "RemaEngine"

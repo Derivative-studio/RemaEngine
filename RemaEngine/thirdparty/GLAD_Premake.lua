@@ -2,20 +2,21 @@ project "GLAD"
     kind "StaticLib"
     language "C"
     staticruntime "on"
+    location "./GLAD"
 
-    targetdir ("bin/" .. outputdir .. "/%{prj.name}")
-    objdir ("int/" .. outputdir .. "/%{prj.name}")
+    targetdir ("GLAD/bin/" .. outputdir .. "/%{prj.name}")
+    objdir ("GLAD/int/" .. outputdir .. "/%{prj.name}")
 
     files
     {
-        "include/glad/glad.h",
-        "include/KHR/khrplatform.h",
-        "src/glad.c"
+        "GLAD/include/glad/glad.h",
+        "GLAD/include/KHR/khrplatform.h",
+        "GLAD/src/glad.c"
     }
 
     includedirs
     {
-        "include"
+        "GLAD/include"
     }
 
     filter "system:linux"
