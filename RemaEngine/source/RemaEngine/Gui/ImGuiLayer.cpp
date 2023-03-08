@@ -70,7 +70,8 @@ namespace RemaEngine
     {
         ImGuiIO& io = ImGui::GetIO();
         Engine& engine = Engine::GetInstance();
-        io.DisplaySize = ImVec2(engine.GetWindow().GetWidth(), engine.GetWindow().GetHeight());
+        io.DisplaySize = ImVec2(static_cast<float>(engine.GetWindow().GetWidth()),
+                                static_cast<float>(engine.GetWindow().GetHeight()));
 
         // Rendering
 

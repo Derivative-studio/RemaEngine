@@ -2,11 +2,15 @@
 #define REMA_ENGINE_PLATFORM_SETUP_H
 
 #ifdef REMA_WIN
+#if REMA_DYNAMIC_LINKAGE
     #ifdef REMA_BUILD_DLL
         #define REMA_API __declspec(dllexport)
     #else
         #define REMA_API __declspec(dllimport)
     #endif // REMA_BUILD_DLL
+#else
+    #define REMA_API
+#endif
 #else
     #error Engine only supports windows now!
 #endif // REMA_WIN

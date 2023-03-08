@@ -26,9 +26,11 @@ group ""
 
 project "RemaEngine"
     location "RemaEngine"
-    kind "SharedLib"
+    kind "StaticLib"
     language "C++"
+    cppdialect "C++17"
     toolset "v142"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("int/" .. outputdir .. "/%{prj.name}")
@@ -60,9 +62,12 @@ project "RemaEngine"
         "opengl32.lib"
     }
 
+    defines
+    {
+        "_CRT_SECURE_NO_WARNINGS"
+    }
+
     filter "system:windows"
-        cppdialect "C++17"
-        staticruntime "On"
         systemversion "latest"
 
         defines
@@ -72,32 +77,25 @@ project "RemaEngine"
             "GLFW_INCLUDE_NONE"
         }
 
-        postbuildcommands
-        {
-            ("{MKDIR} %{wks.location}bin/" .. outputdir .. "/SampleNovel/"),
-            ("{COPYFILE} %{cfg.buildtarget.abspath} %{wks.location}bin/" .. outputdir .. "/SampleNovel/%{cfg.buildtarget.name}")
-        }
-
     filter "configurations:Debug"
         defines "REMA_DEBUG"
-        buildoptions "/MDd"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "REMA_RELEASE"
-        buildoptions "/MD"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "REMA_DIST"
-        buildoptions "/MD"
-        optimize "On"
+        optimize "on"
 
 project "SampleNovel"
     location "SampleNovel"
     kind "ConsoleApp"
     language "C++"
+    cppdialect "C++17"
     toolset "v142"
+    staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
     objdir ("int/" .. outputdir .. "/%{prj.name}")
@@ -123,26 +121,22 @@ project "SampleNovel"
     }
 
     filter "system:windows"
-    cppdialect "C++17"
-    staticruntime "On"
-    systemversion "latest"
+        staticruntime "on"
+        systemversion "latest"
 
-    defines
-    {
-        "REMA_WIN"
-    }
+        defines
+        {
+            "REMA_WIN"
+        }
 
     filter "configurations:Debug"
         defines "REMA_DEBUG"
-        buildoptions "/MDd"
-        symbols "On"
+        symbols "on"
 
     filter "configurations:Release"
         defines "REMA_RELEASE"
-        buildoptions "/MD"
-        optimize "On"
+        optimize "on"
 
     filter "configurations:Dist"
         defines "REMA_DIST"
-        buildoptions "/MD"
-        optimize "On"
+        optimize "on"
