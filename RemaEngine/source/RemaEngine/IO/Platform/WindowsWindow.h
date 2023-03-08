@@ -2,6 +2,8 @@
 #define REMA_WINDOWSWINDOW_H
 
 #include <RemaEngine/IO/Window.h>
+#include <RemaEngine/Renderer/RenderContext.h>
+
 #include <GLFW/glfw3.h>
 
 namespace RemaEngine
@@ -20,6 +22,8 @@ namespace RemaEngine
         };
 
         GLFWwindow* m_stGLFWWindow;
+        RenderContext* m_stRenderContext;
+
         WindowData m_stWndwData;
 
     private:

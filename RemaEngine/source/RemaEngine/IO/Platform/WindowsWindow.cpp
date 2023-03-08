@@ -4,10 +4,7 @@
 #include <RemaEngine/Event/KeyboardEvent.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/IO/Platform/WindowsWindow.h>
-
-#include <glad/glad.h>
-
-//#include <glad/glad.h>
+#include <RemaEngine/Renderer/OpenGL/OpenGLContext.h>
 
 namespace RemaEngine
 {
@@ -57,10 +54,8 @@ namespace RemaEngine
             nullptr, nullptr
         );
 
-        glfwMakeContextCurrent(m_stGLFWWindow);
-
-        int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
-        REMA_CORE_ASSERT(status, "Failed to initialize GLAD");
+        m_stRenderContext = new OpenGLContext(m_stGLFWWindow);
+        m_stRenderContext->Init();
 
         glfwSetWindowUserPointer(m_stGLFWWindow, &m_stWndwData);
         SetVSync(true);
@@ -163,7 +158,7 @@ namespace RemaEngine
     void WindowsWindow::OnUpdate()
     {
         glfwPollEvents();
-        glfwSwapBuffers(m_stGLFWWindow);
+        m_stRenderContext->SwapBuffers();
     }
 
     void WindowsWindow::SetVSync(bool a_bEnabled)
