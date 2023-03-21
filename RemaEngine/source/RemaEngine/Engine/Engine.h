@@ -2,11 +2,18 @@
 #define REMA_ENGINE_H
 
 #include <RemaEngine/IO/Window.h>
-#include <RemaEngine/Event/Event.h>
 #include <RemaEngine/Gui/ImGuiLayer.h>
+
 #include <RemaEngine/Engine/LayerStack.h>
-#include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/Engine/EnginePlatformSetup.h>
+
+#include <RemaEngine/Event/Event.h>
+#include <RemaEngine/Event/ApplicationEvent.h>
+
+#include <RemaEngine/Graphics/OpenGL/Shader.h>
+#include <RemaEngine/Graphics/VirtualVertexBuffer.h>
+#include <RemaEngine/Graphics/VirtualIndexBuffer.h>
+
 
 namespace RemaEngine
 {
@@ -20,6 +27,12 @@ namespace RemaEngine
         static Engine* s_Instance;
 
         bool CloseWindow(WindowClosedEvent& a_stEvent);
+
+        RUINT m_unVertexArray;
+
+        std::unique_ptr<Shader> m_stShader;
+        std::unique_ptr<VirtualVertexBuffer> m_pVertexBuffer;
+        std::unique_ptr<VirtualIndexBuffer> m_pIndexBuffer;
 
     public:
         Engine();

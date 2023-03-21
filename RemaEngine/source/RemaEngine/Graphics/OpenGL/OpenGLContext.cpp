@@ -1,5 +1,5 @@
 #include <remapch.h>
-#include <RemaEngine/Renderer/OpenGL/OpenGLContext.h>
+#include <RemaEngine/Graphics/OpenGL/OpenGLContext.h>
 
 #include <GLFW/glfw3.h>
 #include <glad/glad.h>
@@ -17,6 +17,9 @@ namespace RemaEngine
         glfwMakeContextCurrent(m_stHWindow);
         int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         REMA_CORE_ASSERT(status, "Failed to initialize GLAD");
+
+        REMA_ENGINE_INFO("OpenGL version: {0}", glGetString(GL_VERSION));
+        REMA_ENGINE_INFO("OpenGL render device: {0}", glGetString(GL_RENDERER));
     }
 
     void OpenGLContext::SwapBuffers()

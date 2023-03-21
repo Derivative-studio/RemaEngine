@@ -24,6 +24,50 @@ namespace RemaEngine
 
         m_stpImGuiLayer = new ImGuiLayer();
         PushOverlay(m_stpImGuiLayer);
+
+        glGenVertexArrays(1, &m_unVertexArray);
+        glBindVertexArray(m_unVertexArray);
+
+        float vertices[3 * 3] = {
+            -0.5f, -0.5f, 0.0f,
+             0.5f, -0.5f, 0.0f,
+             0.0f, 0.5f, 0.0f
+        };
+
+        m_pVertexBuffer.reset(VirtualVertexBuffer::Create(vertices, sizeof(vertices)));
+
+        glEnableVertexAttribArray(0);
+        glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), nullptr);
+
+        uint32_t indices[3] = { 0, 1, 2 };
+        m_pIndexBuffer.reset(VirtualIndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+        std::string tmpVtxShader = R"(
+            # version 330 core
+            
+            layout(location = 0) in vec3 a_Position;
+            out vec3 v_Position;
+            
+            void main()
+            {
+                v_Position = a_Position;
+                gl_Position = vec4(a_Position, 1.0);
+            }
+        )";
+
+        std::string tmpFragShader = R"(
+            # version 330 core
+            
+            layout(location = 0) out vec4 color;
+            in vec3 v_Position;
+            
+            void main()
+            {
+                color = vec4(v_Position * 0.5f + 0.5f, 1.0f);
+            }
+        )";
+
+        m_stShader.reset(new Shader(tmpVtxShader, tmpFragShader));
     }
 
     Engine::~Engine()
@@ -60,8 +104,13 @@ namespace RemaEngine
     {
         while (m_bRunning)
         {
-            glClearColor(1, 0, 1, 1);
+            glClearColor(0, 0, 0, 1);
             glClear(GL_COLOR_BUFFER_BIT);
+
+            m_stShader->Bind();
+
+            glBindVertexArray(m_unVertexArray);
+            glDrawElements(GL_TRIANGLES, m_pIndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
 
             for (Layer* layer : m_stLayerStack) {
                 layer->OnUpdate();

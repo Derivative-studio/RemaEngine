@@ -4,7 +4,7 @@
 #include <RemaEngine/Event/KeyboardEvent.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/IO/Platform/WindowsWindow.h>
-#include <RemaEngine/Renderer/OpenGL/OpenGLContext.h>
+#include <RemaEngine/Graphics/OpenGL/OpenGLContext.h>
 
 namespace RemaEngine
 {
@@ -36,8 +36,8 @@ namespace RemaEngine
         m_stWndwData.m_u32Width = a_stWndwProps.m_u32Width;
         m_stWndwData.m_u32Height = a_stWndwProps.m_u32Height;
 
-        REMA_ENGINE_INFO("Creating window {0} ({1}x{2})",
-            m_stWndwData.m_sTitle, m_stWndwData.m_u32Width, m_stWndwData.m_u32Height);
+        /*REMA_ENGINE_INFO("Creating window {0} ({1}x{2})",
+            m_stWndwData.m_sTitle, m_stWndwData.m_u32Width, m_stWndwData.m_u32Height);*/
 
         if (!s_GLFWInitialized)
         {
