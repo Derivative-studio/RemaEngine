@@ -58,20 +58,23 @@ namespace RemaEngine
 
         m_pVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-        BufferLayout layout = {
-            { ShaderDataType::Float3, "a_Position" },
-            { ShaderDataType::Float4, "a_Color" }
-        };
+        {
+            BufferLayout layout = {
+                { ShaderDataType::Float3, "a_Position" },
+                { ShaderDataType::Float4, "a_Color" }
+            };
+            m_pVertexBuffer->SetLayout(layout);
+        }
 
         uint32_t index = 0;
         //const auto& layout = m_pVertexBuffer->GetLayout();
-        for (const auto& elem : layout) {
+        for (const auto& elem : m_pVertexBuffer->GetLayout()) {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index,
                 elem.GetComponentCount(),
                 ShaderDataType2OGLBaseType(elem.m_stShaderDataType),
                 elem.m_bNormolized ? GL_TRUE : GL_FALSE,
-                layout.GetStride(),
+                m_pVertexBuffer->GetLayout().GetStride(),
                 (const void*)elem.m_unOffset);
             index++;
         }
