@@ -1,12 +1,12 @@
 #include <remapch.h>
-#include <RemaEngine/Graphics/VirtualVertexBuffer.h>
+#include <RemaEngine/Graphics/VertexBuffer.h>
 
 #include <RemaEngine/Graphics/Renderer.h>
 #include <RemaEngine/Graphics/OpenGL/OpenGLVertexBuffer.h>
 
 namespace RemaEngine
 {
-    VirtualVertexBuffer* VirtualVertexBuffer::Create(float* a_fpVertices, uint32_t a_nSize)
+    VertexBuffer* VertexBuffer::Create(float* a_fpVertices, uint32_t a_nSize)
     {
         switch (Renderer::GetAPI())
         {

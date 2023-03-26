@@ -1,5 +1,5 @@
 #include "remapch.h"
-#include <RemaEngine/Graphics/VirtualIndexBuffer.h>
+#include <RemaEngine/Graphics/IndexBuffer.h>
 
 #include <RemaEngine/Graphics/Renderer.h>
 #include <RemaEngine/Graphics/OpenGL/OpenGLIndexBuffer.h>
@@ -7,7 +7,7 @@
 
 namespace RemaEngine
 {
-    VirtualIndexBuffer* VirtualIndexBuffer::Create(uint32_t* a_npIndices, uint32_t a_nSize)
+    IndexBuffer* IndexBuffer::Create(uint32_t* a_npIndices, uint32_t a_nSize)
     {
         switch (Renderer::GetAPI())
         {

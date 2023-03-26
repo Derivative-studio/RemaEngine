@@ -3,7 +3,7 @@
 
 namespace RemaEngine
 {
-    class VirtualRenderContext
+    class RenderContext
     {
     private:
 

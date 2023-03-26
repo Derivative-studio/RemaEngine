@@ -1,11 +1,11 @@
 #ifndef REMA_OPENGLINDEXBUFFER_H
 #define REMA_OPENGLINDEXBUFFER_H
 
-#include <RemaEngine/Graphics/VirtualIndexBuffer.h>
+#include <RemaEngine/Graphics/IndexBuffer.h>
 
 namespace RemaEngine
 {
-    class OpenGLIndexBuffer : public VirtualIndexBuffer
+    class OpenGLIndexBuffer : public IndexBuffer
     {
     private:
         uint32_t m_unRendererID;

@@ -1,13 +1,13 @@
 #ifndef REMA_OPENGLCONTEXT_H
 #define REMA_OPENGLCONTEXT_H
 
-#include <RemaEngine/Graphics/VirtualRenderContext.h>
+#include <RemaEngine/Graphics/RenderContext.h>
 
 struct GLFWwindow;
 
 namespace RemaEngine
 {
-    class OpenGLContext : public VirtualRenderContext
+    class OpenGLContext : public RenderContext
     {
     private:
         GLFWwindow* m_stHWindow;

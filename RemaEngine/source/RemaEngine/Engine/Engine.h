@@ -11,8 +11,8 @@
 #include <RemaEngine/Event/ApplicationEvent.h>
 
 #include <RemaEngine/Graphics/OpenGL/Shader.h>
-#include <RemaEngine/Graphics/VirtualVertexBuffer.h>
-#include <RemaEngine/Graphics/VirtualIndexBuffer.h>
+#include <RemaEngine/Graphics/VertexBuffer.h>
+#include <RemaEngine/Graphics/IndexBuffer.h>
 
 
 namespace RemaEngine
@@ -31,8 +31,8 @@ namespace RemaEngine
         RUINT m_unVertexArray;
 
         std::unique_ptr<Shader> m_stShader;
-        std::unique_ptr<VirtualVertexBuffer> m_pVertexBuffer;
-        std::unique_ptr<VirtualIndexBuffer> m_pIndexBuffer;
+        std::unique_ptr<VertexBuffer> m_pVertexBuffer;
+        std::unique_ptr<IndexBuffer> m_pIndexBuffer;
 
     public:
         Engine();
