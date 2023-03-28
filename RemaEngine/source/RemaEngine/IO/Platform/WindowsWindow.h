@@ -2,7 +2,7 @@
 #define REMA_WINDOWSWINDOW_H
 
 #include <RemaEngine/IO/Window.h>
-#include <RemaEngine/Graphics/VirtualRenderContext.h>
+#include <RemaEngine/Graphics/RenderContext.h>
 
 #include <GLFW/glfw3.h>
 
@@ -22,7 +22,7 @@ namespace RemaEngine
         };
 
         GLFWwindow* m_stGLFWWindow;
-        VirtualRenderContext* m_stRenderContext;
+        RenderContext* m_stRenderContext;
 
         WindowData m_stWndwData;
 

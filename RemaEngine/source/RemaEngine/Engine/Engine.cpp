@@ -6,7 +6,22 @@
 #include <RemaEngine/Event/ApplicationEvent.h>
 #include <RemaEngine/Graphics/BufferLayout.h>
 
+#include <EASTL/vector.h>
+#include <EASTL/string.h>
+#include <EAStdC/EARandom.h>
+
 #include <glad/glad.h>
+
+void* __cdecl operator new[](size_t size, const char* name, int flags, unsigned debugFlags, const char* file, int line)
+{
+    return new uint8_t[size];
+}
+
+void* __cdecl operator new[](size_t size, size_t a, size_t b, const char* name,
+    int flags, unsigned debugFlags, const char* file, int line)
+{
+    return new uint8_t[size];
+}
 
 namespace RemaEngine
 {
@@ -58,26 +73,37 @@ namespace RemaEngine
 
         m_pVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
 
-        BufferLayout layout = {
-            { ShaderDataType::Float3, "a_Position" },
-            { ShaderDataType::Float4, "a_Color" }
-        };
+        {
+            BufferLayout layout = {
+                { ShaderDataType::Float3, "a_Position" },
+                { ShaderDataType::Float4, "a_Color" }
+            };
+            m_pVertexBuffer->SetLayout(layout);
+        }
 
         uint32_t index = 0;
         //const auto& layout = m_pVertexBuffer->GetLayout();
-        for (const auto& elem : layout) {
+        for (const auto& elem : m_pVertexBuffer->GetLayout()) {
             glEnableVertexAttribArray(index);
             glVertexAttribPointer(index,
                 elem.GetComponentCount(),
                 ShaderDataType2OGLBaseType(elem.m_stShaderDataType),
                 elem.m_bNormolized ? GL_TRUE : GL_FALSE,
-                layout.GetStride(),
+                m_pVertexBuffer->GetLayout().GetStride(),
                 (const void*)elem.m_unOffset);
             index++;
         }
 
         uint32_t indices[3] = { 0, 1, 2 };
         m_pIndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+
+        eastl::vector<int> a = {1, 2, 3, 4, 5, 6};
+        for (auto cd : a) {
+            REMA_ENGINE_WARNING("eastl::vector {0}", cd);
+        }
+        EA::StdC::Random rd;
+        size_t zd = rd.RandomUint32Uniform();
+        REMA_ENGINE_WARNING("random: {0}", zd);
 
         std::string tmpVtxShader = R"(
             # version 330 core

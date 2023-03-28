@@ -1,3 +1,5 @@
+include "dependencies.lua"
+
 workspace "RemaEngine"
     architecture "x64"
     startproject "SampleNovel"
@@ -11,17 +13,11 @@ workspace "RemaEngine"
 
 outputdir = "%{cfg.buildcfg}.%{cfg.system}.%{cfg.architecture}"
 
--- Include directories
-IncludeThirdpartyDirs = {}
-IncludeThirdpartyDirs["GLFW"] = "RemaEngine/thirdparty/GLFW/include"
-IncludeThirdpartyDirs["GLAD"] = "RemaEngine/thirdparty/GLAD/include"
-IncludeThirdpartyDirs["ImGui"] = "RemaEngine/thirdparty/imgui"
-IncludeThirdpartyDirs["glm"] = "RemaEngine/thirdparty/glm"
-
 group "Dependencies"
     include "RemaEngine/thirdparty/GLFW_Premake"
     include "RemaEngine/thirdparty/GLAD_Premake"
     include "RemaEngine/thirdparty/ImGui_Premake"
+    include "RemaEngine/thirdparty/EASTL/EASTL_Premake"
 group ""
 
 project "RemaEngine"
@@ -29,7 +25,6 @@ project "RemaEngine"
     kind "StaticLib"
     language "C++"
     cppdialect "C++17"
-    toolset "v142"
     staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
@@ -51,13 +46,22 @@ project "RemaEngine"
         "%{IncludeThirdpartyDirs.GLFW}",
         "%{IncludeThirdpartyDirs.GLAD}",
         "%{IncludeThirdpartyDirs.ImGui}",
-        "%{IncludeThirdpartyDirs.glm}"
+        "%{IncludeThirdpartyDirs.glm}",
+        "%{IncludeThirdpartyDirs.EASTL}",
+        "%{IncludeThirdpartyDirs.EABase}",
+        "%{IncludeThirdpartyDirs.EAStdC}",
+        "%{IncludeThirdpartyDirs.EAThread}",
+        "%{IncludeThirdpartyDirs.EAAssert}"
     }
 
     links
     {
         "GLFW",
         "GLAD",
+        "EASTL",
+        "EAStdC",
+        "EAAssert",
+        "EAThread",
         "ImGui",
         "opengl32.lib"
     }
@@ -94,7 +98,6 @@ project "SampleNovel"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
-    toolset "v142"
     staticruntime "on"
 
     targetdir ("bin/" .. outputdir .. "/%{prj.name}")
