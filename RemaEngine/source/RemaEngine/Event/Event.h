@@ -1,3 +1,21 @@
+/**
+ * @file RemaEngine/Event/Event.h
+ * @author Nikita Kozlov (nyarstot@yandex.ru)
+ * @date 2023-04-02
+ * @copyright Copyright (c) 2023
+ *
+ * This file is part of RemaEngine.
+ *
+ * RemaEngine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RemaEngine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ **/
 #ifndef REMA_EVENT_H
 #define REMA_EVENT_H
 
@@ -5,6 +23,10 @@
 
 namespace RemaEngine
 {
+    /**
+    * @class RemaEngine::EventType
+    * @brief Enum class with event types
+    **/
     enum class EventType
     {
         None = 0,
@@ -14,6 +36,10 @@ namespace RemaEngine
         MouseButtonPressed, MouseButtonReleased, MouseMoved, MouseScrolled
     };
 
+    /**
+    * @class RemaEngine::EventCategory
+    * @brief Enum class with event categories
+    **/
     enum EventCategory
     {
         None = 0,
@@ -24,9 +50,15 @@ namespace RemaEngine
         MouseButtonEventCatefory    = BIT(4)
     };
 
+    /**
+    * @def EVENT_CLASS_TYPE(type)
+    **/
 #define EVENT_CLASS_TYPE(type) static EventType GetStaticEventType() { return EventType::##type; }\
                                virtual EventType GetEventType() const override { return GetStaticEventType(); }\
                                virtual const char* GetEventName() const override { return #type; }
+    /**
+    * @def EVENT_CLASS_TYPE(type)
+    **/
 #define EVENT_CLASS_CATEGORY(category) virtual int GetCategoryFlags() const override { return category; }
 
     class REMA_API Event

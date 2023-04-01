@@ -1,3 +1,21 @@
+/**
+ * @file RemaEngine/Engine/Engine.cpp
+ * @author Nikita Kozlov (nyarstot@yandex.ru)
+ * @date 2023-03-29
+ * @copyright Copyright (c) 2023
+ *
+ * This file is part of RemaEngine.
+ *
+ * RemaEngine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RemaEngine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ **/
 #include <remapch.h>
 
 #include <RemaEngine/IO/Input.h>
@@ -11,17 +29,6 @@
 #include <EAStdC/EARandom.h>
 
 #include <glad/glad.h>
-
-void* __cdecl operator new[](size_t size, const char* name, int flags, unsigned debugFlags, const char* file, int line)
-{
-    return new uint8_t[size];
-}
-
-void* __cdecl operator new[](size_t size, size_t a, size_t b, const char* name,
-    int flags, unsigned debugFlags, const char* file, int line)
-{
-    return new uint8_t[size];
-}
 
 namespace RemaEngine
 {
@@ -97,13 +104,11 @@ namespace RemaEngine
         uint32_t indices[3] = { 0, 1, 2 };
         m_pIndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
 
-        eastl::vector<int> a = {1, 2, 3, 4, 5, 6};
-        for (auto cd : a) {
-            REMA_ENGINE_WARNING("eastl::vector {0}", cd);
-        }
-        EA::StdC::Random rd;
-        size_t zd = rd.RandomUint32Uniform();
-        REMA_ENGINE_WARNING("random: {0}", zd);
+        REMA_ENGINE_TRACE("trace message");
+        REMA_ENGINE_INFO("info message");
+        REMA_ENGINE_WARNING("warning message");
+        REMA_ENGINE_ERROR("error message");
+        REMA_ENGINE_CRITICAL("critical message");
 
         std::string tmpVtxShader = R"(
             # version 330 core

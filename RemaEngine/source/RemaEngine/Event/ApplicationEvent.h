@@ -1,3 +1,21 @@
+/**
+ * @file RemaEngine/Event/ApplicationEvent.h
+ * @author Nikita Kozlov (nyarstot@yandex.ru)
+ * @date 2023-04-02
+ * @copyright Copyright (c) 2023
+ *
+ * This file is part of RemaEngine.
+ *
+ * RemaEngine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RemaEngine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ **/
 #ifndef REMA_APPLICATIONEVENT_H
 #define REMA_APPLICATIONEVENT_H
 
@@ -5,6 +23,14 @@
 
 namespace RemaEngine
 {
+    /**
+    * @class RemaEngine::WindowResizedEvent
+    * @extends RemaEngine::Event
+    * @brief The class that defines the resizing event of the 
+    * renderable window.
+    * @details The class associated with the event system
+    * defines the resize callback for the renderable window.
+    **/
     class REMA_API WindowResizedEvent : public Event
     {
     private:
@@ -17,9 +43,21 @@ namespace RemaEngine
         {
         }
 
+        /**
+        * @brief Returns renderable window width in pixels.
+        * @returns The renderable window width.
+        **/
         unsigned int GetWidth() const { return m_unWidth; }
+        /**
+        * @brief Returns renderable window height in pixels.
+        * @returns The renderable window height.
+        **/
         unsigned int GetHeight() const { return m_unHeight; }
 
+        /**
+        * @brief Returns string based info about current state of window.
+        * @returns The string width window info.
+        **/
         std::string ToString() const override
         {
             std::stringstream ss;
@@ -32,6 +70,14 @@ namespace RemaEngine
 
     };
 
+    /**
+    * @class RemaEngine::WindowClosedEvent
+    * @extends RemaEngine::Event
+    * @brief The class that defines the closing event of the
+    * renderable window.
+    * @details The class associated with the event system
+    * defines the close callback for the renderable window.
+    **/
     class REMA_API WindowClosedEvent : public Event
     {
     public:
