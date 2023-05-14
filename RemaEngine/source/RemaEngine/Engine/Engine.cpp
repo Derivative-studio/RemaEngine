@@ -16,17 +16,15 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  **/
-#include <remapch.h>
+#include "remapch.h"
 
-#include <RemaEngine/IO/Input.h>
-#include <RemaEngine/Engine/Engine.h>
-#include <RemaEngine/System/Logger.h>
-#include <RemaEngine/Event/ApplicationEvent.h>
-#include <RemaEngine/Graphics/BufferLayout.h>
+#include "RemaEngine/IO/Input.h"
+#include "RemaEngine/Engine/Engine.h"
+#include "RemaEngine/System/Logger.h"
+#include "RemaEngine/Event/ApplicationEvent.h"
 
-#include <EASTL/vector.h>
-#include <EASTL/string.h>
-#include <EAStdC/EARandom.h>
+#include "RemaEngine/Graphics/BufferLayout.h"
+#include "RemaEngine/Graphics/Renderer.h"
 
 #include <glad/glad.h>
 
@@ -36,27 +34,6 @@ namespace RemaEngine
 #define BIND_EVENT_FN(x) std::bind(&x, this, std::placeholders::_1)
 
     Engine* Engine::s_Instance = nullptr;
-
-    static GLenum ShaderDataType2OGLBaseType(ShaderDataType m_stDataType)
-    {
-        switch (m_stDataType)
-        {
-            case RemaEngine::ShaderDataType::Float:     return GL_FLOAT;
-            case RemaEngine::ShaderDataType::Float2:    return GL_FLOAT;
-            case RemaEngine::ShaderDataType::Float3:    return GL_FLOAT;
-            case RemaEngine::ShaderDataType::Float4:    return GL_FLOAT;
-            case RemaEngine::ShaderDataType::Mat3:      return GL_FLOAT;
-            case RemaEngine::ShaderDataType::Mat4:      return GL_FLOAT;
-            case RemaEngine::ShaderDataType::Int:       return GL_INT;
-            case RemaEngine::ShaderDataType::Int2:      return GL_INT;
-            case RemaEngine::ShaderDataType::Int3:      return GL_INT;
-            case RemaEngine::ShaderDataType::Int4:      return GL_INT;
-            case RemaEngine::ShaderDataType::Bool:      return GL_BOOL;
-        }
-
-        REMA_CORE_ASSERT(false, "Illigal shader data type");
-        return 0;
-    }
 
     Engine::Engine()
     {
@@ -69,8 +46,7 @@ namespace RemaEngine
         m_stpImGuiLayer = new ImGuiLayer();
         PushOverlay(m_stpImGuiLayer);
 
-        glGenVertexArrays(1, &m_unVertexArray);
-        glBindVertexArray(m_unVertexArray);
+        m_pVertexArray.reset(VertexArray::Create());
 
         float vertices[3 * 7] = {
             -0.5f, -0.5f, 0.0f, 0.3f, 0.4f, 0.2f, 1.0f,
@@ -78,37 +54,44 @@ namespace RemaEngine
              0.0f,  0.5f, 0.0f, 1.0f, 0.2f, 0.5f, 1.0f
         };
 
+        eastl::shared_ptr<VertexBuffer> m_pVertexBuffer;
         m_pVertexBuffer.reset(VertexBuffer::Create(vertices, sizeof(vertices)));
+        BufferLayout layout = {
+            { ShaderDataType::Float3, "a_Position" },
+            { ShaderDataType::Float4, "a_Color" }
+        };
 
-        {
-            BufferLayout layout = {
-                { ShaderDataType::Float3, "a_Position" },
-                { ShaderDataType::Float4, "a_Color" }
-            };
-            m_pVertexBuffer->SetLayout(layout);
-        }
-
-        uint32_t index = 0;
-        //const auto& layout = m_pVertexBuffer->GetLayout();
-        for (const auto& elem : m_pVertexBuffer->GetLayout()) {
-            glEnableVertexAttribArray(index);
-            glVertexAttribPointer(index,
-                elem.GetComponentCount(),
-                ShaderDataType2OGLBaseType(elem.m_stShaderDataType),
-                elem.m_bNormolized ? GL_TRUE : GL_FALSE,
-                m_pVertexBuffer->GetLayout().GetStride(),
-                (const void*)elem.m_unOffset);
-            index++;
-        }
+        m_pVertexBuffer->SetLayout(layout);
+        m_pVertexArray->AddVertexBuffer(m_pVertexBuffer); 
 
         uint32_t indices[3] = { 0, 1, 2 };
+        eastl::shared_ptr<IndexBuffer> m_pIndexBuffer;
         m_pIndexBuffer.reset(IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
+        m_pVertexArray->SetIndexBuffer(m_pIndexBuffer);
 
-        REMA_ENGINE_TRACE("trace message");
-        REMA_ENGINE_INFO("info message");
-        REMA_ENGINE_WARNING("warning message");
-        REMA_ENGINE_ERROR("error message");
-        REMA_ENGINE_CRITICAL("critical message");
+        m_pSquareVertexArray.reset(VertexArray::Create());
+
+        float squareVertices[3 * 4] = {
+           -0.75f, -0.75f, 0.0f,
+            0.75f, -0.75f, 0.0f,
+            0.75f,  0.75f, 0.0f,
+           -0.75f,  0.75f, 0.0f
+        };
+
+        eastl::shared_ptr<VertexBuffer> suqreVB;
+        suqreVB.reset(VertexBuffer::Create(squareVertices, sizeof(squareVertices)));
+
+        BufferLayout squareVBLayout = {
+            { ShaderDataType::Float3, "a_Position" },
+        };
+
+        suqreVB->SetLayout(squareVBLayout);
+        m_pSquareVertexArray->AddVertexBuffer(suqreVB);
+
+        uint32_t squareIndices[6] = { 0, 1, 2, 2, 3, 0 };
+        eastl::shared_ptr<IndexBuffer> suqreIB;
+        suqreIB.reset(IndexBuffer::Create(squareIndices, sizeof(squareIndices) / sizeof(uint32_t)));
+        m_pSquareVertexArray->SetIndexBuffer(suqreIB);
 
         std::string tmpVtxShader = R"(
             # version 330 core
@@ -143,6 +126,35 @@ namespace RemaEngine
         )";
 
         m_stShader.reset(new Shader(tmpVtxShader, tmpFragShader));
+
+        std::string tmpVtxShader_2 = R"(
+            # version 330 core
+
+            layout(location = 0) in vec3 a_Position;
+
+            out vec3 v_Position;
+
+            void main()
+            {
+                v_Position = a_Position;
+                gl_Position = vec4(a_Position, 1.0);
+            }
+        )";
+
+        std::string tmpFragShader_2 = R"(
+            # version 330 core
+
+            layout(location = 0) out vec4 color;
+
+            in vec3 v_Position;
+
+            void main()
+            {
+                color = vec4(0.2f, 0.3f, 0.8f, 1.0f);
+            }
+        )";
+
+        m_stShader_2.reset(new Shader(tmpVtxShader_2, tmpFragShader_2));
     }
 
     Engine::~Engine()
@@ -179,13 +191,16 @@ namespace RemaEngine
     {
         while (m_bRunning)
         {
-            glClearColor(0, 0, 0, 1);
-            glClear(GL_COLOR_BUFFER_BIT);
+            RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+            RenderCommand::Clear();
+
+            Renderer::BeginScene();
+
+            m_stShader_2->Bind();
+            Renderer::Submit(m_pSquareVertexArray);
 
             m_stShader->Bind();
-
-            glBindVertexArray(m_unVertexArray);
-            glDrawElements(GL_TRIANGLES, m_pIndexBuffer->GetCount(), GL_UNSIGNED_INT, nullptr);
+            Renderer::Submit(m_pVertexArray);
 
             for (Layer* layer : m_stLayerStack) {
                 layer->OnUpdate();

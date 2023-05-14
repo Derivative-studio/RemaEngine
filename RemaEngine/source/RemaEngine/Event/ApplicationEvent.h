@@ -56,6 +56,7 @@ namespace RemaEngine
 
         /**
         * @brief Returns string based info about current state of window.
+        * @example "WindowResizedEvent: wdth: 1920 hght: 1080"
         * @returns The string width window info.
         **/
         std::string ToString() const override

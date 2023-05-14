@@ -1,9 +1,10 @@
 #include <remapch.h>
+#include "EAAssert/eaassert.h"
 
 /**
 * @brief EASTL new[] operator overloading.
 * @details new[] operator overloading required by EASTL library.
-* @returns The uint8_t array if given size.
+* @returns The uint8_t array of given size.
 * @note This overload strongly required by EASTL library and must be
 * located in global space. Note that pch header may be probably not
 * a very good place to store it.
@@ -16,7 +17,7 @@ void* __cdecl operator new[](size_t size, const char* name, int flags, unsigned 
 /**
 * @brief EASTL new[] operator overloading.
 * @details new[] operator overloading required by EASTL library.
-* @returns The uint8_t array if given size.
+* @returns The uint8_t array of given size.
 * @note This overload strongly required by EASTL library and must be
 * located in global space. Note that pch header may be probably not
 * a very good place to store it.

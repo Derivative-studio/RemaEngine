@@ -1,4 +1,4 @@
-#ifndef REMA_WINDOW_H
+﻿#ifndef REMA_WINDOW_H
 #define REMA_WINDOW_H
 
 #include <remapch.h>
@@ -39,6 +39,7 @@ namespace RemaEngine
 
         virtual uint32_t GetWidth() const = 0;
         virtual uint32_t GetHeight() const = 0;
+        virtual std::string GetWindowTitle() const = 0;
 
         static Window* Create(const WindowProps& a_stWndwProps = WindowProps());
     };

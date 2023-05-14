@@ -59,9 +59,6 @@ project "RemaEngine"
         "GLFW",
         "GLAD",
         "EASTL",
-        "EAStdC",
-        "EAAssert",
-        "EAThread",
         "ImGui",
         "opengl32.lib"
     }
@@ -115,7 +112,12 @@ project "SampleNovel"
     {
         "RemaEngine/thirdparty/spdlog/include",
         "RemaEngine/source",
-        "%{IncludeThirdpartyDirs.glm}"
+        "%{IncludeThirdpartyDirs.glm}",
+        "%{IncludeThirdpartyDirs.EASTL}",
+        "%{IncludeThirdpartyDirs.EABase}",
+        "%{IncludeThirdpartyDirs.EAStdC}",
+        "%{IncludeThirdpartyDirs.EAThread}",
+        "%{IncludeThirdpartyDirs.EAAssert}"
     }
 
     links

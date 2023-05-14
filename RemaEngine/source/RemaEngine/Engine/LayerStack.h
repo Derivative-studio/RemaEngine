@@ -37,7 +37,13 @@ namespace RemaEngine
         unsigned int m_stLayerInsertIndex = 0;
 
     public:
+        /**
+        * @brief LayerStuck class default constructor.
+        **/
         LayerStack();
+        /**
+        * @brief LayerStuck class default destructor.
+        **/
         ~LayerStack();
 
         /**

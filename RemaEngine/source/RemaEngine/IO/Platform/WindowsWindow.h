@@ -43,6 +43,7 @@ namespace RemaEngine
 
         uint32_t GetWidth() const override { return m_stWndwData.m_u32Width; }
         uint32_t GetHeight() const override { return m_stWndwData.m_u32Height; }
+        std::string GetWindowTitle() const override { return m_stWndwData.m_sTitle; }
 
     };
 }

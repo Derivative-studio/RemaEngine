@@ -31,7 +31,10 @@
 #include <RemaEngine/Graphics/OpenGL/Shader.h>
 #include <RemaEngine/Graphics/VertexBuffer.h>
 #include <RemaEngine/Graphics/IndexBuffer.h>
+#include <RemaEngine/Graphics/VertexArray.h>
 
+#include "EASTL/shared_ptr.h"
+#include "EASTL/unique_ptr.h"
 
 namespace RemaEngine
 {   
@@ -55,11 +58,11 @@ namespace RemaEngine
         **/
         bool CloseWindow(WindowClosedEvent& a_stEvent);
 
-        RUINT m_unVertexArray;
+        eastl::shared_ptr<Shader>       m_stShader;
+        eastl::shared_ptr<Shader>       m_stShader_2;
 
-        std::unique_ptr<Shader> m_stShader;
-        std::unique_ptr<VertexBuffer> m_pVertexBuffer;
-        std::unique_ptr<IndexBuffer> m_pIndexBuffer;
+        eastl::shared_ptr<VertexArray>  m_pVertexArray;
+        eastl::shared_ptr<VertexArray> m_pSquareVertexArray;
 
     public:
         Engine();
