@@ -22,9 +22,11 @@
 
 namespace RemaEngine
 {
-    void Renderer::BeginScene()
-    {
+    Renderer::SceneData* Renderer::m_stSceneData = new Renderer::SceneData;
 
+    void Renderer::BeginScene(OrthographicCamera& a_stCamera)
+    {
+        m_stSceneData->m_mtxViewProjectionMatrix = a_stCamera.GetViewProjectionMatrix();
     }
 
     void Renderer::EndScene()
@@ -32,8 +34,11 @@ namespace RemaEngine
 
     }
 
-    void Renderer::Submit(const eastl::shared_ptr<VertexArray>& a_arrVertexArray)
+    void Renderer::Submit(const eastl::shared_ptr<Shader>& a_stShader, const eastl::shared_ptr<VertexArray>& a_arrVertexArray)
     {
+        a_stShader->Bind();
+        a_stShader->UploadUniformMat4("u_ViewProjection", m_stSceneData->m_mtxViewProjectionMatrix);
+
         a_arrVertexArray->Bind();
         RenderCommand::DrawIndexed(a_arrVertexArray);
     }

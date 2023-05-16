@@ -21,6 +21,7 @@
 
 #include <RemaEngine/IO/Window.h>
 #include <RemaEngine/Gui/ImGuiLayer.h>
+#include "RemaEngine/Scene/Camera.h"
 
 #include <RemaEngine/Engine/LayerStack.h>
 #include <RemaEngine/Engine/EnginePlatformSetup.h>
@@ -64,6 +65,7 @@ namespace RemaEngine
         eastl::shared_ptr<VertexArray>  m_pVertexArray;
         eastl::shared_ptr<VertexArray> m_pSquareVertexArray;
 
+        OrthographicCamera m_stCamera;
     public:
         Engine();
         virtual ~Engine();

@@ -129,4 +129,10 @@ namespace RemaEngine
     {
 		glUseProgram(0);
     }
+
+	void Shader::UploadUniformMat4(const eastl::string& a_sUniformName, const glm::mat4& a_mtxMatrix)
+	{
+		GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
+		glUniformMatrix4fv(nLocation, 1, GL_FALSE, glm::value_ptr(a_mtxMatrix));
+	}
 }

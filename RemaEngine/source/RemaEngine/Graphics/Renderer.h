@@ -19,10 +19,12 @@
 #ifndef REMA_RENDERER_H
 #define REMA_RENDERER_H
 
-#include "EASTL/shared_ptr.h"
-
+#include "RemaEngine/Scene/Camera.h"
 #include "RemaEngine/Graphics/RenderCommand.h"
 #include "RemaEngine/Graphics/RendererAPI.h"
+#include "RemaEngine/Graphics/OpenGL/Shader.h"
+
+#include <EASTL/shared_ptr.h>
 
 namespace RemaEngine
 {
@@ -32,10 +34,17 @@ namespace RemaEngine
     **/
     class Renderer
     {
+    private:
+        struct SceneData
+        {
+            glm::mat4 m_mtxViewProjectionMatrix;
+        };
+        static SceneData* m_stSceneData;
+
     public:
-        static void BeginScene(); 
+        static void BeginScene(OrthographicCamera& a_stCamera);
         static void EndScene();
-        static void Submit(const eastl::shared_ptr<VertexArray>& a_arrVertexArray);
+        static void Submit(const eastl::shared_ptr<Shader>& a_stShader, const eastl::shared_ptr<VertexArray>& a_arrVertexArray);
 
         /**
         * @returns returns currently used graphics API
