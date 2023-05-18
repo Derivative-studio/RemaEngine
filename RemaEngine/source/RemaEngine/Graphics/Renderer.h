@@ -22,7 +22,7 @@
 #include "RemaEngine/Scene/Camera.h"
 #include "RemaEngine/Graphics/RenderCommand.h"
 #include "RemaEngine/Graphics/RendererAPI.h"
-#include "RemaEngine/Graphics/OpenGL/Shader.h"
+#include "RemaEngine/Graphics/Shader.h"
 
 #include <EASTL/shared_ptr.h>
 

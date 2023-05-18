@@ -29,7 +29,7 @@
 #include <RemaEngine/Event/Event.h>
 #include <RemaEngine/Event/ApplicationEvent.h>
 
-#include <RemaEngine/Graphics/OpenGL/Shader.h>
+#include <RemaEngine/Graphics/Shader.h>
 #include <RemaEngine/Graphics/VertexBuffer.h>
 #include <RemaEngine/Graphics/IndexBuffer.h>
 #include <RemaEngine/Graphics/VertexArray.h>
@@ -59,13 +59,6 @@ namespace RemaEngine
         **/
         bool CloseWindow(WindowClosedEvent& a_stEvent);
 
-        eastl::shared_ptr<Shader>       m_stShader;
-        eastl::shared_ptr<Shader>       m_stShader_2;
-
-        eastl::shared_ptr<VertexArray>  m_pVertexArray;
-        eastl::shared_ptr<VertexArray> m_pSquareVertexArray;
-
-        OrthographicCamera m_stCamera;
     public:
         Engine();
         virtual ~Engine();

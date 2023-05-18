@@ -1,5 +1,5 @@
 #include <remapch.h>
-#include <RemaEngine/Graphics/OpenGL/Shader.h>
+#include <RemaEngine/Graphics/Shader.h>
 
 #include <glad/glad.h>
 
