@@ -1,10 +1,11 @@
 
 -- Include directories
 IncludeThirdpartyDirs = {}
-IncludeThirdpartyDirs["GLFW"]   = "RemaEngine/thirdparty/GLFW/include"
-IncludeThirdpartyDirs["GLAD"]   = "RemaEngine/thirdparty/GLAD/include"
-IncludeThirdpartyDirs["ImGui"]  = "RemaEngine/thirdparty/imgui"
-IncludeThirdpartyDirs["glm"]    = "RemaEngine/thirdparty/glm"
+IncludeThirdpartyDirs["GLFW"]       = "RemaEngine/thirdparty/GLFW/include"
+IncludeThirdpartyDirs["GLAD"]       = "RemaEngine/thirdparty/GLAD/include"
+IncludeThirdpartyDirs["ImGui"]      = "RemaEngine/thirdparty/imgui"
+IncludeThirdpartyDirs["glm"]        = "RemaEngine/thirdparty/glm"
+IncludeThirdpartyDirs["SLikeNet"]   = "RemaEngine/thirdparty/SLikeNet/SLikeNet/Source/include"
 
 -- EA Libraries
 IncludeThirdpartyDirs["EASTL"]      = "RemaEngine/thirdparty/EASTL/EASTL/include"

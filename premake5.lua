@@ -18,6 +18,7 @@ group "Dependencies"
     include "RemaEngine/thirdparty/GLAD_Premake"
     include "RemaEngine/thirdparty/ImGui_Premake"
     include "RemaEngine/thirdparty/EASTL/EASTL_Premake"
+    include "RemaEngine/thirdparty/SLikeNet/SLikeNet_Premake"
 group ""
 
 project "RemaEngine"
@@ -51,7 +52,8 @@ project "RemaEngine"
         "%{IncludeThirdpartyDirs.EABase}",
         "%{IncludeThirdpartyDirs.EAStdC}",
         "%{IncludeThirdpartyDirs.EAThread}",
-        "%{IncludeThirdpartyDirs.EAAssert}"
+        "%{IncludeThirdpartyDirs.EAAssert}",
+        "%{IncludeThirdpartyDirs.SLikeNet}"
     }
 
     links
@@ -60,7 +62,9 @@ project "RemaEngine"
         "GLAD",
         "EASTL",
         "ImGui",
-        "opengl32.lib"
+        "SLikeNet",
+        "opengl32.lib",
+        "Ws2_32.lib"
     }
 
     defines
@@ -117,7 +121,7 @@ project "SampleNovel"
         "%{IncludeThirdpartyDirs.EABase}",
         "%{IncludeThirdpartyDirs.EAStdC}",
         "%{IncludeThirdpartyDirs.EAThread}",
-        "%{IncludeThirdpartyDirs.EAAssert}"
+        "%{IncludeThirdpartyDirs.EAAssert}",
     }
 
     links

@@ -10,7 +10,7 @@ project "EASTL"
     kind "StaticLib"
     language "C++"
     location "./EASTL"
-    staticruntime ("on")
+    staticruntime "on"
 
     targetdir ("EASTL/bin/" .. outputdir .. "/%{prj.name}")
     objdir ("EASTL/int/" .. outputdir .. "/%{prj.name}")
