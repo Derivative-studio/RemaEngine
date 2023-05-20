@@ -19,7 +19,8 @@
 #ifndef REMA_LAYER_H
 #define REMA_LAYER_H
 
-#include <RemaEngine/Event/Event.h>
+#include "RemaEngine/Engine/Timestep.h"
+#include "RemaEngine/Event/Event.h"
 
 namespace RemaEngine
 {
@@ -60,8 +61,9 @@ namespace RemaEngine
         * @brief A virtual method that represents update behaviour.
         * @details Represents a callback for a layer that appears when a 
         * layer has been updated.
+        * @param[in] a_stTimestep - main loop render frame delta time
         **/
-        virtual void OnUpdate() {}
+        virtual void OnUpdate(Timestep a_stTimestep) {}
         /**
         * @brief A virtual method that represents layer behaviour on imgui rendering.
         * @details Represents a callback for a layer that appears when a

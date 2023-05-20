@@ -27,6 +27,7 @@
 #include "RemaEngine/Graphics/Renderer.h"
 
 #include <glad/glad.h>
+#include <GLFW/glfw3.h>
 
 namespace RemaEngine
 {
@@ -82,8 +83,12 @@ namespace RemaEngine
     {
         while (m_bRunning)
         {
+            float l_glTime = static_cast<float>(glfwGetTime());
+            Timestep timestep = l_glTime - m_fLastFrameTime;
+            m_fLastFrameTime = l_glTime;
+
             for (Layer* layer : m_stLayerStack) {
-                layer->OnUpdate();
+                layer->OnUpdate(timestep);
             }
 
             m_stpImGuiLayer->Begin();

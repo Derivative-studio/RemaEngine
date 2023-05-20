@@ -19,23 +19,24 @@
 #ifndef REMA_ENGINE_H
 #define REMA_ENGINE_H
 
-#include <RemaEngine/IO/Window.h>
-#include <RemaEngine/Gui/ImGuiLayer.h>
+#include "RemaEngine/IO/Window.h"
+#include "RemaEngine/Gui/ImGuiLayer.h"
 #include "RemaEngine/Scene/Camera.h"
 
-#include <RemaEngine/Engine/LayerStack.h>
-#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include "RemaEngine/Engine/LayerStack.h"
+#include "RemaEngine/Engine/EnginePlatformSetup.h"
+#include "RemaEngine/Engine/Timestep.h"
 
-#include <RemaEngine/Event/Event.h>
-#include <RemaEngine/Event/ApplicationEvent.h>
+#include "RemaEngine/Event/Event.h"
+#include "RemaEngine/Event/ApplicationEvent.h"
 
-#include <RemaEngine/Graphics/Shader.h>
-#include <RemaEngine/Graphics/VertexBuffer.h>
-#include <RemaEngine/Graphics/IndexBuffer.h>
-#include <RemaEngine/Graphics/VertexArray.h>
+#include "RemaEngine/Graphics/Shader.h"
+#include "RemaEngine/Graphics/VertexBuffer.h"
+#include "RemaEngine/Graphics/IndexBuffer.h"
+#include "RemaEngine/Graphics/VertexArray.h"
 
-#include "EASTL/shared_ptr.h"
-#include "EASTL/unique_ptr.h"
+#include <EASTL/shared_ptr.h>
+#include <EASTL/unique_ptr.h>
 
 namespace RemaEngine
 {   
@@ -50,7 +51,10 @@ namespace RemaEngine
         ImGuiLayer* m_stpImGuiLayer;
         bool m_bRunning = true;
         LayerStack m_stLayerStack;
+        float m_fLastFrameTime = 0.0f;
+
         static Engine* s_Instance;
+
 
         /**
         * @brief Stops the engine game loop if the application window has been closed.

@@ -134,27 +134,29 @@ public:
         m_stSquareShader.reset(new RemaEngine::Shader(SquareVtxShader, SquareFragShader));
     }
 
-    void OnUpdate() override
+    void OnUpdate(RemaEngine::Timestep a_stTimestep) override
     {
+        REMA_APP_TRACE("Delta time: {0}s", a_stTimestep.GetSeconds());
+
         if (RemaEngine::Input::IsKeyPressed(REMA_KEY_A)) {
-            m_vecCameraPosition.x -= m_fCameraMoveSpeed;
+            m_vecCameraPosition.x -= m_fCameraMoveSpeed * a_stTimestep;
         }
         else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_D)) {
-            m_vecCameraPosition.x += m_fCameraMoveSpeed;
+            m_vecCameraPosition.x += m_fCameraMoveSpeed * a_stTimestep;
         }
 
         if (RemaEngine::Input::IsKeyPressed(REMA_KEY_S)) {
-            m_vecCameraPosition.y -= m_fCameraMoveSpeed;
+            m_vecCameraPosition.y -= m_fCameraMoveSpeed * a_stTimestep;
         }
         else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_W)) {
-            m_vecCameraPosition.y += m_fCameraMoveSpeed;
+            m_vecCameraPosition.y += m_fCameraMoveSpeed * a_stTimestep;
         }
 
         if (RemaEngine::Input::IsKeyPressed(REMA_KEY_Q)) {
-            m_fCameraRotation -= m_fCameraRotationSpeed;
+            m_fCameraRotation -= m_fCameraRotationSpeed * a_stTimestep;
         }
         else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_E)) {
-            m_fCameraRotation += m_fCameraRotationSpeed;
+            m_fCameraRotation += m_fCameraRotationSpeed * a_stTimestep;
         }
 
         RemaEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
