@@ -11,9 +11,20 @@ private:
 
     RemaEngine::OrthographicCamera m_stCamera;
     glm::vec3 m_vecCameraPosition;
-    float m_fCameraRotation = 0.1f;
-    float m_fCameraRotationSpeed = 0.7f;
-    float m_fCameraMoveSpeed = 0.1f;
+    /**
+    * @brief Initial degree of camera rotation angle.
+    **/
+    float m_fCameraRotation = 0.0f;
+    /**
+    * @brief The initial rotation speed of the camera 
+    * in degrees per second.
+    **/
+    float m_fCameraRotationSpeed = 180.0f;
+    /**
+    * @brief The initial movement speed of the camera
+    * in units per second.
+    **/
+    float m_fCameraMoveSpeed = 10.0f;
 
 public:
     ExampleLayer()
@@ -136,8 +147,6 @@ public:
 
     void OnUpdate(RemaEngine::Timestep a_stTimestep) override
     {
-        REMA_APP_TRACE("Delta time: {0}s", a_stTimestep.GetSeconds());
-
         if (RemaEngine::Input::IsKeyPressed(REMA_KEY_A)) {
             m_vecCameraPosition.x -= m_fCameraMoveSpeed * a_stTimestep;
         }

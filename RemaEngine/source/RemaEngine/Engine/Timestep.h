@@ -23,7 +23,8 @@ namespace RemaEngine
 {
     /**
     * @class RemaEngine::Timestep
-    * @brief Class that
+    * @brief Class that prevents dependency between 
+    * movement speed and render time.
     **/
     class Timestep
     {
@@ -31,14 +32,33 @@ namespace RemaEngine
         float m_fTime = 0.0f;
 
     public:
+        /**
+        * @brief Constructor of the Timestep class.
+        * @param[in] a_fTime - the delta time in seconds.
+        **/
         Timestep(float a_fTime = 0.0f)
             :m_fTime(a_fTime)
         {
         }
 
+        /**
+        * @brief Returns the delta time in seconds.
+        * @returns The delta time in seconds.
+        * @return float
+        **/
         float GetSeconds() const { return m_fTime; }
+        /**
+        * @brief Returns the delta time in miliseconds.
+        * @returns The delta time in miliseconds.
+        * @return float
+        **/
         float GetMilliseconds() const { return m_fTime * 1000.0f; }
         
+        /**
+        * @brief Overloads float() cast for Timestep class.
+        * @returns The delta time in seconds.
+        * @return float
+        **/
         operator float() const { return m_fTime; }
 
     };
