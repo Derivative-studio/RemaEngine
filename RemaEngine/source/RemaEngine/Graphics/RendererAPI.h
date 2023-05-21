@@ -59,7 +59,7 @@ namespace RemaEngine
         /**
         * @brief draw given vertex array in renderable window
         **/
-        virtual void DrawIndexed(const eastl::shared_ptr<VertexArray>& a_arrVertexArray) = 0;
+        virtual void DrawIndexed(const ref<VertexArray>& a_arrVertexArray) = 0;
 
         /**
         * @brief gets the currently used graphics API

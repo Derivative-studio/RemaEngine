@@ -14,12 +14,12 @@
 #include <unordered_set>
 
 // Engine
-#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/Engine/Core.h>
 #include <RemaEngine/System/Logger.h>
 
 #ifdef REMA_WIN
     #include <Windows.h>
-#endif // REMA_PLATFORM_WINDOWS 
+#endif // REMA_PLATFORM_WINDOWS
 
 
 #endif // !REMA_REMAPCH_H

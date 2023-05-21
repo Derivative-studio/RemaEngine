@@ -49,13 +49,13 @@ namespace RemaEngine
         inline static void SetClearColor(const glm::vec4& a_arrColor) {
             sm_RendererAPI->SetClearColor(a_arrColor);
         }
-        
+
         /**
         * @brief draw given vertex array in renderable window
         * @details dispatches RemaEngine::RendererAPI::DrawIndexed method
         * @see RemaEngine/Graphics/RendererAPI.h
         **/
-        inline static void DrawIndexed(const eastl::shared_ptr<VertexArray>& a_arrVertexArray) {
+        inline static void DrawIndexed(const ref<VertexArray>& a_arrVertexArray) {
             sm_RendererAPI->DrawIndexed(a_arrVertexArray);
         }
 

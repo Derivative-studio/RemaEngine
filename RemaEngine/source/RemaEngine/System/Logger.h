@@ -1,7 +1,7 @@
 #ifndef REMA_LOGGER_H
 #define REMA_LOGGER_H
 
-#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/Engine/Core.h>
 #include <spdlog/spdlog.h>
 #include <spdlog/fmt/ostr.h>
 
@@ -52,7 +52,7 @@ namespace RemaEngine
 
 /**
 * @brief The engine-side logger message with **trace** logging level.
-* @details Macros that allows engine-side logger log with the 
+* @details Macros that allows engine-side logger log with the
 * **trace** logging level. Messages with this level will be marked
 * with *white* color.
 * @param[in] __VA_ARGS__ - string arguments for engine-side logger.

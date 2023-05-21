@@ -33,7 +33,7 @@ namespace RemaEngine
         glClearColor(a_arrColor.r, a_arrColor.g, a_arrColor.b, a_arrColor.a);
     }
 
-    void OpenGLRendererAPI::DrawIndexed(const eastl::shared_ptr<VertexArray>& a_arrVertexArray)
+    void OpenGLRendererAPI::DrawIndexed(const ref<VertexArray>& a_arrVertexArray)
     {
         glDrawElements(GL_TRIANGLES, a_arrVertexArray->GetIndexBuffer()->GetCount(), GL_UNSIGNED_INT, nullptr);
     }

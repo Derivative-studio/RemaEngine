@@ -22,6 +22,9 @@
 #include <EASTL/linked_ptr.h>
 #include <EASTL/unique_ptr.h>
 
+#include <memory>
+#include <xmemory>
+
 #ifndef REMA_MEMORYUTILS_H
 #define REMA_MEMORYUTILS_H
 

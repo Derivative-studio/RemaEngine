@@ -19,6 +19,9 @@
 #ifndef REMA_ENGINE_PLATFORM_SETUP_H
 #define REMA_ENGINE_PLATFORM_SETUP_H
 
+#include <EASTL/shared_ptr.h>
+#include <EASTL/unique_ptr.h>
+
 #ifdef REMA_WIN
 #if REMA_DYNAMIC_LINKAGE
     #ifdef REMA_BUILD_DLL
@@ -41,8 +44,18 @@
     #define REMA_CORE_ASSERT(x, ...)
 #endif // REMA_ENABLE_ASSERT
 
+#define REMA_BIND_EVENT_FN(fn) std::bind(&fn, this, std::placeholders::_1)
+
 #define BIT(x) (1 << x)
 #define RUINT unsigned int
 
-#endif // !REMA_ENGINE_PLATFORM_SETUP_H
+namespace RemaEngine
+{
+    template<typename _Ty>
+    using scope = eastl::unique_ptr<_Ty>;
 
+    template<typename _Ty>
+    using ref = eastl::shared_ptr<_Ty>;
+}
+
+#endif // !REMA_ENGINE_PLATFORM_SETUP_H

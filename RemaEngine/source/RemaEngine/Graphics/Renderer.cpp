@@ -36,8 +36,8 @@ namespace RemaEngine
 
     }
 
-    void Renderer::Submit(const eastl::shared_ptr<Shader>& a_stShader,
-        const eastl::shared_ptr<VertexArray>& a_arrVertexArray,
+    void Renderer::Submit(const ref<Shader>& a_stShader,
+        const ref<VertexArray>& a_arrVertexArray,
         const glm::mat4& a_mtxTransofrmMatrix)
     {
         a_stShader->Bind();

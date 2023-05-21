@@ -19,7 +19,7 @@
 #ifndef REMA_EVENT_H
 #define REMA_EVENT_H
 
-#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/Engine/Core.h>
 
 namespace RemaEngine
 {

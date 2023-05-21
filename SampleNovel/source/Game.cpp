@@ -9,11 +9,11 @@
 class ExampleLayer : public RemaEngine::Layer
 {
 private:
-    eastl::shared_ptr<RemaEngine::Shader> m_stTriangleShader;
-    eastl::shared_ptr<RemaEngine::Shader> m_stFlatColorShader;
+    RemaEngine::ref<RemaEngine::Shader> m_stTriangleShader;
+    RemaEngine::ref<RemaEngine::Shader> m_stFlatColorShader;
 
-    eastl::shared_ptr<RemaEngine::VertexArray> m_pTriangleVertexArray;
-    eastl::shared_ptr<RemaEngine::VertexArray> m_pSquareVertexArray;
+    RemaEngine::ref<RemaEngine::VertexArray> m_pTriangleVertexArray;
+    RemaEngine::ref<RemaEngine::VertexArray> m_pSquareVertexArray;
 
     RemaEngine::OrthographicCamera m_stCamera;
     glm::vec3 m_vecCameraPosition;
@@ -50,7 +50,7 @@ public:
              0.0f,  0.5f, 0.0f, 1.0f, 0.2f, 0.5f, 1.0f
         };
 
-        eastl::shared_ptr<RemaEngine::VertexBuffer> m_pTriangleVertexBuffer;
+        RemaEngine::ref<RemaEngine::VertexBuffer> m_pTriangleVertexBuffer;
         m_pTriangleVertexBuffer.reset(RemaEngine::VertexBuffer::Create(TriangleVertices, sizeof(TriangleVertices)));
         RemaEngine::BufferLayout layout = {
             { RemaEngine::ShaderDataType::Float3, "a_Position" },
@@ -61,7 +61,7 @@ public:
         m_pTriangleVertexArray->AddVertexBuffer(m_pTriangleVertexBuffer);
 
         uint32_t indices[3] = { 0, 1, 2 };
-        eastl::shared_ptr<RemaEngine::IndexBuffer> m_pTriangleIndexBuffer;
+        RemaEngine::ref<RemaEngine::IndexBuffer> m_pTriangleIndexBuffer;
         m_pTriangleIndexBuffer.reset(RemaEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
         m_pTriangleVertexArray->SetIndexBuffer(m_pTriangleIndexBuffer);
 
@@ -74,7 +74,7 @@ public:
            -0.75f,  0.75f, 0.0f
         };
 
-        eastl::shared_ptr<RemaEngine::VertexBuffer> m_pSquareVertexBuffer;
+        RemaEngine::ref<RemaEngine::VertexBuffer> m_pSquareVertexBuffer;
         m_pSquareVertexBuffer.reset(RemaEngine::VertexBuffer::Create(SquareVertices, sizeof(SquareVertices)));
 
         RemaEngine::BufferLayout SquareVBLayout = {
@@ -85,7 +85,7 @@ public:
         m_pSquareVertexArray->AddVertexBuffer(m_pSquareVertexBuffer);
 
         uint32_t SquareIndices[6] = { 0, 1, 2, 2, 3, 0 };
-        eastl::shared_ptr<RemaEngine::IndexBuffer> m_pSquareIndexBuffer;
+        RemaEngine::ref<RemaEngine::IndexBuffer> m_pSquareIndexBuffer;
         m_pSquareIndexBuffer.reset(RemaEngine::IndexBuffer::Create(SquareIndices, sizeof(SquareIndices) / sizeof(uint32_t)));
         m_pSquareVertexArray->SetIndexBuffer(m_pSquareIndexBuffer);
 

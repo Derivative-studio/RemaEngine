@@ -48,7 +48,7 @@ namespace RemaEngine
         * @brief OpenGL implementation of RemaEngine::RendererAPI::DrawIndexed method
         * @see RemaEngine/Graphics/RendererAPI.h
         **/
-        virtual void DrawIndexed(const eastl::shared_ptr<VertexArray>& a_arrVertexArray) override;
+        virtual void DrawIndexed(const ref<VertexArray>& a_arrVertexArray) override;
 
     };
 }

@@ -4,7 +4,6 @@
 #include "RemaEngine/Engine/Engine.h"
 #include "RemaEngine/Engine/Timestep.h"
 #include "RemaEngine/Engine/Layer.h"
-#include "RemaEngine/Engine/EngineDefinitions.h"
 
 #include "RemaEngine/Gui/ImGuiLayer.h"
 #include "RemaEngine/System/Logger.h"

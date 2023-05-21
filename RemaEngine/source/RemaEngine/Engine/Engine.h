@@ -3,14 +3,14 @@
  * @author Nikita Kozlov (nyarstot@yandex.ru)
  * @date 2023-03-29
  * @copyright Copyright (c) 2023
- * 
+ *
  * This file is part of RemaEngine.
- * 
+ *
  * RemaEngine is free software: you can redistribute it and/or modify
  * it under the terms of the GNU General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
- * 
+ *
  * RemaEngine is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
@@ -24,7 +24,7 @@
 #include "RemaEngine/Scene/Camera.h"
 
 #include "RemaEngine/Engine/LayerStack.h"
-#include "RemaEngine/Engine/EnginePlatformSetup.h"
+#include "RemaEngine/Engine/Core.h"
 #include "RemaEngine/Engine/Timestep.h"
 
 #include "RemaEngine/Event/Event.h"
@@ -39,7 +39,7 @@
 #include <EASTL/unique_ptr.h>
 
 namespace RemaEngine
-{   
+{
     /**
      * @class RemaEngine::Engine
      * @brief A class which implements main engine singleton class.
@@ -93,7 +93,7 @@ namespace RemaEngine
         * @brief Method that returns the application window of the engine.
         * @returns The pointer to application window.
         **/
-        inline Window& GetWindow() { return *m_stWindow; } 
+        inline Window& GetWindow() { return *m_stWindow; }
         /**
         * @brief A static method that returns an instance of the engine.
         * @returns The pointer to engine instance.

@@ -1,7 +1,7 @@
 #ifndef REMA_INPUT_H
 #define REMA_INPUT_H
 
-#include <RemaEngine/Engine/EnginePlatformSetup.h>
+#include <RemaEngine/Engine/Core.h>
 
 namespace RemaEngine
 {

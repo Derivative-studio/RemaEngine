@@ -50,8 +50,8 @@ namespace RemaEngine
         * @param[in] a_arrVertexArray - the object vertecies.
         * @param[in] a_mtxTransfromMatrix - object tarnsofrm matrix (1.0f by default).
         **/
-        static void Submit(const eastl::shared_ptr<Shader>& a_stShader,
-            const eastl::shared_ptr<VertexArray>& a_arrVertexArray,
+        static void Submit(const ref<Shader>& a_stShader,
+            const ref<VertexArray>& a_arrVertexArray,
             const glm::mat4& a_mtxTransofrmMatrix = glm::mat4(1.0f));
 
         /**
