@@ -44,7 +44,15 @@ namespace RemaEngine
     public:
         static void BeginScene(OrthographicCamera& a_stCamera);
         static void EndScene();
-        static void Submit(const eastl::shared_ptr<Shader>& a_stShader, const eastl::shared_ptr<VertexArray>& a_arrVertexArray);
+        /**
+        * @brief Submits different object data to render.
+        * @param[in] a_stShader - the object shader.
+        * @param[in] a_arrVertexArray - the object vertecies.
+        * @param[in] a_mtxTransfromMatrix - object tarnsofrm matrix (1.0f by default).
+        **/
+        static void Submit(const eastl::shared_ptr<Shader>& a_stShader,
+            const eastl::shared_ptr<VertexArray>& a_arrVertexArray,
+            const glm::mat4& a_mtxTransofrmMatrix = glm::mat4(1.0f));
 
         /**
         * @returns returns currently used graphics API

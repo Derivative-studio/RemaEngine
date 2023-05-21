@@ -117,6 +117,7 @@ project "SampleNovel"
         "RemaEngine/thirdparty/spdlog/include",
         "RemaEngine/source",
         "%{IncludeThirdpartyDirs.glm}",
+        "%{IncludeThirdpartyDirs.ImGui}",
         "%{IncludeThirdpartyDirs.EASTL}",
         "%{IncludeThirdpartyDirs.EABase}",
         "%{IncludeThirdpartyDirs.EAStdC}",

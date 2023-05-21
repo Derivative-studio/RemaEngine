@@ -1,25 +1,19 @@
 #ifndef REMA_SHADER_H
 #define REMA_SHADER_H
 
-#include <glm/glm.hpp>
-#include <glm/gtc/type_ptr.hpp>
 #include <EASTL/string.h>
 
 namespace RemaEngine
 {
     class Shader
     {
-    private:
-        uint32_t m_nRendererID;
-
     public:
-        Shader(const std::string& a_sVertexSrc, const std::string& a_sFragmentSrc);
-        ~Shader();
+        virtual ~Shader() = default;
 
-        void Bind() const;
-        void Unbind() const;
+        virtual void Bind() const = 0;
+        virtual void Unbind() const = 0;
 
-        void UploadUniformMat4(const eastl::string& a_sUniformName, const glm::mat4& a_mtxMatrix);
+        static Shader* Create(const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc);
     };
 }
 

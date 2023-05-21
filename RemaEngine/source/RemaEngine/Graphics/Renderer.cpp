@@ -19,6 +19,8 @@
 #include "remapch.h"
 #include "RemaEngine/Graphics/Renderer.h"
 #include "RemaEngine/Graphics/RenderCommand.h"
+#include "RemaEngine/Graphics/OpenGL/OpenGLShader.h"
+#include "RemaEngine/Utils/MemoryUtils.h"
 
 namespace RemaEngine
 {
@@ -34,10 +36,14 @@ namespace RemaEngine
 
     }
 
-    void Renderer::Submit(const eastl::shared_ptr<Shader>& a_stShader, const eastl::shared_ptr<VertexArray>& a_arrVertexArray)
+    void Renderer::Submit(const eastl::shared_ptr<Shader>& a_stShader,
+        const eastl::shared_ptr<VertexArray>& a_arrVertexArray,
+        const glm::mat4& a_mtxTransofrmMatrix)
     {
         a_stShader->Bind();
-        a_stShader->UploadUniformMat4("u_ViewProjection", m_stSceneData->m_mtxViewProjectionMatrix);
+
+        eastl_dynamic_pointer_cast<OpenGLShader>(a_stShader)->UploadUniformMat4("u_ViewProjection", m_stSceneData->m_mtxViewProjectionMatrix);
+        eastl_dynamic_pointer_cast<OpenGLShader>(a_stShader)->UploadUniformMat4("u_TransformMatrix", a_mtxTransofrmMatrix);
 
         a_arrVertexArray->Bind();
         RenderCommand::DrawIndexed(a_arrVertexArray);

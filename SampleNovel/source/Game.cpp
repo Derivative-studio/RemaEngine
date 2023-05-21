@@ -1,10 +1,16 @@
 #include <RemaEngine/RemaEngine.h>
+#include <RemaEngine/Graphics/OpenGL/OpenGLShader.h>
+#include <RemaEngine/Utils/MemoryUtils.h>
+
+#include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
+#include <imgui.h>
 
 class ExampleLayer : public RemaEngine::Layer
 {
 private:
     eastl::shared_ptr<RemaEngine::Shader> m_stTriangleShader;
-    eastl::shared_ptr<RemaEngine::Shader> m_stSquareShader;
+    eastl::shared_ptr<RemaEngine::Shader> m_stFlatColorShader;
 
     eastl::shared_ptr<RemaEngine::VertexArray> m_pTriangleVertexArray;
     eastl::shared_ptr<RemaEngine::VertexArray> m_pSquareVertexArray;
@@ -16,7 +22,7 @@ private:
     **/
     float m_fCameraRotation = 0.0f;
     /**
-    * @brief The initial rotation speed of the camera 
+    * @brief The initial rotation speed of the camera
     * in degrees per second.
     **/
     float m_fCameraRotationSpeed = 180.0f;
@@ -26,9 +32,15 @@ private:
     **/
     float m_fCameraMoveSpeed = 10.0f;
 
+    glm::vec3 m_vecSquarePosition;
+    float m_fSquareMoveSpeed = 13.0f;
+
+    glm::vec3 m_vecSquareColor = { 0.2f, 0.3f, 0.7f };
+
 public:
     ExampleLayer()
-        : Layer("Example"), m_stCamera(-1.6f, 1.6f, -0.9f, 0.9f), m_vecCameraPosition(0.0f)
+        : Layer("Example"), m_stCamera(-1.6f, 1.6f, -0.9f, 0.9f), m_vecCameraPosition(0.0f),
+        m_vecSquarePosition(0.0f)
     {
         m_pTriangleVertexArray.reset(RemaEngine::VertexArray::Create());
 
@@ -77,13 +89,14 @@ public:
         m_pSquareIndexBuffer.reset(RemaEngine::IndexBuffer::Create(SquareIndices, sizeof(SquareIndices) / sizeof(uint32_t)));
         m_pSquareVertexArray->SetIndexBuffer(m_pSquareIndexBuffer);
 
-        std::string TriangleVtxShader = R"(
+        eastl::string TriangleVtxShader = R"(
             # version 330 core
 
             layout(location = 0) in vec3 a_Position;
             layout(location = 1) in vec4 a_Color;
-            
+
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_TransformMatrix;
 
             out vec3 v_Position;
             out vec4 v_Color;
@@ -92,11 +105,11 @@ public:
             {
                 v_Position = a_Position;
                 v_Color = a_Color;
-                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+                gl_Position = u_ViewProjection * u_TransformMatrix * vec4(a_Position, 1.0);
             }
         )";
 
-        std::string TriangleFragShader = R"(
+        eastl::string TriangleFragShader = R"(
             # version 330 core
 
             layout(location = 0) out vec4 color;
@@ -111,38 +124,41 @@ public:
             }
         )";
 
-        m_stTriangleShader.reset(new RemaEngine::Shader(TriangleVtxShader, TriangleFragShader));
+        m_stTriangleShader.reset(RemaEngine::Shader::Create(TriangleVtxShader, TriangleFragShader));
 
-        std::string SquareVtxShader = R"(
+        eastl::string flatColorVertexShader = R"(
             # version 330 core
 
             layout(location = 0) in vec3 a_Position;
-            
+
             uniform mat4 u_ViewProjection;
+            uniform mat4 u_TransformMatrix;
 
             out vec3 v_Position;
 
             void main()
             {
                 v_Position = a_Position;
-                gl_Position = u_ViewProjection * vec4(a_Position, 1.0);
+                gl_Position = u_ViewProjection * u_TransformMatrix * vec4(a_Position, 1.0);
             }
         )";
 
-        std::string SquareFragShader = R"(
+        eastl::string flatColorFragmentShader = R"(
             # version 330 core
 
             layout(location = 0) out vec4 color;
 
             in vec3 v_Position;
 
+            uniform vec3 u_Color;
+
             void main()
             {
-                color = vec4(0.2f, 0.3f, 0.8f, 1.0f);
+                color = vec4(u_Color, 1.0);
             }
         )";
 
-        m_stSquareShader.reset(new RemaEngine::Shader(SquareVtxShader, SquareFragShader));
+        m_stFlatColorShader.reset(RemaEngine::Shader::Create(flatColorVertexShader, flatColorFragmentShader));
     }
 
     void OnUpdate(RemaEngine::Timestep a_stTimestep) override
@@ -168,6 +184,20 @@ public:
             m_fCameraRotation += m_fCameraRotationSpeed * a_stTimestep;
         }
 
+        if (RemaEngine::Input::IsKeyPressed(REMA_KEY_LEFT)) {
+            m_vecSquarePosition.x -= m_fSquareMoveSpeed * a_stTimestep;
+        }
+        else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_RIGHT)) {
+            m_vecSquarePosition.x += m_fSquareMoveSpeed * a_stTimestep;
+        }
+
+        if (RemaEngine::Input::IsKeyPressed(REMA_KEY_DOWN)) {
+            m_vecSquarePosition.y -= m_fSquareMoveSpeed * a_stTimestep;
+        }
+        else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_UP)) {
+            m_vecSquarePosition.y += m_fSquareMoveSpeed * a_stTimestep;
+        }
+
         RemaEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         RemaEngine::RenderCommand::Clear();
 
@@ -175,14 +205,25 @@ public:
         m_stCamera.SetRotation(m_fCameraRotation);
 
         RemaEngine::Renderer::BeginScene(m_stCamera);
-        RemaEngine::Renderer::Submit(m_stSquareShader, m_pSquareVertexArray);
+
+        glm::mat4 mtxTransform = glm::translate(glm::mat4(1.0f), m_vecSquarePosition);
+
+        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->Bind();
+        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->UploadUniformFloat3("u_Color", m_vecSquareColor);
+
+        RemaEngine::Renderer::Submit(m_stFlatColorShader, m_pSquareVertexArray, mtxTransform);
+        //m_stFlatColorShader->UploadUniformFloat4("u_Color", vecBlueColor);
+
         RemaEngine::Renderer::Submit(m_stTriangleShader, m_pTriangleVertexArray);
+
         RemaEngine::Renderer::EndScene();
     }
 
     virtual void OnImGuiRender() override
     {
-        
+        ImGui::Begin("Settings");
+        ImGui::ColorEdit3("Square Color", glm::value_ptr(m_vecSquareColor));
+        ImGui::End();
     }
 
     void OnEvent(RemaEngine::Event& a_stEvent) override

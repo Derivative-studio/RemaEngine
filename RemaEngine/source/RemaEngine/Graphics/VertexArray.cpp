@@ -1,9 +1,7 @@
 #include "remapch.h"
 #include "RemaEngine/Graphics/VertexArray.h"
 #include "RemaEngine/Graphics/Renderer.h"
-
 #include "RemaEngine/Graphics/OpenGL/OpenGLVertexArray.h"
-
 
 namespace RemaEngine
 {

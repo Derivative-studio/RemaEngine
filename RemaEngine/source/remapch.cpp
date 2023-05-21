@@ -1,5 +1,4 @@
 #include <remapch.h>
-#include "EAAssert/eaassert.h"
 
 /**
 * @brief EASTL new[] operator overloading.
