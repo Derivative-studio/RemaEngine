@@ -12,6 +12,9 @@ private:
     RemaEngine::ref<RemaEngine::Shader> m_stTriangleShader;
     RemaEngine::ref<RemaEngine::Shader> m_stFlatColorShader;
 
+    RemaEngine::ref<RemaEngine::Shader> m_stTextureShader;
+    RemaEngine::ref<RemaEngine::Texture2D> m_stCheckerTexture;
+
     RemaEngine::ref<RemaEngine::VertexArray> m_pTriangleVertexArray;
     RemaEngine::ref<RemaEngine::VertexArray> m_pSquareVertexArray;
 
@@ -67,11 +70,11 @@ public:
 
         m_pSquareVertexArray.reset(RemaEngine::VertexArray::Create());
 
-        float SquareVertices[3 * 4] = {
-           -0.75f, -0.75f, 0.0f,
-            0.75f, -0.75f, 0.0f,
-            0.75f,  0.75f, 0.0f,
-           -0.75f,  0.75f, 0.0f
+        float SquareVertices[5 * 4] = {
+           -0.75f, -0.75f, 0.0f, 0.0f, 0.0f,
+            0.75f, -0.75f, 0.0f, 1.0f, 0.0f,
+            0.75f,  0.75f, 0.0f, 1.0f, 1.0f,
+           -0.75f,  0.75f, 0.0f, 0.0f, 1.0f
         };
 
         RemaEngine::ref<RemaEngine::VertexBuffer> m_pSquareVertexBuffer;
@@ -79,6 +82,7 @@ public:
 
         RemaEngine::BufferLayout SquareVBLayout = {
             { RemaEngine::ShaderDataType::Float3, "a_Position" },
+            { RemaEngine::ShaderDataType::Float2, "a_TexCoord"}
         };
 
         m_pSquareVertexBuffer->SetLayout(SquareVBLayout);
@@ -159,6 +163,45 @@ public:
         )";
 
         m_stFlatColorShader.reset(RemaEngine::Shader::Create(flatColorVertexShader, flatColorFragmentShader));
+
+        eastl::string textureVertexShader = R"(
+            # version 330 core
+
+            layout(location = 0) in vec3 a_Position;
+            layout(location = 1) in vec2 a_TexCoord;
+
+            uniform mat4 u_ViewProjection;
+            uniform mat4 u_TransformMatrix;
+
+            out vec2 v_TexCoord;
+
+            void main()
+            {
+                v_TexCoord = a_TexCoord;
+                gl_Position = u_ViewProjection * u_TransformMatrix * vec4(a_Position, 1.0);
+            }
+        )";
+
+        eastl::string textureFragmentShader = R"(
+            # version 330 core
+
+            layout(location = 0) out vec4 color;
+
+            in vec2 v_TexCoord;
+
+            uniform sampler2D u_Texture;
+
+            void main()
+            {
+                color = texture(u_Texture, v_TexCoord);
+            }
+        )";
+
+        m_stTextureShader.reset(RemaEngine::Shader::Create(textureVertexShader, textureFragmentShader));
+        m_stCheckerTexture = RemaEngine::Texture2D::Create("assets/textures/checker.jpg");
+
+        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stTextureShader)->Bind();
+        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stTextureShader)->UploadUniformInt("u_Texture", 0);
     }
 
     void OnUpdate(RemaEngine::Timestep a_stTimestep) override
@@ -208,13 +251,13 @@ public:
 
         glm::mat4 mtxTransform = glm::translate(glm::mat4(1.0f), m_vecSquarePosition);
 
-        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->Bind();
-        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->UploadUniformFloat3("u_Color", m_vecSquareColor);
+        //RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->Bind();
+        //RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->UploadUniformFloat3("u_Color", m_vecSquareColor);
 
-        RemaEngine::Renderer::Submit(m_stFlatColorShader, m_pSquareVertexArray, mtxTransform);
-        //m_stFlatColorShader->UploadUniformFloat4("u_Color", vecBlueColor);
+        m_stCheckerTexture->Bind();
+        RemaEngine::Renderer::Submit(m_stTextureShader, m_pSquareVertexArray, mtxTransform);
 
-        RemaEngine::Renderer::Submit(m_stTriangleShader, m_pTriangleVertexArray);
+        //RemaEngine::Renderer::Submit(m_stTriangleShader, m_pTriangleVertexArray);
 
         RemaEngine::Renderer::EndScene();
     }

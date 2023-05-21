@@ -5,6 +5,7 @@ IncludeThirdpartyDirs["GLFW"]       = "RemaEngine/thirdparty/GLFW/include"
 IncludeThirdpartyDirs["GLAD"]       = "RemaEngine/thirdparty/GLAD/include"
 IncludeThirdpartyDirs["ImGui"]      = "RemaEngine/thirdparty/imgui"
 IncludeThirdpartyDirs["glm"]        = "RemaEngine/thirdparty/glm"
+IncludeThirdpartyDirs["stb"]        = "RemaEngine/thirdparty/stb/include"
 IncludeThirdpartyDirs["SLikeNet"]   = "RemaEngine/thirdparty/SLikeNet/SLikeNet/Source/include"
 
 -- EA Libraries

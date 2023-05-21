@@ -18,6 +18,7 @@ group "Dependencies"
     include "RemaEngine/thirdparty/GLAD_Premake"
     include "RemaEngine/thirdparty/ImGui_Premake"
     include "RemaEngine/thirdparty/EASTL/EASTL_Premake"
+    include "RemaEngine/thirdparty/stb/stb_Premake"
     include "RemaEngine/thirdparty/SLikeNet/SLikeNet_Premake"
 group ""
 
@@ -48,6 +49,7 @@ project "RemaEngine"
         "%{IncludeThirdpartyDirs.GLAD}",
         "%{IncludeThirdpartyDirs.ImGui}",
         "%{IncludeThirdpartyDirs.glm}",
+        "%{IncludeThirdpartyDirs.stb}",
         "%{IncludeThirdpartyDirs.EASTL}",
         "%{IncludeThirdpartyDirs.EABase}",
         "%{IncludeThirdpartyDirs.EAStdC}",
@@ -62,6 +64,7 @@ project "RemaEngine"
         "GLAD",
         "EASTL",
         "ImGui",
+        "stb",
         "SLikeNet",
         "opengl32.lib",
         "Ws2_32.lib"

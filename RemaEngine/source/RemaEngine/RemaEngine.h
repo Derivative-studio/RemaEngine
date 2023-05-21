@@ -18,6 +18,7 @@
 #include "RemaEngine/Graphics/IndexBuffer.h"
 #include "RemaEngine/Graphics/BufferLayout.h"
 #include "RemaEngine/Graphics/Shader.h"
+#include "RemaEngine/Graphics/Texture.h"
 
 #include "RemaEngine/Scene/Camera.h"
 
@@ -25,4 +26,3 @@
 #include "RemaEngine/Engine/EntryPoint.h"
 
 #endif // !REMA_REMA_ENGINE_H
-
