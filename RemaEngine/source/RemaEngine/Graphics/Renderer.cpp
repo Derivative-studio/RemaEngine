@@ -26,6 +26,11 @@ namespace RemaEngine
 {
     Renderer::SceneData* Renderer::m_stSceneData = new Renderer::SceneData;
 
+    void Renderer::Init()
+    {
+        RenderCommand::Init();
+    }
+
     void Renderer::BeginScene(OrthographicCamera& a_stCamera)
     {
         m_stSceneData->m_mtxViewProjectionMatrix = a_stCamera.GetViewProjectionMatrix();

@@ -46,6 +46,7 @@ namespace RemaEngine
         };
 
     public:
+        virtual void Init() = 0;
         /**
         * @brief clears the screen with the default color
         * @details to change clear color use **SetClearColor** method

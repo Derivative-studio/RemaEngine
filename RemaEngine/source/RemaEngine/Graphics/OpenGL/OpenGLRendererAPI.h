@@ -32,6 +32,7 @@ namespace RemaEngine
     class OpenGLRendererAPI : public RendererAPI
     {
     public:
+        virtual void Init() override;
         /**
         * @brief OpenGL implementation of RemaEngine::RendererAPI::Clear method
         * @details to change clear color use **SetClearColor** method

@@ -44,6 +44,8 @@ namespace RemaEngine
         m_stWindow = std::unique_ptr<Window>(Window::Create());
         m_stWindow->SetEventCallback(BIND_EVENT_FN(Engine::OnEvent));
 
+        Renderer::Init();
+
         m_stpImGuiLayer = new ImGuiLayer();
         PushOverlay(m_stpImGuiLayer);
 

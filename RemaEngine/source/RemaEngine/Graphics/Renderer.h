@@ -42,6 +42,7 @@ namespace RemaEngine
         static SceneData* m_stSceneData;
 
     public:
+        static void Init();
         static void BeginScene(OrthographicCamera& a_stCamera);
         static void EndScene();
         /**

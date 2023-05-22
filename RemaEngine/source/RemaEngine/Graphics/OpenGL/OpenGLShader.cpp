@@ -19,92 +19,82 @@
 #include "remapch.h"
 #include "RemaEngine/Graphics/OpenGL/OpenGLShader.h"
 
+#include <fstream>
 #include <glad/glad.h>
 #include <glm/gtc/type_ptr.hpp>
 
 namespace RemaEngine
 {
+    static GLenum ShaderTypeFromString(const eastl::string& a_sType)
+    {
+        if (a_sType == "vertex") 
+            return GL_VERTEX_SHADER;
+        if (a_sType == "fragment" || a_sType == "pixel" || a_sType == "frag") 
+            return GL_FRAGMENT_SHADER;
+
+        REMA_CORE_ASSERT(false, "Unknown shader type.");
+        return 0;
+    }
+
+    OpenGLShader::OpenGLShader(const eastl::string& a_sFilepath)
+    {
+        eastl::string shaderSource = ReadFile(a_sFilepath);
+        auto shaderSources = PreProcess(shaderSource);
+        Compile(shaderSources);
+    }
+
     OpenGLShader::OpenGLShader(const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc)
     {
-        // Create an empty vertex shader handle
-        GLuint vertexShader = glCreateShader(GL_VERTEX_SHADER);
+        eastl::unordered_map<GLenum, eastl::string> sources;
+        sources[GL_VERTEX_SHADER] = a_sVertexSrc;
+        sources[GL_FRAGMENT_SHADER] = a_sFragmentSrc;
+        Compile(sources);
+    }
 
-        // Send the vertex shader source code to GL
-        // Note that std::string's .c_str is NULL character terminated.
-        const GLchar* source = a_sVertexSrc.c_str();
-        glShaderSource(vertexShader, 1, &source, 0);
+    OpenGLShader::~OpenGLShader()
+    {
+        glDeleteProgram(m_nRendererID);
+    }
 
-        // Compile the vertex shader
-        glCompileShader(vertexShader);
+    void OpenGLShader::Compile(const eastl::unordered_map<GLenum, eastl::string>& shaderSources)
+    {
+        GLuint program = glCreateProgram();
+        eastl::vector<GLenum> glShaderIDs(shaderSources.size());
 
-        GLint isCompiled = 0;
-        glGetShaderiv(vertexShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(vertexShader, GL_INFO_LOG_LENGTH, &maxLength);
+        for (auto& kv : shaderSources) {
+            GLenum type = kv.first;
+            const eastl::string& source = kv.second;
 
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(vertexShader, maxLength, &maxLength, &infoLog[0]);
+            GLuint shader = glCreateShader(type);
 
-            // We don't need the shader anymore.
-            glDeleteShader(vertexShader);
+            const GLchar* sourceCStr = source.c_str();
+            glShaderSource(shader, 1, &sourceCStr, 0);
 
-            // Use the infoLog as you see fit.
+            glCompileShader(shader);
 
-            REMA_ENGINE_ERROR("{0}", infoLog.data());
-            REMA_CORE_ASSERT(false, "Vertex shader compilation failure");
-            return;
+            GLint isCompiled = 0;
+            glGetShaderiv(shader, GL_COMPILE_STATUS, &isCompiled);
+            if (isCompiled == GL_FALSE)
+            {
+                GLint maxLength = 0;
+                glGetShaderiv(shader, GL_INFO_LOG_LENGTH, &maxLength);
+
+                std::vector<GLchar> infoLog(maxLength);
+                glGetShaderInfoLog(shader, maxLength, &maxLength, &infoLog[0]);
+
+                glDeleteShader(shader);
+
+                REMA_ENGINE_ERROR("{0}", infoLog.data());
+                REMA_CORE_ASSERT(false, "Shader compilation failure");
+                break;
+            }
+
+            glAttachShader(program, shader);
+            glShaderIDs.push_back(shader);
         }
 
-        // Create an empty fragment shader handle
-        GLuint fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-
-        // Send the fragment shader source code to GL
-        // Note that std::string's .c_str is NULL character terminated.
-        source = a_sFragmentSrc.c_str();
-        glShaderSource(fragmentShader, 1, &source, 0);
-
-        // Compile the fragment shader
-        glCompileShader(fragmentShader);
-
-        glGetShaderiv(fragmentShader, GL_COMPILE_STATUS, &isCompiled);
-        if (isCompiled == GL_FALSE)
-        {
-            GLint maxLength = 0;
-            glGetShaderiv(fragmentShader, GL_INFO_LOG_LENGTH, &maxLength);
-
-            // The maxLength includes the NULL character
-            std::vector<GLchar> infoLog(maxLength);
-            glGetShaderInfoLog(fragmentShader, maxLength, &maxLength, &infoLog[0]);
-
-            // We don't need the shader anymore.
-            glDeleteShader(fragmentShader);
-            // Either of them. Don't leak shaders.
-            glDeleteShader(vertexShader);
-
-            // Use the infoLog as you see fit.
-
-            REMA_ENGINE_ERROR("{0}", infoLog.data());
-            REMA_CORE_ASSERT(false, "Fragment shader compilation failure");
-            return;
-        }
-
-        // Vertex and fragment shaders are successfully compiled.
-        // Now time to link them together into a program.
-        // Get a program object.
-        m_nRendererID = glCreateProgram();
-        GLuint program = m_nRendererID;
-
-        // Attach our shaders to our program
-        glAttachShader(program, vertexShader);
-        glAttachShader(program, fragmentShader);
-
-        // Link our program
         glLinkProgram(program);
 
-        // Note the different functions here: glGetProgram* instead of glGetShader*.
         GLint isLinked = 0;
         glGetProgramiv(program, GL_LINK_STATUS, (int*)&isLinked);
         if (isLinked == GL_FALSE)
@@ -112,31 +102,72 @@ namespace RemaEngine
             GLint maxLength = 0;
             glGetProgramiv(program, GL_INFO_LOG_LENGTH, &maxLength);
 
-            // The maxLength includes the NULL character
             std::vector<GLchar> infoLog(maxLength);
             glGetProgramInfoLog(program, maxLength, &maxLength, &infoLog[0]);
 
-            // We don't need the program anymore.
             glDeleteProgram(program);
-            // Don't leak shaders either.
-            glDeleteShader(vertexShader);
-            glDeleteShader(fragmentShader);
 
-            // Use the infoLog as you see fit.
+            for (auto id : glShaderIDs) {
+                glDeleteShader(id);
+            }
 
             REMA_ENGINE_ERROR("{0}", infoLog.data());
             REMA_CORE_ASSERT(false, "Shader linkage failure");
             return;
         }
 
-        // Always detach shaders after a successful link.
-        glDetachShader(program, vertexShader);
-        glDetachShader(program, fragmentShader);
+        for (auto id : glShaderIDs) {
+            glDetachShader(program, id);
+        }
+
+        m_nRendererID = program;
     }
 
-    OpenGLShader::~OpenGLShader()
+    eastl::unordered_map<GLenum, eastl::string> OpenGLShader::PreProcess(const eastl::string& a_sSource)
     {
-        glDeleteProgram(m_nRendererID);
+        eastl::unordered_map<GLenum, eastl::string> shaderSources;
+
+        const char* typeToken = "#type";
+        size_t typeTokenLength = strlen(typeToken);
+        size_t pos = a_sSource.find(typeToken, 0);
+
+        while (pos != eastl::string::npos)
+        {
+            size_t eol = a_sSource.find_first_of("\r\n", pos);
+            REMA_CORE_ASSERT(eol != eastl::string::npos, "Syntax error.");
+            size_t begin = pos + typeTokenLength + 1;
+            eastl::string type = a_sSource.substr(begin, eol - begin);
+            REMA_CORE_ASSERT(ShaderTypeFromString(type), "Invalid shader type.");
+
+            size_t nextLinePos = a_sSource.find_first_not_of("\r\n", eol);
+            pos = a_sSource.find(typeToken, nextLinePos);
+            shaderSources[ShaderTypeFromString(type)] = a_sSource.substr(nextLinePos, 
+                pos - (nextLinePos == eastl::string::npos ? a_sSource.size() - 1 : nextLinePos));
+        }
+
+        return shaderSources;
+    }
+
+    eastl::string OpenGLShader::ReadFile(const eastl::string& a_sFilepath)
+    {
+        //TODO: make abstract filesystem
+
+        eastl::string result;
+        std::ifstream in(a_sFilepath.c_str(), std::ios::in, std::ios::binary);
+        if (in)
+        {
+            in.seekg(0, std::ios::end);
+            result.resize(in.tellg());
+            in.seekg(0, std::ios::beg);
+            in.read(&result[0], result.size());
+            in.close();
+        }
+        else
+        {
+            REMA_CORE_ASSERT("Could not open file '{0}'", a_sFilename.c_str());
+        }
+
+        return result;
     }
 
     void OpenGLShader::Bind() const

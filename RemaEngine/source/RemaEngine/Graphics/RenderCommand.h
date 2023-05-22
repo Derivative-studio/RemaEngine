@@ -32,6 +32,10 @@ namespace RemaEngine
         static RendererAPI* sm_RendererAPI;
 
     public:
+        inline static void Init() {
+            sm_RendererAPI->Init();
+        }
+
         /**
         * @brief clears the screen with the default color
         * @details dispatches RemaEngine::RendererAPI::Clear method;

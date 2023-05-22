@@ -20,8 +20,9 @@
 #define REMA_OPENGLSHADER_H
 
 #include "RemaEngine/Graphics/Shader.h"
-
 #include <glm/glm.hpp>
+
+typedef unsigned int GLenum;
 
 namespace RemaEngine
 {
@@ -30,7 +31,13 @@ namespace RemaEngine
     private:
         uint32_t m_nRendererID;
 
+    private:
+        void Compile(const eastl::unordered_map<GLenum, eastl::string>& shaderSources);
+        eastl::unordered_map<GLenum, eastl::string> PreProcess(const eastl::string& a_sSource);
+        eastl::string ReadFile(const eastl::string& a_sFilepath);
+
     public:
+        OpenGLShader(const eastl::string& a_sFilepath);
         OpenGLShader(const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc);
         virtual ~OpenGLShader();
 

@@ -35,13 +35,27 @@ namespace RemaEngine
         m_unWidth = static_cast<uint32_t>(width);
         m_unHeight = static_cast<uint32_t>(height);
 
+        GLenum internalFormat = 0, dataFormat = 0;
+        if (channels == 4)
+        {
+            internalFormat = GL_RGBA8;
+            dataFormat = GL_RGBA;
+        }
+        else if (channels == 3)
+        {
+            internalFormat = GL_RGB8;
+            dataFormat = GL_RGB;
+        }
+
+        REMA_CORE_ASSERT(internalFormat & dataFormat, "Format not supported now");
+
         glCreateTextures(GL_TEXTURE_2D, 1, &m_unRendererID);
-        glTextureStorage2D(m_unRendererID, 1, GL_SRGB8, m_unWidth, m_unHeight);
+        glTextureStorage2D(m_unRendererID, 1, internalFormat, m_unWidth, m_unHeight);
 
         glTextureParameteri(m_unRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(m_unRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
 
-        glTextureSubImage2D(m_unRendererID, 0, 0, 0, m_unWidth, m_unHeight, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glTextureSubImage2D(m_unRendererID, 0, 0, 0, m_unWidth, m_unHeight, dataFormat, GL_UNSIGNED_BYTE, data);
 
         stbi_image_free(data);
     }

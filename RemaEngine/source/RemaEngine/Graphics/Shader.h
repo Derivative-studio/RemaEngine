@@ -13,7 +13,9 @@ namespace RemaEngine
         virtual void Bind() const = 0;
         virtual void Unbind() const = 0;
 
+        static Shader* Create(const eastl::string& a_sFilepath);
         static Shader* Create(const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc);
+
     };
 }
 
