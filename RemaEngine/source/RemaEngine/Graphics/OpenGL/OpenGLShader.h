@@ -30,6 +30,7 @@ namespace RemaEngine
     {
     private:
         uint32_t m_nRendererID;
+        eastl::string m_sName;
 
     private:
         void Compile(const eastl::unordered_map<GLenum, eastl::string>& shaderSources);
@@ -38,8 +39,10 @@ namespace RemaEngine
 
     public:
         OpenGLShader(const eastl::string& a_sFilepath);
-        OpenGLShader(const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc);
+        OpenGLShader(const eastl::string& a_sName, const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc);
         virtual ~OpenGLShader();
+
+        virtual const eastl::string& GetName() const override { return m_sName; }
 
         virtual void Bind() const override;
         virtual void Unbind() const override;

@@ -27,9 +27,9 @@ namespace RemaEngine
 {
     static GLenum ShaderTypeFromString(const eastl::string& a_sType)
     {
-        if (a_sType == "vertex") 
+        if (a_sType == "vertex")
             return GL_VERTEX_SHADER;
-        if (a_sType == "fragment" || a_sType == "pixel" || a_sType == "frag") 
+        if (a_sType == "fragment" || a_sType == "pixel" || a_sType == "frag")
             return GL_FRAGMENT_SHADER;
 
         REMA_CORE_ASSERT(false, "Unknown shader type.");
@@ -41,9 +41,17 @@ namespace RemaEngine
         eastl::string shaderSource = ReadFile(a_sFilepath);
         auto shaderSources = PreProcess(shaderSource);
         Compile(shaderSources);
+
+        // Extract name from filepath
+        auto lastSlash = a_sFilepath.find_last_of("/\\");
+        lastSlash = lastSlash == eastl::string::npos ? 0 : lastSlash + 1;
+        auto lastDot = a_sFilepath.rfind('.');
+        auto count = lastDot == eastl::string::npos ? a_sFilepath.size() - lastSlash : lastDot - lastSlash;
+        m_sName = a_sFilepath.substr(lastSlash, count);
     }
 
-    OpenGLShader::OpenGLShader(const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc)
+    OpenGLShader::OpenGLShader(const eastl::string& a_sName, const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc)
+        : m_sName(a_sName)
     {
         eastl::unordered_map<GLenum, eastl::string> sources;
         sources[GL_VERTEX_SHADER] = a_sVertexSrc;
@@ -59,8 +67,11 @@ namespace RemaEngine
     void OpenGLShader::Compile(const eastl::unordered_map<GLenum, eastl::string>& shaderSources)
     {
         GLuint program = glCreateProgram();
-        eastl::vector<GLenum> glShaderIDs(shaderSources.size());
 
+        REMA_CORE_ASSERT(shaderSources.size() <= 2, "Only support 2 shaders");
+        eastl::array<GLenum, 2> glShaderIDs;
+
+        int glShaderIDsIndex = 0;
         for (auto& kv : shaderSources) {
             GLenum type = kv.first;
             const eastl::string& source = kv.second;
@@ -90,7 +101,7 @@ namespace RemaEngine
             }
 
             glAttachShader(program, shader);
-            glShaderIDs.push_back(shader);
+            glShaderIDs[glShaderIDsIndex++] = shader;
         }
 
         glLinkProgram(program);
@@ -153,7 +164,7 @@ namespace RemaEngine
         //TODO: make abstract filesystem
 
         eastl::string result;
-        std::ifstream in(a_sFilepath.c_str(), std::ios::in, std::ios::binary);
+        std::ifstream in(a_sFilepath.c_str(), std::ios::in | std::ios::binary);
         if (in)
         {
             in.seekg(0, std::ios::end);

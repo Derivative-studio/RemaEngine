@@ -16,8 +16,14 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  **/
-#ifndef REMA_ORTHOGRAPHICCAMERA_H
-#define REMA_ORTHOGRAPHICCAMERA_H
+#ifndef REMA_CAMERA_H
+#define REMA_CAMERA_H
+
+#include "RemaEngine/Engine/Timestep.h"
+
+#include "RemaEngine/Event/Event.h"
+#include "RemaEngine/Event/ApplicationEvent.h"
+#include "RemaEngine/Event/MouseEvent.h"
 
 #include <glm/glm.hpp>
 
@@ -39,7 +45,7 @@ namespace RemaEngine
         // we doesn't bother about quaternion or this kind of stuff
         // and just use float value.
         float m_fRotation = 0.0f;
-    
+
     private:
         /**
         * @brief recalculates camera view matrix
@@ -57,6 +63,7 @@ namespace RemaEngine
         OrthographicCamera(float a_fLeft, float a_fRight, float a_fBottom, float a_fTop);
         ~OrthographicCamera(){}
 
+        void SetProjection(float a_fLeft, float a_fRight, float a_fBottom, float a_fTop);
         /**
         * @brief sets camera world position
         * @param[in] a_vecPosition - coordinate for camera placement
@@ -67,7 +74,6 @@ namespace RemaEngine
         * @param[in] a_fRotation - camera angle degree
         **/
         void SetRotation(float a_fRotation) { m_fRotation = a_fRotation; RecalculateViewMatrix(); }
-
 
         /**
         * @brief gets current position of the camera
@@ -101,6 +107,39 @@ namespace RemaEngine
         float GetRotation() const { return m_fRotation; }
 
     };
+
+    ///////////////////////////////////
+    // Orthographic camera controller
+    //////////////////////////////////
+
+    class OrthographicCameraController
+    {
+    private:
+        float m_fAspectRatio = 0.0f;
+        float m_fZoomLevel = 1.0f;
+        OrthographicCamera m_stCamera;
+
+        glm::vec3 m_vecCameraPosition = { 0.0f, 0.0f, 0.0f };
+
+        bool m_bLockRotation = false;
+        float m_fCameraRotation = 0.0f;
+        float m_fCameraRotationSpeed = 1.0f;
+        float m_fCameraTranslationSpeed = 1.0f;
+
+    private:
+        bool OnMouseScrolled(MouseScrolledEvent& a_stEvent);
+        bool OnWindowResized(WindowResizedEvent& a_stEvent);
+
+    public:
+        OrthographicCameraController(float a_fAspectRatio, bool a_bLockRotation = false);
+        ~OrthographicCameraController() = default;
+
+        void OnUpdate(Timestep a_stTimestep);
+        void OnEvent(Event& a_stEvent);
+
+        OrthographicCamera& GetCamera() { return m_stCamera; }
+        const OrthographicCamera& GetCamera() const { return m_stCamera; }
+    };
 }
 
-#endif // !REMA_ORTHOGRAPHICCAMERA_H
+#endif // !REMA_CAMERA_H

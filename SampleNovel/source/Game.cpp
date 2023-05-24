@@ -1,5 +1,6 @@
 #include <RemaEngine/RemaEngine.h>
 #include <RemaEngine/Graphics/OpenGL/OpenGLShader.h>
+#include <RemaEngine/Graphics/ShaderLibrary.h>
 #include <RemaEngine/Utils/MemoryUtils.h>
 
 #include <glm/gtc/matrix_transform.hpp>
@@ -9,32 +10,18 @@
 class ExampleLayer : public RemaEngine::Layer
 {
 private:
+    RemaEngine::ShaderLibrary m_stShaderLibrary;
+
     RemaEngine::ref<RemaEngine::Shader> m_stTriangleShader;
     RemaEngine::ref<RemaEngine::Shader> m_stFlatColorShader;
 
-    RemaEngine::ref<RemaEngine::Shader> m_stTextureShader;
     RemaEngine::ref<RemaEngine::Texture2D> m_stCheckerTexture;
     RemaEngine::ref<RemaEngine::Texture2D> m_stTransparentTexture;
 
     RemaEngine::ref<RemaEngine::VertexArray> m_pTriangleVertexArray;
     RemaEngine::ref<RemaEngine::VertexArray> m_pSquareVertexArray;
 
-    RemaEngine::OrthographicCamera m_stCamera;
-    glm::vec3 m_vecCameraPosition;
-    /**
-    * @brief Initial degree of camera rotation angle.
-    **/
-    float m_fCameraRotation = 0.0f;
-    /**
-    * @brief The initial rotation speed of the camera
-    * in degrees per second.
-    **/
-    float m_fCameraRotationSpeed = 180.0f;
-    /**
-    * @brief The initial movement speed of the camera
-    * in units per second.
-    **/
-    float m_fCameraMoveSpeed = 10.0f;
+    RemaEngine::OrthographicCameraController m_stCameraController;
 
     glm::vec3 m_vecSquarePosition;
     float m_fSquareMoveSpeed = 13.0f;
@@ -43,8 +30,7 @@ private:
 
 public:
     ExampleLayer()
-        : Layer("Example"), m_stCamera(-1.6f, 1.6f, -0.9f, 0.9f), m_vecCameraPosition(0.0f),
-        m_vecSquarePosition(0.0f)
+        : Layer("Example"), m_stCameraController(1280.0f / 720.0f), m_vecSquarePosition(0.0f)
     {
         m_pTriangleVertexArray.reset(RemaEngine::VertexArray::Create());
 
@@ -129,41 +115,21 @@ public:
             }
         )";
 
-        m_stTriangleShader.reset(RemaEngine::Shader::Create(TriangleVtxShader, TriangleFragShader));
+        //m_stTriangleShader = RemaEngine::Shader::Create("TriangleShader", TriangleVtxShader, TriangleFragShader);
+        //m_stFlatColorShader = RemaEngine::Shader::Create("assets/shaders/FlatColorShader.glsl");
 
-        m_stFlatColorShader.reset(RemaEngine::Shader::Create("assets/shaders/FlatColorShader.glsl"));
-
-        m_stTextureShader.reset(RemaEngine::Shader::Create("assets/shaders/TextureShader.glsl"));
+        auto textureShader = m_stShaderLibrary.Load("assets/shaders/TextureShader.glsl");
         m_stCheckerTexture = RemaEngine::Texture2D::Create("assets/textures/checker.jpg");
         m_stTransparentTexture = RemaEngine::Texture2D::Create("assets/textures/red.png");
 
-        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stTextureShader)->Bind();
-        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stTextureShader)->UploadUniformInt("u_Texture", 0);
+        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(textureShader)->Bind();
+        RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(textureShader)->UploadUniformInt("u_Texture", 0);
 
     }
 
     void OnUpdate(RemaEngine::Timestep a_stTimestep) override
     {
-        if (RemaEngine::Input::IsKeyPressed(REMA_KEY_A)) {
-            m_vecCameraPosition.x -= m_fCameraMoveSpeed * a_stTimestep;
-        }
-        else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_D)) {
-            m_vecCameraPosition.x += m_fCameraMoveSpeed * a_stTimestep;
-        }
-
-        if (RemaEngine::Input::IsKeyPressed(REMA_KEY_S)) {
-            m_vecCameraPosition.y -= m_fCameraMoveSpeed * a_stTimestep;
-        }
-        else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_W)) {
-            m_vecCameraPosition.y += m_fCameraMoveSpeed * a_stTimestep;
-        }
-
-        if (RemaEngine::Input::IsKeyPressed(REMA_KEY_Q)) {
-            m_fCameraRotation -= m_fCameraRotationSpeed * a_stTimestep;
-        }
-        else if (RemaEngine::Input::IsKeyPressed(REMA_KEY_E)) {
-            m_fCameraRotation += m_fCameraRotationSpeed * a_stTimestep;
-        }
+        m_stCameraController.OnUpdate(a_stTimestep);
 
         if (RemaEngine::Input::IsKeyPressed(REMA_KEY_LEFT)) {
             m_vecSquarePosition.x -= m_fSquareMoveSpeed * a_stTimestep;
@@ -182,21 +148,17 @@ public:
         RemaEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
         RemaEngine::RenderCommand::Clear();
 
-        m_stCamera.SetPosition(m_vecCameraPosition);
-        m_stCamera.SetRotation(m_fCameraRotation);
-
-        RemaEngine::Renderer::BeginScene(m_stCamera);
+        RemaEngine::Renderer::BeginScene(m_stCameraController.GetCamera());
 
         glm::mat4 mtxTransform = glm::translate(glm::mat4(1.0f), m_vecSquarePosition);
 
-        //RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->Bind();
-        //RemaEngine::eastl_dynamic_pointer_cast<RemaEngine::OpenGLShader>(m_stFlatColorShader)->UploadUniformFloat3("u_Color", m_vecSquareColor);
+        auto textureShader = m_stShaderLibrary.Get("TextureShader");
 
         m_stCheckerTexture->Bind();
-        RemaEngine::Renderer::Submit(m_stTextureShader, m_pSquareVertexArray, mtxTransform);
+        RemaEngine::Renderer::Submit(textureShader, m_pSquareVertexArray, mtxTransform);
 
         m_stTransparentTexture->Bind();
-        RemaEngine::Renderer::Submit(m_stTextureShader, m_pSquareVertexArray, mtxTransform);
+        RemaEngine::Renderer::Submit(textureShader, m_pSquareVertexArray, mtxTransform);
 
         //RemaEngine::Renderer::Submit(m_stTriangleShader, m_pTriangleVertexArray);
 
@@ -212,6 +174,7 @@ public:
 
     void OnEvent(RemaEngine::Event& a_stEvent) override
     {
+        m_stCameraController.OnEvent(a_stEvent);
     }
 
 };
