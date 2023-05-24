@@ -33,6 +33,7 @@ namespace RemaEngine
     {
     public:
         virtual void Init() override;
+        virtual void SetViewport(uint32_t x, uint32_t y, uint32_t a_unWidth, uint32_t a_unHeight) override;
         /**
         * @brief OpenGL implementation of RemaEngine::RendererAPI::Clear method
         * @details to change clear color use **SetClearColor** method

@@ -49,19 +49,22 @@ namespace RemaEngine
     private:
         std::unique_ptr<Window> m_stWindow;
         ImGuiLayer* m_stpImGuiLayer;
-        bool m_bRunning = true;
         LayerStack m_stLayerStack;
         float m_fLastFrameTime = 0.0f;
 
+        bool m_bRunning = true;
+        bool m_bWindowMinimized = false;
         static Engine* s_Instance;
 
 
+    private:
         /**
         * @brief Stops the engine game loop if the application window has been closed.
         * @param[in] a_stEvent - reference to WindowClosedEvent function.
         * @returns True
         **/
         bool CloseWindow(WindowClosedEvent& a_stEvent);
+        bool ResizeWindow(WindowResizedEvent& a_stEvent);
 
     public:
         Engine();

@@ -72,6 +72,7 @@ namespace RemaEngine
     {
         EventDispatcher dispatcher(a_stEvent);
         dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Engine::CloseWindow));
+        dispatcher.Dispatch<WindowResizedEvent>(BIND_EVENT_FN(Engine::ResizeWindow));
 
         for (auto it = m_stLayerStack.end(); it != m_stLayerStack.begin();){
             (*--it)->OnEvent(a_stEvent);
@@ -89,17 +90,20 @@ namespace RemaEngine
             Timestep timestep = l_glTime - m_fLastFrameTime;
             m_fLastFrameTime = l_glTime;
 
-            for (Layer* layer : m_stLayerStack) {
-                layer->OnUpdate(timestep);
+            if (m_bWindowMinimized == false) {
+                for (Layer* layer : m_stLayerStack) {
+                    layer->OnUpdate(timestep);
+                }
+
+                m_stpImGuiLayer->Begin();
+
+                for (Layer* layer : m_stLayerStack) {
+                    layer->OnImGuiRender();
+                }
+
+                m_stpImGuiLayer->End();
             }
 
-            m_stpImGuiLayer->Begin();
-
-            for (Layer* layer : m_stLayerStack) {
-                layer->OnImGuiRender();
-            }
-
-            m_stpImGuiLayer->End();
             m_stWindow->OnUpdate();
         }
     }
@@ -109,4 +113,18 @@ namespace RemaEngine
         m_bRunning = false;
         return true;
     }
+
+    bool Engine::ResizeWindow(WindowResizedEvent& a_stEvent)
+    {
+        if (a_stEvent.GetHeight() == 0 || a_stEvent.GetWidth() == 0) {
+            m_bWindowMinimized = true;
+            return false;
+        }
+
+        m_bWindowMinimized = false;
+        Renderer::OnWindowResized(a_stEvent.GetWidth(), a_stEvent.GetHeight());
+
+        return false;
+    }
+
 }

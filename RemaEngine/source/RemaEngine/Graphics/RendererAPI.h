@@ -47,6 +47,7 @@ namespace RemaEngine
 
     public:
         virtual void Init() = 0;
+        virtual void SetViewport(uint32_t x, uint32_t y, uint32_t a_unWidth, uint32_t a_unHeight) = 0;
         /**
         * @brief clears the screen with the default color
         * @details to change clear color use **SetClearColor** method

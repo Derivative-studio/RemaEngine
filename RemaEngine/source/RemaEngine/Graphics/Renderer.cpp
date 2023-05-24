@@ -53,4 +53,9 @@ namespace RemaEngine
         a_arrVertexArray->Bind();
         RenderCommand::DrawIndexed(a_arrVertexArray);
     }
+
+    void Renderer::OnWindowResized(uint32_t a_unWidth, uint32_t a_unHeight)
+    {
+        RenderCommand::SetViewport(0, 0, a_unWidth, a_unHeight);
+    }
 }

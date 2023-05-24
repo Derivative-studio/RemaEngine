@@ -36,6 +36,10 @@ namespace RemaEngine
             sm_RendererAPI->Init();
         }
 
+        inline static void SetViewport(uint32_t x, uint32_t y, uint32_t a_unWidth, uint32_t a_unHeight) {
+            sm_RendererAPI->SetViewport(x, y, a_unWidth, a_unHeight);
+        }
+
         /**
         * @brief clears the screen with the default color
         * @details dispatches RemaEngine::RendererAPI::Clear method;

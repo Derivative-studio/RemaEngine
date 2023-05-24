@@ -43,6 +43,7 @@ namespace RemaEngine
 
     public:
         static void Init();
+
         static void BeginScene(OrthographicCamera& a_stCamera);
         static void EndScene();
         /**
@@ -54,6 +55,8 @@ namespace RemaEngine
         static void Submit(const ref<Shader>& a_stShader,
             const ref<VertexArray>& a_arrVertexArray,
             const glm::mat4& a_mtxTransofrmMatrix = glm::mat4(1.0f));
+
+        static void OnWindowResized(uint32_t a_unWidth, uint32_t a_unHeight);
 
         /**
         * @returns returns currently used graphics API
