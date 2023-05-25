@@ -24,7 +24,7 @@ namespace RemaEngine
         virtual const eastl::vector<ref<VertexBuffer>>& GetVertexBuffers() const = 0;
         virtual const ref<IndexBuffer>& GetIndexBuffer() const = 0;
 
-        static VertexArray* Create();
+        static ref<VertexArray> Create();
 
     };
 }

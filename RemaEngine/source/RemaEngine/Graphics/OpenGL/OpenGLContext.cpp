@@ -20,6 +20,18 @@ namespace RemaEngine
 
         REMA_ENGINE_INFO("OpenGL version: {0}", glGetString(GL_VERSION));
         REMA_ENGINE_INFO("OpenGL render device: {0}", glGetString(GL_RENDERER));
+
+    #ifdef REMA_ENABLE_ASSERT
+        int glVersionMajor;
+        int glVersionMinor;
+
+        glGetIntegerv(GL_MAJOR_VERSION, &glVersionMajor);
+        glGetIntegerv(GL_MINOR_VERSION, &glVersionMinor);
+
+        REMA_CORE_ASSERT(glVersionMajor > 4 || (glVersionMajor == 4 && glVersionMinor >= 5), "RemaEngine requires at least OpenGL version of 4.5!");
+
+    #endif // REMA_ENABLE_ASSERT
+
     }
 
     void OpenGLContext::SwapBuffers()

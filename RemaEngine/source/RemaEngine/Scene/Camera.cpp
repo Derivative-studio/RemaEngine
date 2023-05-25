@@ -75,17 +75,21 @@ namespace RemaEngine
     void OrthographicCameraController::OnUpdate(Timestep a_stTimestep)
     {
         if (Input::IsKeyPressed(REMA_KEY_A)) {
-            m_vecCameraPosition.x -= m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.x -= cos(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.y -= sin(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
         }
         else if (Input::IsKeyPressed(REMA_KEY_D)) {
-            m_vecCameraPosition.x += m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.x += cos(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.y += sin(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
         }
 
         if (Input::IsKeyPressed(REMA_KEY_S)) {
-            m_vecCameraPosition.y -= m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.x -= -sin(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.y -= cos(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
         }
         else if (Input::IsKeyPressed(REMA_KEY_W)) {
-            m_vecCameraPosition.y += m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.x += -sin(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
+            m_vecCameraPosition.y += cos(glm::radians(m_fCameraRotation)) * m_fCameraTranslationSpeed * a_stTimestep;
         }
 
         if (m_bLockRotation == false) {
@@ -94,6 +98,13 @@ namespace RemaEngine
             }
             else if (Input::IsKeyPressed(REMA_KEY_E)) {
                 m_fCameraRotation += m_fCameraRotationSpeed * a_stTimestep;
+            }
+
+            if (m_fCameraRotation > 180.0f) {
+                m_fCameraRotation -= 360.0f;
+            }
+            else if (m_fCameraRotation <= -180.0f) {
+                m_fCameraRotation += 360.0f;
             }
 
             m_stCamera.SetRotation(m_fCameraRotation);

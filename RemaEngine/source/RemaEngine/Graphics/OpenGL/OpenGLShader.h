@@ -42,21 +42,26 @@ namespace RemaEngine
         OpenGLShader(const eastl::string& a_sName, const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc);
         virtual ~OpenGLShader();
 
-        virtual const eastl::string& GetName() const override { return m_sName; }
-
         virtual void Bind() const override;
         virtual void Unbind() const override;
 
-        void UploadUniformInt(const eastl::string& a_sUniformName, int a_nValue);
+        virtual void SetInt(const eastl::string& a_sName, const int a_nValue) override;
+        virtual void SetFloat(const eastl::string& a_sName, const float a_fValue) override;
+        virtual void SetFloat2(const eastl::string& a_sName, const glm::vec2& a_vecValue) override;
+        virtual void SetFloat3(const eastl::string& a_sName, const glm::vec3& a_vecValue) override;
+        virtual void SetFloat4(const eastl::string& a_sName, const glm::vec4& a_vecValue) override;
+        virtual void SetMat3(const eastl::string& a_sName, const glm::mat3& a_mtxValue) override;
+        virtual void SetMat4(const eastl::string& a_sName, const glm::mat4& a_mtxValue) override;
 
+        void UploadUniformInt(const eastl::string& a_sUniformName, int a_nValue);
         void UploadUniformFloat(const eastl::string& a_sUniformName, float a_fValue);
         void UploadUniformFloat2(const eastl::string& a_sUniformName, const glm::vec2& a_vecValues);
         void UploadUniformFloat3(const eastl::string& a_sUniformName, const glm::vec3& a_vecValues);
         void UploadUniformFloat4(const eastl::string& a_sUniformName, const glm::vec4& a_vecValues);
-
         void UploadUniformMat3(const eastl::string& a_sUniformName, const glm::mat3& a_mtxMatrix);
         void UploadUniformMat4(const eastl::string& a_sUniformName, const glm::mat4& a_mtxMatrix);
 
+        virtual const eastl::string& GetName() const override { return m_sName; }
     };
 }
 

@@ -19,6 +19,7 @@
 #include "remapch.h"
 #include "RemaEngine/Graphics/Renderer.h"
 #include "RemaEngine/Graphics/RenderCommand.h"
+#include "RemaEngine/Graphics/Renderer2D.h"
 #include "RemaEngine/Graphics/OpenGL/OpenGLShader.h"
 #include "RemaEngine/Utils/MemoryUtils.h"
 
@@ -29,6 +30,7 @@ namespace RemaEngine
     void Renderer::Init()
     {
         RenderCommand::Init();
+        Renderer2D::Init();
     }
 
     void Renderer::BeginScene(OrthographicCamera& a_stCamera)

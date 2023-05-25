@@ -1,7 +1,10 @@
+#include "SampleNovel/Sample2D.h"
+
 #include <RemaEngine/RemaEngine.h>
 #include <RemaEngine/Graphics/OpenGL/OpenGLShader.h>
 #include <RemaEngine/Graphics/ShaderLibrary.h>
 #include <RemaEngine/Utils/MemoryUtils.h>
+#include <RemaEngine/Engine/EntryPoint.h>
 
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
@@ -32,7 +35,7 @@ public:
     ExampleLayer()
         : Layer("Example"), m_stCameraController(1280.0f / 720.0f), m_vecSquarePosition(0.0f)
     {
-        m_pTriangleVertexArray.reset(RemaEngine::VertexArray::Create());
+        m_pTriangleVertexArray = RemaEngine::VertexArray::Create();
 
         float TriangleVertices[3 * 7] = {
             -0.5f, -0.5f, 0.0f, 0.3f, 0.4f, 0.2f, 1.0f,
@@ -55,7 +58,7 @@ public:
         m_pTriangleIndexBuffer.reset(RemaEngine::IndexBuffer::Create(indices, sizeof(indices) / sizeof(uint32_t)));
         m_pTriangleVertexArray->SetIndexBuffer(m_pTriangleIndexBuffer);
 
-        m_pSquareVertexArray.reset(RemaEngine::VertexArray::Create());
+        m_pSquareVertexArray = RemaEngine::VertexArray::Create();
 
         float SquareVertices[5 * 4] = {
            -0.75f, -0.75f, 0.0f, 0.0f, 0.0f,
@@ -184,7 +187,8 @@ class Game : public RemaEngine::Engine
 public:
     Game()
     {
-        PushLayer(new ExampleLayer());
+        //PushLayer(new ExampleLayer());
+        PushLayer(new Sample2D());
     }
 
     ~Game()

@@ -191,6 +191,41 @@ namespace RemaEngine
         glUseProgram(0);
     }
 
+    void OpenGLShader::SetInt(const eastl::string& a_sName, const int a_nValue)
+    {
+        UploadUniformInt(a_sName, a_nValue);
+    }
+
+    void OpenGLShader::SetFloat(const eastl::string& a_sName, const float a_fValue)
+    {
+        UploadUniformFloat(a_sName, a_fValue);
+    }
+
+    void OpenGLShader::SetFloat2(const eastl::string& a_sName, const glm::vec2& a_vecValue)
+    {
+        UploadUniformFloat2(a_sName, a_vecValue);
+    }
+
+    void OpenGLShader::SetFloat3(const eastl::string& a_sName, const glm::vec3& a_vecValue)
+    {
+        UploadUniformFloat3(a_sName, a_vecValue);
+    }
+
+    void OpenGLShader::SetFloat4(const eastl::string& a_sName, const glm::vec4& a_vecValue)
+    {
+        UploadUniformFloat4(a_sName, a_vecValue);
+    }
+
+    void OpenGLShader::SetMat3(const eastl::string& a_sName, const glm::mat3& a_mtxValue)
+    {
+        UploadUniformMat3(a_sName, a_mtxValue);
+    }
+
+    void OpenGLShader::SetMat4(const eastl::string& a_sName, const glm::mat4& a_mtxValue)
+    {
+        UploadUniformMat4(a_sName, a_mtxValue);
+    }
+
     void OpenGLShader::UploadUniformInt(const eastl::string& a_sUniformName, int a_nValue)
     {
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());

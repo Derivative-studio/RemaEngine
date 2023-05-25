@@ -13,16 +13,14 @@
 #include "RemaEngine/IO/MouseButtonCodeDefinitions.h"
 
 #include "RemaEngine/Graphics/Renderer.h"
+#include "RemaEngine/Graphics/Renderer2D.h"
 #include "RemaEngine/Graphics/RenderCommand.h"
 #include "RemaEngine/Graphics/VertexArray.h"
 #include "RemaEngine/Graphics/IndexBuffer.h"
 #include "RemaEngine/Graphics/BufferLayout.h"
-#include "RemaEngine/Graphics/Shader.h"
+#include "RemaEngine/Graphics/ShaderLibrary.h"
 #include "RemaEngine/Graphics/Texture.h"
 
 #include "RemaEngine/Scene/Camera.h"
-
-// Should always be at the bottom of this file
-#include "RemaEngine/Engine/EntryPoint.h"
 
 #endif // !REMA_REMA_ENGINE_H

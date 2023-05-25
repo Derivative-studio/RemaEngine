@@ -86,8 +86,12 @@ project "RemaEngine"
         }
 
     filter "configurations:Debug"
-        defines "REMA_DEBUG"
         symbols "on"
+
+        defines 
+        {
+            "REMA_DEBUG"
+        }
 
     filter "configurations:Release"
         defines "REMA_RELEASE"
@@ -119,6 +123,7 @@ project "SampleNovel"
     {
         "RemaEngine/thirdparty/spdlog/include",
         "RemaEngine/source",
+        "SampleNovel/source",
         "%{IncludeThirdpartyDirs.glm}",
         "%{IncludeThirdpartyDirs.ImGui}",
         "%{IncludeThirdpartyDirs.EASTL}",
