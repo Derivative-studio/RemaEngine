@@ -23,12 +23,25 @@
 
 namespace RemaEngine
 {
+    ref<Texture2D> Texture2D::Create(uint32_t a_unWidth, uint32_t a_unHeight)
+    {
+        switch (Renderer::GetAPI())
+        {
+        case RendererAPI::API::None: REMA_CORE_ASSERT(false, "This renderer api is not supported for now"); return nullptr;
+        case RendererAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(a_unWidth, a_unHeight);
+        case RendererAPI::API::DirectX: REMA_CORE_ASSERT(false, "DirectX renderer API is not supported for now");
+        }
+
+        REMA_CORE_ASSERT(false, "Unknown renderer API");
+        return nullptr;
+    }
+
     ref<Texture2D> Texture2D::Create(const eastl::string& a_sPath)
     {
         switch (Renderer::GetAPI())
         {
             case RendererAPI::API::None: REMA_CORE_ASSERT(false, "This renderer api is not supported for now"); return nullptr;
-            case RendererAPI::API::OpenGL: return eastl::make_shared<OpenGLTexture2D>(a_sPath);
+            case RendererAPI::API::OpenGL: return CreateRef<OpenGLTexture2D>(a_sPath);
             case RendererAPI::API::DirectX: REMA_CORE_ASSERT(false, "DirectX renderer API is not supported for now");
         }
 

@@ -30,15 +30,19 @@ namespace RemaEngine
         virtual uint32_t GetHeight() const = 0;
         virtual uint32_t GetRendererID() const = 0;
 
+        virtual void SetData(void* a_Data, uint32_t a_unSize) = 0;
+
         virtual eastl::string GetPath() const = 0;
 
-        virtual void Bind(uint32_t m_unSlot = 0) const = 0;
+        virtual void Bind(uint32_t a_unSlot = 0) const = 0;
+        virtual void Unbind(uint32_t a_unSlot = 0) const = 0;
 
     };
 
     class Texture2D : public Texture
     {
     public:
+        static ref<Texture2D> Create(uint32_t a_unWidth, uint32_t a_unHeight);
         static ref<Texture2D> Create(const eastl::string& a_sPath);
 
 

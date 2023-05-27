@@ -20,6 +20,7 @@
 #define REMA_OPENGLTEXTURE_H
 
 #include "RemaEngine/Graphics/Texture.h"
+#include <glad/glad.h>
 
 namespace RemaEngine
 {
@@ -32,16 +33,23 @@ namespace RemaEngine
         uint32_t m_unHeight;
         uint32_t m_unRendererID;
 
+        GLenum m_eInternalFormat;
+        GLenum m_eDataFormat;
+
     public:
         OpenGLTexture2D(const eastl::string& a_sPath);
+        OpenGLTexture2D(uint32_t a_unWidth, uint32_t a_unHeight);
         ~OpenGLTexture2D();
+
+        virtual void SetData(void* a_Data, uint32_t a_unSize) override;
 
         virtual uint32_t GetWidth() const override { return m_unWidth; }
         virtual uint32_t GetHeight() const override { return m_unHeight; }
         virtual uint32_t GetRendererID() const override { return m_unRendererID; }
         virtual eastl::string GetPath() const override { return m_sPath; }
 
-        virtual void Bind(uint32_t m_unSlot) const override;
+        virtual void Bind(uint32_t a_unSlot) const override;
+        virtual void Unbind(uint32_t a_unSlot) const override;
 
     };
 }

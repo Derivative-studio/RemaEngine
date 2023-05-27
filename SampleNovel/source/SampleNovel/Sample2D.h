@@ -24,6 +24,7 @@ class Sample2D : public RemaEngine::Layer
 private:
     RemaEngine::ShaderLibrary m_stShaderLibrary;
     RemaEngine::ref<RemaEngine::Shader> m_stFlatColorShader;
+    RemaEngine::ref<RemaEngine::Texture2D> m_stCheckerTexture;
 
     glm::vec3 m_vecSquarePosition;
     float m_fSquareMoveSpeed = 13.0f;

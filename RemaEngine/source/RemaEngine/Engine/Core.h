@@ -53,9 +53,17 @@ namespace RemaEngine
 {
     template<typename _Ty>
     using scope = eastl::unique_ptr<_Ty>;
+    template<typename _Ty, typename ..._Args>
+    constexpr scope<_Ty> CreateScope(_Args&& ... args) {
+        return eastl::make_unique<_Ty>(std::forward<_Args>(args)...);
+    }
 
     template<typename _Ty>
     using ref = eastl::shared_ptr<_Ty>;
+    template<typename _Ty, typename ..._Args>
+    constexpr ref<_Ty> CreateRef(_Args&& ... args) {
+        return eastl::make_shared<_Ty>(std::forward<_Args>(args)...);
+    }
 }
 
 #endif // !REMA_ENGINE_PLATFORM_SETUP_H

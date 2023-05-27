@@ -19,6 +19,7 @@
 #ifndef REMA_RENDERER2D_H
 #define REMA_RENDERER2D_H
 
+#include "RemaEngine/Graphics/Texture.h"
 #include "RemaEngine/Scene/Camera.h"
 
 namespace RemaEngine
@@ -35,6 +36,8 @@ namespace RemaEngine
         // Primitives
         static void DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
         static void DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
+        static void DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture);
+        static void DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture);
         static void DrawTriangle(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
         static void DrawCircle(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
 

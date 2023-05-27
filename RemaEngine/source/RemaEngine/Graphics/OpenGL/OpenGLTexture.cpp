@@ -20,10 +20,24 @@
 #include "RemaEngine/Graphics/OpenGL/OpenGLTexture.h"
 
 #include <stb/graphics/stb_image.h>
-#include <glad/glad.h>
 
 namespace RemaEngine
 {
+    OpenGLTexture2D::OpenGLTexture2D(uint32_t a_unWidth, uint32_t a_unHeight)
+        : m_unWidth(a_unWidth), m_unHeight(a_unHeight)
+    {
+        m_eInternalFormat = GL_RGBA8, m_eDataFormat = GL_RGBA;
+
+        glCreateTextures(GL_TEXTURE_2D, 1, &m_unRendererID);
+        glTextureStorage2D(m_unRendererID, 1, m_eInternalFormat, m_unWidth, m_unHeight);
+
+        glTextureParameteri(m_unRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+        glTextureParameteri(m_unRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glTextureParameteri(m_unRendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTextureParameteri(m_unRendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    }
+
     OpenGLTexture2D::OpenGLTexture2D(const eastl::string& a_sPath)
         : m_sPath(a_sPath)
     {
@@ -47,6 +61,9 @@ namespace RemaEngine
             dataFormat = GL_RGB;
         }
 
+        m_eInternalFormat = internalFormat;
+        m_eDataFormat = dataFormat;
+
         REMA_CORE_ASSERT(internalFormat & dataFormat, "Format not supported now");
 
         glCreateTextures(GL_TEXTURE_2D, 1, &m_unRendererID);
@@ -54,6 +71,9 @@ namespace RemaEngine
 
         glTextureParameteri(m_unRendererID, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
         glTextureParameteri(m_unRendererID, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+
+        glTextureParameteri(m_unRendererID, GL_TEXTURE_WRAP_S, GL_REPEAT);
+        glTextureParameteri(m_unRendererID, GL_TEXTURE_WRAP_T, GL_REPEAT);
 
         glTextureSubImage2D(m_unRendererID, 0, 0, 0, m_unWidth, m_unHeight, dataFormat, GL_UNSIGNED_BYTE, data);
 
@@ -65,8 +85,24 @@ namespace RemaEngine
         glDeleteTextures(1, &m_unRendererID);
     }
 
-    void OpenGLTexture2D::Bind(uint32_t m_unSlot) const
+    void OpenGLTexture2D::SetData(void* a_Data, uint32_t a_unSize)
     {
-        glBindTextureUnit(m_unSlot, m_unRendererID);
+        uint32_t bpp = m_eDataFormat == GL_RGBA ? 4 : 3;
+        REMA_CORE_ASSERT(a_unSize == m_unWidth * m_unHeight * bpp, "Data mus be entire texture");
+        glTextureSubImage2D(
+            m_unRendererID, 0, 0, 0, 
+            m_unWidth, m_unHeight,
+            m_eDataFormat, GL_UNSIGNED_BYTE,
+            a_Data);
+    }
+
+    void OpenGLTexture2D::Bind(uint32_t a_unSlot) const
+    {
+        glBindTextureUnit(a_unSlot, m_unRendererID);
+    }
+
+    void OpenGLTexture2D::Unbind(uint32_t a_unSlot) const
+    {
+        glBindTextureUnit(a_unSlot, 0);
     }
 }

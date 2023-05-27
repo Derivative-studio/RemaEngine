@@ -11,7 +11,7 @@ Sample2D::Sample2D()
 
 void Sample2D::OnAttach()
 {
-
+    m_stCheckerTexture = RemaEngine::Texture2D::Create("assets/textures/checker.jpg");
 }
 
 void Sample2D::OnDetach()
@@ -31,6 +31,7 @@ void Sample2D::OnUpdate(RemaEngine::Timestep a_stTimestep)
     RemaEngine::Renderer2D::BeginScene(m_stCameraController.GetCamera());
     RemaEngine::Renderer2D::DrawQuad({ -1.0f, 0.0f}, { 0.8f, 0.8f }, {0.8f, 0.2f, 0.3f, 1.0f});
     RemaEngine::Renderer2D::DrawQuad({ 0.5f, -0.5f}, { 0.5f, 0.75f }, {0.2f, 0.3f, 0.8f, 1.0f});
+    RemaEngine::Renderer2D::DrawQuad({ 0.2f, 0.5f}, { 0.5f, 0.5f }, m_stCheckerTexture);
     RemaEngine::Renderer2D::EndScene();
 }
 
