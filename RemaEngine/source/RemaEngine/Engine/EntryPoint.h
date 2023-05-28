@@ -34,9 +34,17 @@ int main(int argc, char** argv)
     RemaEngine::Logger::Init();
     REMA_ENGINE_INFO("Initializing engine...");
 
+    REMA_BEGIN_PROFILE_SESSION("Startup", "ProfileRemaProfile-Startup.json");
     auto app = RemaEngine::CreateApplication();
+    REMA_END_PROFILE_SESSION();
+
+    REMA_BEGIN_PROFILE_SESSION("Runtime", "RemaProfile-Runtime.json");
     app->Run();
+    REMA_END_PROFILE_SESSION();
+
+    REMA_BEGIN_PROFILE_SESSION("Shutdown", "RemaProfile-Shutdown.json");
     delete app;
+    REMA_END_PROFILE_SESSION();
 }
 
 #endif // REMA_WIN

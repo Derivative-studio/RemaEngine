@@ -8,6 +8,9 @@
 #include "RemaEngine/Gui/ImGuiLayer.h"
 #include "RemaEngine/System/Logger.h"
 
+#include "RemaEngine/Utils/Instrumentor.h"
+#include "RemaEngine/Utils/MemoryUtils.h"
+
 #include "RemaEngine/IO/Input.h"
 #include "RemaEngine/IO/KeyCodeDefinitions.h"
 #include "RemaEngine/IO/MouseButtonCodeDefinitions.h"

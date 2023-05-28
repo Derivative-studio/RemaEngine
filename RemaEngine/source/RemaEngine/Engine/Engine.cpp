@@ -49,6 +49,8 @@ namespace RemaEngine
         m_stpImGuiLayer = new ImGuiLayer();
         PushOverlay(m_stpImGuiLayer);
 
+        m_stFPSCounter = eastl::make_shared<FPSCounter>();
+
     }
 
     Engine::~Engine()
@@ -86,13 +88,16 @@ namespace RemaEngine
     {
         while (m_bRunning)
         {
-            float l_glTime = static_cast<float>(glfwGetTime());
-            Timestep timestep = l_glTime - m_fLastFrameTime;
-            m_fLastFrameTime = l_glTime;
+            //float l_glTime = static_cast<float>(glfwGetTime());
+            //Timestep timestep = l_glTime - m_fLastFrameTime;
+            //m_fLastFrameTime = l_glTime;
+            m_stFPSCounter->AddFrame();
+
+            REMA_ENGINE_INFO("{0} fps", m_stFPSCounter->GetFPSInt());
 
             if (m_bWindowMinimized == false) {
                 for (Layer* layer : m_stLayerStack) {
-                    layer->OnUpdate(timestep);
+                    layer->OnUpdate(m_stFPSCounter->GetTimestep());
                 }
 
                 m_stpImGuiLayer->Begin();
@@ -126,5 +131,37 @@ namespace RemaEngine
 
         return false;
     }
+
+    //////////////////////
+    // FPS Counter
+    //////////////////////
+
+    FPSCounter::FPSCounter()
+    {
+        m_nFrameCounter = 0;
+
+        m_fFPS = 60.0f;
+        m_fUpdateRate = 1.0f;
+        m_fLastFrameTime = 0.0f;
+
+        m_fGLTime = static_cast<float>(glfwGetTime());
+        m_stCurrTimestep = m_fGLTime - m_fLastFrameTime;
+        m_fLastFrameTime = m_fGLTime;
+    }
+
+    void FPSCounter::AddFrame()
+    {
+        m_fGLTime = static_cast<float>(glfwGetTime());
+        m_stCurrTimestep = m_fGLTime - m_fLastFrameTime;
+        m_fLastFrameTime = m_fGLTime;
+
+        m_nFrameCounter++;
+
+        if (m_fLastFrameTime >= m_fUpdateRate) {
+            m_fFPS = static_cast<float>(m_nFrameCounter / m_stCurrTimestep.GetSeconds());
+            m_nFrameCounter = 0;
+        }
+    }
+
 
 }

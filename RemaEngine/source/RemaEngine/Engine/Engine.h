@@ -40,6 +40,31 @@
 
 namespace RemaEngine
 {
+    class REMA_API FPSCounter
+    {
+    private:
+        int m_nFrameCounter;
+
+        float m_fFPS;
+        float m_fUpdateRate;
+        float m_fLastFrameTime;
+        float m_fGLTime;
+
+        Timestep m_stCurrTimestep;
+
+    public:
+        FPSCounter();
+        ~FPSCounter() = default;
+
+        void AddFrame();
+
+        Timestep GetTimestep() const { return m_stCurrTimestep; }
+        float GetLastFrameTime() const { return m_fLastFrameTime; }
+        float GetFPSFLoat() const { return m_fFPS; }
+        int GetFPSInt() const { return static_cast<int>(m_fFPS); }
+
+    };
+
     /**
      * @class RemaEngine::Engine
      * @brief A class which implements main engine singleton class.
@@ -55,6 +80,8 @@ namespace RemaEngine
         bool m_bRunning = true;
         bool m_bWindowMinimized = false;
         static Engine* s_Instance;
+
+        ref<FPSCounter> m_stFPSCounter;
 
 
     private:

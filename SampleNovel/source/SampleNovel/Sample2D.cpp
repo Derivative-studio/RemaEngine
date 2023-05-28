@@ -21,18 +21,29 @@ void Sample2D::OnDetach()
 
 void Sample2D::OnUpdate(RemaEngine::Timestep a_stTimestep)
 {
+    REMA_PROFILE_FUNCTION("Sample2D::OnUpdate");
+
     // Update
-    m_stCameraController.OnUpdate(a_stTimestep);
+    {
+        REMA_SET_PROFILE_SCOPE("CameraController Update");
+        m_stCameraController.OnUpdate(a_stTimestep);
+    }
 
     // Render
-    RemaEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
-    RemaEngine::RenderCommand::Clear();
+    {
+        REMA_SET_PROFILE_SCOPE("Prerender");
+        RemaEngine::RenderCommand::SetClearColor({ 0.1f, 0.1f, 0.1f, 1.0f });
+        RemaEngine::RenderCommand::Clear();
+    }
 
-    RemaEngine::Renderer2D::BeginScene(m_stCameraController.GetCamera());
-    RemaEngine::Renderer2D::DrawQuad({ -1.0f, 0.0f}, { 0.8f, 0.8f }, {0.8f, 0.2f, 0.3f, 1.0f});
-    RemaEngine::Renderer2D::DrawQuad({ 0.5f, -0.5f}, { 0.5f, 0.75f }, {0.2f, 0.3f, 0.8f, 1.0f});
-    RemaEngine::Renderer2D::DrawQuad({ 0.2f, 0.5f}, { 0.5f, 0.5f }, m_stCheckerTexture);
-    RemaEngine::Renderer2D::EndScene();
+    {
+        REMA_SET_PROFILE_SCOPE("Render call");
+        RemaEngine::Renderer2D::BeginScene(m_stCameraController.GetCamera());
+        RemaEngine::Renderer2D::DrawQuad({ -1.0f, 0.0f}, { 0.8f, 0.8f }, {0.8f, 0.2f, 0.3f, 1.0f});
+        RemaEngine::Renderer2D::DrawQuad({ 0.5f, -0.5f}, { 0.5f, 0.75f }, {0.2f, 0.3f, 0.8f, 1.0f});
+        RemaEngine::Renderer2D::DrawQuad({ 0.2f, 0.5f}, { 0.5f, 0.5f }, m_stCheckerTexture);
+        RemaEngine::Renderer2D::EndScene();
+    }
 }
 
 void Sample2D::OnEvent(RemaEngine::Event& a_stEvent)

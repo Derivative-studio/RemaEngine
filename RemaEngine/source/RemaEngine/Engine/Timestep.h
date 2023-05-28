@@ -53,7 +53,7 @@ namespace RemaEngine
         * @return float
         **/
         float GetMilliseconds() const { return m_fTime * 1000.0f; }
-        
+
         /**
         * @brief Overloads float() cast for Timestep class.
         * @returns The delta time in seconds.

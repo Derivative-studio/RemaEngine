@@ -34,6 +34,7 @@
 // Engine
 #include <RemaEngine/Engine/Core.h>
 #include <RemaEngine/System/Logger.h>
+#include <RemaEngine/Utils/Instrumentor.h>
 
 #ifdef REMA_WIN
     #include <Windows.h>
