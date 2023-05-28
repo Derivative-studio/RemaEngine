@@ -29,8 +29,15 @@ namespace RemaEngine
 
     void Renderer::Init()
     {
+        REMA_PROFILE_FUNCTION();
+
         RenderCommand::Init();
         Renderer2D::Init();
+    }
+
+    void Renderer::Shutdown()
+    {
+        Renderer2D::Shutdown();
     }
 
     void Renderer::BeginScene(OrthographicCamera& a_stCamera)

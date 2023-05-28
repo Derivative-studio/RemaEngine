@@ -14,6 +14,8 @@ namespace RemaEngine
 
     void OpenGLContext::Init()
     {
+        REMA_PROFILE_FUNCTION();
+
         glfwMakeContextCurrent(m_stHWindow);
         int status = gladLoadGLLoader((GLADloadproc)glfwGetProcAddress);
         REMA_CORE_ASSERT(status, "Failed to initialize GLAD");
@@ -36,6 +38,8 @@ namespace RemaEngine
 
     void OpenGLContext::SwapBuffers()
     {
+        REMA_PROFILE_FUNCTION();
+
         glfwSwapBuffers(m_stHWindow);
     }
 }

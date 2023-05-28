@@ -11,12 +11,14 @@ Sample2D::Sample2D()
 
 void Sample2D::OnAttach()
 {
-    m_stCheckerTexture = RemaEngine::Texture2D::Create("assets/textures/checker.jpg");
+    REMA_PROFILE_FUNCTION();
+
+    m_stCheckerTexture = RemaEngine::Texture2D::Create("assets/textures/red.png");
 }
 
 void Sample2D::OnDetach()
 {
-
+    REMA_PROFILE_FUNCTION();
 }
 
 void Sample2D::OnUpdate(RemaEngine::Timestep a_stTimestep)
@@ -53,6 +55,8 @@ void Sample2D::OnEvent(RemaEngine::Event& a_stEvent)
 
 void Sample2D::OnImGuiRender()
 {
+    REMA_PROFILE_FUNCTION();
+
     ImGui::Begin("Settings");
     ImGui::ColorEdit4("Square Color", glm::value_ptr(m_vecSquareColor));
     ImGui::End();

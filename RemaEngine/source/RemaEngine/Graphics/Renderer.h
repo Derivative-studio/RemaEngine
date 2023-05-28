@@ -43,6 +43,7 @@ namespace RemaEngine
 
     public:
         static void Init();
+        static void Shutdown();
 
         static void BeginScene(OrthographicCamera& a_stCamera);
         static void EndScene();

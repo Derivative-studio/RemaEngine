@@ -40,6 +40,8 @@ namespace RemaEngine
 
     void Renderer2D::Init()
     {
+        REMA_PROFILE_FUNCTION();
+
         s_stRenderData = new Renderer2DStorage();
         s_stRenderData->QuadVertexArray = VertexArray::Create();
 
@@ -77,18 +79,22 @@ namespace RemaEngine
 
     void Renderer2D::Shutdown()
     {
+        REMA_PROFILE_FUNCTION();
+
         delete s_stRenderData;
     }
 
     void Renderer2D::BeginScene(const OrthographicCamera& m_stOrthoCamera)
     {
+        REMA_PROFILE_FUNCTION();
+
         s_stRenderData->TextureShader->Bind();
         s_stRenderData->TextureShader->SetMat4("u_ViewProjection",m_stOrthoCamera.GetViewProjectionMatrix());
     }
 
     void Renderer2D::EndScene()
     {
-
+        REMA_PROFILE_FUNCTION();
     }
 
     void Renderer2D::DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor)
@@ -98,7 +104,10 @@ namespace RemaEngine
 
     void Renderer2D::DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor)
     {
+        REMA_PROFILE_FUNCTION();
+
         s_stRenderData->TextureShader->SetFloat4("u_Color", a_vecColor);
+        s_stRenderData->TextureShader->SetFloat("u_TilingFactor", 1.0f);
         s_stRenderData->WhiteTexture->Bind();
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), a_vecPosition) *
@@ -116,7 +125,10 @@ namespace RemaEngine
 
     void Renderer2D::DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture)
     {
+        REMA_PROFILE_FUNCTION();
+
         s_stRenderData->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
+        s_stRenderData->TextureShader->SetFloat("u_TilingFactor", 1.0f);
         a_pTexture->Bind();
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), a_vecPosition) *

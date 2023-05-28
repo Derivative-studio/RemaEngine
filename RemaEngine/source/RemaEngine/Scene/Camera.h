@@ -86,13 +86,19 @@ namespace RemaEngine
         * @returns camera projection matrix
         * @return glm::mat4&
         **/
-        const glm::mat4& GetProjectionMatrix() const { return m_mtxProjectionMatrix; }
+        const glm::mat4& GetProjectionMatrix() const { 
+            REMA_PROFILE_FUNCTION();
+            return m_mtxProjectionMatrix; 
+        }
         /**
         * @brief gets camera view projection matrix
         * @returns camera view projection matrix
         * @return glm::mat4&
         **/
-        const glm::mat4& GetViewProjectionMatrix() const { return m_mtxVievProjectionMatrix; }
+        const glm::mat4& GetViewProjectionMatrix() const { 
+            REMA_PROFILE_FUNCTION();
+            return m_mtxVievProjectionMatrix; 
+        }
         /**
         * @brief gets camera view matrix
         * @returns camera view matrix

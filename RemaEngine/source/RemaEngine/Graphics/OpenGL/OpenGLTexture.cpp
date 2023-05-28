@@ -26,6 +26,8 @@ namespace RemaEngine
     OpenGLTexture2D::OpenGLTexture2D(uint32_t a_unWidth, uint32_t a_unHeight)
         : m_unWidth(a_unWidth), m_unHeight(a_unHeight)
     {
+        REMA_PROFILE_FUNCTION();
+
         m_eInternalFormat = GL_RGBA8, m_eDataFormat = GL_RGBA;
 
         glCreateTextures(GL_TEXTURE_2D, 1, &m_unRendererID);
@@ -41,6 +43,8 @@ namespace RemaEngine
     OpenGLTexture2D::OpenGLTexture2D(const eastl::string& a_sPath)
         : m_sPath(a_sPath)
     {
+        REMA_PROFILE_FUNCTION();
+
         int width, height, channels;
         stbi_set_flip_vertically_on_load(1);
         stbi_uc* data = stbi_load(a_sPath.c_str(), &width, &height, &channels, 0);
@@ -82,11 +86,15 @@ namespace RemaEngine
 
     OpenGLTexture2D::~OpenGLTexture2D()
     {
+        REMA_PROFILE_FUNCTION();
+
         glDeleteTextures(1, &m_unRendererID);
     }
 
     void OpenGLTexture2D::SetData(void* a_Data, uint32_t a_unSize)
     {
+        REMA_PROFILE_FUNCTION();
+
         uint32_t bpp = m_eDataFormat == GL_RGBA ? 4 : 3;
         REMA_CORE_ASSERT(a_unSize == m_unWidth * m_unHeight * bpp, "Data mus be entire texture");
         glTextureSubImage2D(
@@ -98,11 +106,15 @@ namespace RemaEngine
 
     void OpenGLTexture2D::Bind(uint32_t a_unSlot) const
     {
+        REMA_PROFILE_FUNCTION();
+
         glBindTextureUnit(a_unSlot, m_unRendererID);
     }
 
     void OpenGLTexture2D::Unbind(uint32_t a_unSlot) const
     {
+        REMA_PROFILE_FUNCTION();
+
         glBindTextureUnit(a_unSlot, 0);
     }
 }

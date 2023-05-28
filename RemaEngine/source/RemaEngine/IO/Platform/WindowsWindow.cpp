@@ -22,22 +22,25 @@ namespace RemaEngine
 
     WindowsWindow::WindowsWindow(const WindowProps& a_stWndwProps)
     {
+        REMA_PROFILE_FUNCTION();
+
         Init(a_stWndwProps);
     }
 
     WindowsWindow::~WindowsWindow()
     {
+        REMA_PROFILE_FUNCTION();
+
         Shutdown();
     }
 
     void WindowsWindow::Init(const WindowProps& a_stWndwProps)
     {
+        REMA_PROFILE_FUNCTION();
+
         m_stWndwData.m_sTitle = a_stWndwProps.m_sTitle;
         m_stWndwData.m_u32Width = a_stWndwProps.m_u32Width;
         m_stWndwData.m_u32Height = a_stWndwProps.m_u32Height;
-
-        /*REMA_ENGINE_INFO("Creating window {0} ({1}x{2})",
-            m_stWndwData.m_sTitle, m_stWndwData.m_u32Width, m_stWndwData.m_u32Height);*/
 
         if (!s_GLFWInitialized)
         {
@@ -47,12 +50,16 @@ namespace RemaEngine
             s_GLFWInitialized = true;
         }
 
-        m_stGLFWWindow = glfwCreateWindow(
-            (int)m_stWndwData.m_u32Width,
-            (int)m_stWndwData.m_u32Height,
-            m_stWndwData.m_sTitle.c_str(),
-            nullptr, nullptr
-        );
+        {
+            REMA_SET_PROFILE_SCOPE("glfwCreateWindow");
+
+            m_stGLFWWindow = glfwCreateWindow(
+                (int)m_stWndwData.m_u32Width,
+                (int)m_stWndwData.m_u32Height,
+                m_stWndwData.m_sTitle.c_str(),
+                nullptr, nullptr
+            );
+        }
 
         m_stRenderContext = new OpenGLContext(m_stGLFWWindow);
         m_stRenderContext->Init();
@@ -152,17 +159,23 @@ namespace RemaEngine
 
     void WindowsWindow::Shutdown()
     {
+        REMA_PROFILE_FUNCTION();
+
         glfwDestroyWindow(m_stGLFWWindow);
     }
 
     void WindowsWindow::OnUpdate()
     {
+        REMA_PROFILE_FUNCTION();
+
         glfwPollEvents();
         m_stRenderContext->SwapBuffers();
     }
 
     void WindowsWindow::SetVSync(bool a_bEnabled)
     {
+        REMA_PROFILE_FUNCTION();
+
         if (a_bEnabled)
         {
             glfwSwapInterval(1);

@@ -38,6 +38,8 @@ namespace RemaEngine
 
     Engine::Engine()
     {
+        REMA_PROFILE_FUNCTION();
+
         REMA_CORE_ASSERT(s_Instance, "Engine instance already exists");
         s_Instance = this;
 
@@ -55,23 +57,31 @@ namespace RemaEngine
 
     Engine::~Engine()
     {
+        REMA_PROFILE_FUNCTION();
 
+        Renderer::Shutdown();
     }
 
     void Engine::PushLayer(Layer* a_stLayer)
     {
+        REMA_PROFILE_FUNCTION();
+
         m_stLayerStack.PushLayer(a_stLayer);
         a_stLayer->OnAttach();
     }
 
     void Engine::PushOverlay(Layer* a_stOverlay)
     {
+        REMA_PROFILE_FUNCTION();
+
         m_stLayerStack.PushOverlay(a_stOverlay);
         a_stOverlay->OnAttach();
     }
 
     void Engine::OnEvent(Event& a_stEvent)
     {
+        REMA_PROFILE_FUNCTION();
+
         EventDispatcher dispatcher(a_stEvent);
         dispatcher.Dispatch<WindowClosedEvent>(BIND_EVENT_FN(Engine::CloseWindow));
         dispatcher.Dispatch<WindowResizedEvent>(BIND_EVENT_FN(Engine::ResizeWindow));
@@ -86,24 +96,34 @@ namespace RemaEngine
 
     void Engine::Run()
     {
+        REMA_PROFILE_FUNCTION();
+
         while (m_bRunning)
         {
+            REMA_SET_PROFILE_SCOPE("EngineRunLoop");
+
             //float l_glTime = static_cast<float>(glfwGetTime());
             //Timestep timestep = l_glTime - m_fLastFrameTime;
             //m_fLastFrameTime = l_glTime;
             m_stFPSCounter->AddFrame();
 
-            REMA_ENGINE_INFO("{0} fps", m_stFPSCounter->GetFPSInt());
+            if (m_bWindowMinimized == false) 
+            {
+                {
+                    REMA_SET_PROFILE_SCOPE("Layer::OnUpdate");
 
-            if (m_bWindowMinimized == false) {
-                for (Layer* layer : m_stLayerStack) {
-                    layer->OnUpdate(m_stFPSCounter->GetTimestep());
+                    for (Layer* layer : m_stLayerStack) {
+                        layer->OnUpdate(m_stFPSCounter->GetTimestep());
+                    }
                 }
 
                 m_stpImGuiLayer->Begin();
+                {
+                    REMA_SET_PROFILE_SCOPE("ImGuiLayer::OnUpdate");
 
-                for (Layer* layer : m_stLayerStack) {
-                    layer->OnImGuiRender();
+                    for (Layer* layer : m_stLayerStack) {
+                        layer->OnImGuiRender();
+                    }
                 }
 
                 m_stpImGuiLayer->End();
@@ -121,6 +141,8 @@ namespace RemaEngine
 
     bool Engine::ResizeWindow(WindowResizedEvent& a_stEvent)
     {
+        REMA_PROFILE_FUNCTION();
+
         if (a_stEvent.GetHeight() == 0 || a_stEvent.GetWidth() == 0) {
             m_bWindowMinimized = true;
             return false;

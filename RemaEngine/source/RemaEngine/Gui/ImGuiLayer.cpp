@@ -24,6 +24,8 @@ namespace RemaEngine
 
     void ImGuiLayer::OnAttach()
     {
+        REMA_PROFILE_FUNCTION();
+
         // Setup ImGui context
         IMGUI_CHECKVERSION();
         ImGui::CreateContext();
@@ -54,6 +56,8 @@ namespace RemaEngine
 
     void ImGuiLayer::OnDetach()
     {
+        REMA_PROFILE_FUNCTION();
+
         ImGui_ImplOpenGL3_Shutdown();
         ImGui_ImplGlfw_Shutdown();
         ImGui::DestroyContext();
@@ -61,6 +65,8 @@ namespace RemaEngine
 
     void ImGuiLayer::Begin()
     {
+        REMA_PROFILE_FUNCTION();
+
         ImGui_ImplOpenGL3_NewFrame();
         ImGui_ImplGlfw_NewFrame();
         ImGui::NewFrame();
@@ -68,6 +74,8 @@ namespace RemaEngine
 
     void ImGuiLayer::End()
     {
+        REMA_PROFILE_FUNCTION();
+
         ImGuiIO& io = ImGui::GetIO();
         Engine& engine = Engine::GetInstance();
         io.DisplaySize = ImVec2(static_cast<float>(engine.GetWindow().GetWidth()),

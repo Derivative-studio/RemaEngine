@@ -28,16 +28,29 @@ namespace RemaEngine
 
     OpenGLVertexArray::OpenGLVertexArray()
     {
+        REMA_PROFILE_FUNCTION();
+
         glCreateVertexArrays(1, &m_unRendererID);
+    }
+
+    OpenGLVertexArray::~OpenGLVertexArray()
+    {
+        REMA_PROFILE_FUNCTION();
+
+        glDeleteVertexArrays(1, &m_unRendererID);
     }
 
     void OpenGLVertexArray::Bind() const
     {
+        REMA_PROFILE_FUNCTION();
+
         glBindVertexArray(m_unRendererID);
     }
 
     void OpenGLVertexArray::Unbind() const
     {
+        REMA_PROFILE_FUNCTION();
+
         glBindVertexArray(0);
     }
 

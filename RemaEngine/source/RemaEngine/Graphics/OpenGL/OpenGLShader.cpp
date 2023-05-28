@@ -38,6 +38,8 @@ namespace RemaEngine
 
     OpenGLShader::OpenGLShader(const eastl::string& a_sFilepath)
     {
+        REMA_PROFILE_FUNCTION();
+
         eastl::string shaderSource = ReadFile(a_sFilepath);
         auto shaderSources = PreProcess(shaderSource);
         Compile(shaderSources);
@@ -53,6 +55,8 @@ namespace RemaEngine
     OpenGLShader::OpenGLShader(const eastl::string& a_sName, const eastl::string& a_sVertexSrc, const eastl::string& a_sFragmentSrc)
         : m_sName(a_sName)
     {
+        REMA_PROFILE_FUNCTION();
+
         eastl::unordered_map<GLenum, eastl::string> sources;
         sources[GL_VERTEX_SHADER] = a_sVertexSrc;
         sources[GL_FRAGMENT_SHADER] = a_sFragmentSrc;
@@ -61,11 +65,15 @@ namespace RemaEngine
 
     OpenGLShader::~OpenGLShader()
     {
+        REMA_PROFILE_FUNCTION();
+
         glDeleteProgram(m_nRendererID);
     }
 
     void OpenGLShader::Compile(const eastl::unordered_map<GLenum, eastl::string>& shaderSources)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLuint program = glCreateProgram();
 
         REMA_CORE_ASSERT(shaderSources.size() <= 2, "Only support 2 shaders");
@@ -136,6 +144,8 @@ namespace RemaEngine
 
     eastl::unordered_map<GLenum, eastl::string> OpenGLShader::PreProcess(const eastl::string& a_sSource)
     {
+        REMA_PROFILE_FUNCTION();
+
         eastl::unordered_map<GLenum, eastl::string> shaderSources;
 
         const char* typeToken = "#type";
@@ -161,6 +171,8 @@ namespace RemaEngine
 
     eastl::string OpenGLShader::ReadFile(const eastl::string& a_sFilepath)
     {
+        REMA_PROFILE_FUNCTION();
+
         //TODO: make abstract filesystem
 
         eastl::string result;
@@ -183,87 +195,119 @@ namespace RemaEngine
 
     void OpenGLShader::Bind() const
     {
+        REMA_PROFILE_FUNCTION();
+
         glUseProgram(m_nRendererID);
     }
 
     void OpenGLShader::Unbind() const
     {
+        REMA_PROFILE_FUNCTION();
+
         glUseProgram(0);
     }
 
     void OpenGLShader::SetInt(const eastl::string& a_sName, const int a_nValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformInt(a_sName, a_nValue);
     }
 
     void OpenGLShader::SetFloat(const eastl::string& a_sName, const float a_fValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformFloat(a_sName, a_fValue);
     }
 
     void OpenGLShader::SetFloat2(const eastl::string& a_sName, const glm::vec2& a_vecValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformFloat2(a_sName, a_vecValue);
     }
 
     void OpenGLShader::SetFloat3(const eastl::string& a_sName, const glm::vec3& a_vecValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformFloat3(a_sName, a_vecValue);
     }
 
     void OpenGLShader::SetFloat4(const eastl::string& a_sName, const glm::vec4& a_vecValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformFloat4(a_sName, a_vecValue);
     }
 
     void OpenGLShader::SetMat3(const eastl::string& a_sName, const glm::mat3& a_mtxValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformMat3(a_sName, a_mtxValue);
     }
 
     void OpenGLShader::SetMat4(const eastl::string& a_sName, const glm::mat4& a_mtxValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         UploadUniformMat4(a_sName, a_mtxValue);
     }
 
     void OpenGLShader::UploadUniformInt(const eastl::string& a_sUniformName, int a_nValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniform1i(nLocation, a_nValue);
     }
 
     void OpenGLShader::UploadUniformFloat(const eastl::string& a_sUniformName, float a_fValue)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniform1f(nLocation, a_fValue);
     }
 
     void OpenGLShader::UploadUniformFloat2(const eastl::string& a_sUniformName, const glm::vec2& a_vecValues)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniform2f(nLocation, a_vecValues.x, a_vecValues.y);
     }
 
     void OpenGLShader::UploadUniformFloat3(const eastl::string& a_sUniformName, const glm::vec3& a_vecValues)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniform3f(nLocation, a_vecValues.x, a_vecValues.y, a_vecValues.z);
     }
 
     void OpenGLShader::UploadUniformFloat4(const eastl::string& a_sUniformName, const glm::vec4& a_vecValues)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniform4f(nLocation, a_vecValues.x, a_vecValues.y, a_vecValues.z, a_vecValues.w);
     }
 
     void OpenGLShader::UploadUniformMat3(const eastl::string& a_sUniformName, const glm::mat3& a_mtxMatrix)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniformMatrix3fv(nLocation, 1, GL_FALSE, glm::value_ptr(a_mtxMatrix));
     }
 
     void OpenGLShader::UploadUniformMat4(const eastl::string& a_sUniformName, const glm::mat4& a_mtxMatrix)
     {
+        REMA_PROFILE_FUNCTION();
+
         GLint nLocation = glGetUniformLocation(m_nRendererID, a_sUniformName.c_str());
         glUniformMatrix4fv(nLocation, 1, GL_FALSE, glm::value_ptr(a_mtxMatrix));
     }

@@ -32,7 +32,10 @@ namespace RemaEngine
         static RendererAPI* sm_RendererAPI;
 
     public:
-        inline static void Init() {
+        inline static void Init() 
+        {
+            REMA_PROFILE_FUNCTION();
+
             sm_RendererAPI->Init();
         }
 
