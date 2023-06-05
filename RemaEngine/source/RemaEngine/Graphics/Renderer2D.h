@@ -36,8 +36,8 @@ namespace RemaEngine
         // Primitives
         static void DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
         static void DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
-        static void DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture);
-        static void DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture);
+        static void DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture, const int a_nTilingFactor = 1);
+        static void DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture, const int a_nTilingFactor = 1);
         static void DrawTriangle(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
         static void DrawCircle(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const glm::vec4& a_vecColor);
 

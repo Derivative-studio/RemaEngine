@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="RemaEngine::WindowsWindow">
+    <Position X="7" Y="1" Width="2" />
+    <NestedTypes>
+      <Struct Name="RemaEngine::WindowsWindow::WindowData">
+        <TypeIdentifier>
+          <NewMemberFileName>source\RemaEngine\IO\Platform\WindowsWindow.h</NewMemberFileName>
+        </TypeIdentifier>
+      </Struct>
+    </NestedTypes>
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAABAAAABiQBAAIAAECAAgAACCEEAAAA=</HashCode>
+      <FileName>source\RemaEngine\IO\Platform\WindowsWindow.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="RemaEngine::Window">
+    <Position X="3.75" Y="1" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAEAAAAAAABAAAAACABAAQAAAGAAgAAAAEEAAAA=</HashCode>
+      <FileName>source\RemaEngine\IO\Window.h</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Font Name="Segoe UI" Size="9" />
+</ClassDiagram>

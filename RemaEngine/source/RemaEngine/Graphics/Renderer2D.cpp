@@ -118,21 +118,21 @@ namespace RemaEngine
         RenderCommand::DrawIndexed(s_stRenderData->QuadVertexArray);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture)
+    void Renderer2D::DrawQuad(const glm::vec2& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture, const int a_nTilingFactor)
     {
-        DrawQuad({ a_vecPosition.x, a_vecPosition.y, 0.0f }, a_vecSize, a_pTexture);
+        DrawQuad({ a_vecPosition.x, a_vecPosition.y, 0.0f }, a_vecSize, a_pTexture, a_nTilingFactor);
     }
 
-    void Renderer2D::DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture)
+    void Renderer2D::DrawQuad(const glm::vec3& a_vecPosition, const glm::vec2& a_vecSize, const ref<Texture2D> a_pTexture, const int a_nTilingFactor)
     {
         REMA_PROFILE_FUNCTION();
 
         s_stRenderData->TextureShader->SetFloat4("u_Color", glm::vec4(1.0f));
-        s_stRenderData->TextureShader->SetFloat("u_TilingFactor", 1.0f);
+        s_stRenderData->TextureShader->SetFloat("u_TilingFactor", a_nTilingFactor);
         a_pTexture->Bind();
 
         glm::mat4 transform = glm::translate(glm::mat4(1.0f), a_vecPosition) *
-            glm::scale(glm::mat4(1.0f), { a_vecSize.x, a_vecSize.y, 1.0f });
+            glm::scale(glm::mat4(1.0f), { a_vecSize.y, a_vecSize.x, 1.0f });
         s_stRenderData->TextureShader->SetMat4("u_TransformMatrix", transform);
 
 
