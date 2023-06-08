@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Graphics/Renderer2D.h
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-05-23
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.

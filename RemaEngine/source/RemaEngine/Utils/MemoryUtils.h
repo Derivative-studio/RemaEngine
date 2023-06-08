@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Utils/MemoryUtils.h
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-05-21
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.
@@ -16,7 +15,6 @@
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
  **/
-
 #include <EASTL/shared_ptr.h>
 #include <EASTL/safe_ptr.h>
 #include <EASTL/linked_ptr.h>

@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Engine/Engine.cpp
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-03-29
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.
@@ -102,9 +101,6 @@ namespace RemaEngine
         {
             REMA_SET_PROFILE_SCOPE("EngineRunLoop");
 
-            //float l_glTime = static_cast<float>(glfwGetTime());
-            //Timestep timestep = l_glTime - m_fLastFrameTime;
-            //m_fLastFrameTime = l_glTime;
             m_stFPSCounter->AddFrame();
 
             if (m_bWindowMinimized == false) 
@@ -147,6 +143,8 @@ namespace RemaEngine
             m_bWindowMinimized = true;
             return false;
         }
+
+        REMA_ENGINE_INFO("{0}", a_stEvent.ToString());
 
         m_bWindowMinimized = false;
         Renderer::OnWindowResized(a_stEvent.GetWidth(), a_stEvent.GetHeight());

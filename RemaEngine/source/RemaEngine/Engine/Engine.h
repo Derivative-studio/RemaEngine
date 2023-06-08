@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Engine/Engine.h
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-03-29
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.

@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Engine/LayerStack.h
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-04-02
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.
@@ -15,6 +14,7 @@
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
+ **/ General Public License for more details.
  **/
 #include <remapch.h>
 #include <RemaEngine/Engine/LayerStack.h>

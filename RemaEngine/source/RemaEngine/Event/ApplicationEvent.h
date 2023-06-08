@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Event/ApplicationEvent.h
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-04-02
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.

@@ -1,7 +1,6 @@
 /**
  * @file RemaEngine/Engine/Timestep.cpp
  * @author Nikita Kozlov (nyarstot@yandex.ru)
- * @date 2023-05-20
  * @copyright Copyright (c) 2023
  *
  * This file is part of RemaEngine.

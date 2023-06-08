@@ -1,19 +1,20 @@
-//
-// Basic instrumentation profiler by Cherno
-//
-// Original: https://gist.github.com/TheCherno/31f135eea6ee729ab5f26a6908eb3a5e
-
-// Usage: include this header file somewhere in your code (eg. precompiled header), and then use like:
-//
-// Instrumentor::Get().BeginSession("Session Name");        // Begin session 
-// {
-//     InstrumentationTimer timer("Profiled Scope Name");   // Place code like this in scopes you'd like to include in profiling
-//     // Code
-// }
-// Instrumentor::Get().EndSession();                        // End Session
-//
-// You will probably want to macro-fy this, to switch on/off easily and use things like __FUNCSIG__ for the profile name.
-//
+/**
+ * @file RemaEngine/Utils/Instrumentor.h
+ * @author Nikita Kozlov (nyarstot@yandex.ru)
+ * @copyright Copyright (c) 2023
+ *
+ * This file is part of RemaEngine.
+ *
+ * RemaEngine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * RemaEngine is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ **/
 #ifndef REMA_INSTRUMENTOR_H
 #define REMA_INSTRUMENTOR_H
 
